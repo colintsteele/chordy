@@ -1,9 +1,11 @@
 import { Note, Scale } from "../Theory";
 import { isEqual, uniqWith } from "lodash";
-import NewObjective from "./Objective";
+import Objective from "./Objective";
 
-class ScaleObjective extends NewObjective {
+class ScaleObjective extends Objective {
   completedNotes: Note[];
+  objectives: Note[];
+  name: string;
 
   constructor(scale: Scale) {
     super();
@@ -13,7 +15,7 @@ class ScaleObjective extends NewObjective {
   }
 
   //returns false if one of the notesPressed is not in the objective
-  pressNotes(notesPressed: Note[]): Boolean {
+  pressNotes(notesPressed: Note[]): boolean {
     let allValid = notesPressed.every((note: Note) => {
       return this.objectives.some((pNote) => {
         return isEqual(pNote, note);
@@ -30,7 +32,7 @@ class ScaleObjective extends NewObjective {
     }
   }
 
-  isComplete(): Boolean {
+  isComplete(): boolean {
     return this.completedNotes.length == this.objectives.length;
   }
 }

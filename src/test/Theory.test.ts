@@ -174,6 +174,26 @@ describe("scale()", () => {
   });
 });
 
+describe("randomScale()", () => {
+  describe("with a root note", () => {
+    test("Can construct a major scale", () => {
+      let scale = theory.randomScale(["major"]);
+      let note = scale.root;
+
+      expect(scale.name).toMatch(new RegExp(`^${note}`));
+      expect(scale.name).toMatch(/major$/);
+    });
+
+    test("Can construct a minor scale", () => {
+      let scale = theory.randomScale(["minor"]);
+      let note = scale.root;
+
+      expect(scale.name).toMatch(new RegExp(`^${note}`));
+      expect(scale.name).toMatch(/minor$/);
+    });
+  });
+});
+
 describe("chord()", () => {
   test("can make a C Major chord", () => {
     let c = theory.note("C");
@@ -302,104 +322,6 @@ describe("randomNote()", () => {
     expect(note.index).not.toBeNull();
     expect(note.noteName).toMatch(noteRegex);
   });
-});
-
-// describe("newRandomScale()", () => {
-//   describe("with a root note", () => {
-//     test("Can construct a C major scale", () => {
-//       var scale = theory.newRandomScale(["major"], "C");
-
-//       expect(scale.root).toBe("C");
-//       expect(scale.notes).toEqual(
-//         expect.arrayContaining([
-//           expect.objectContaining({
-//             index: 0,
-//             noteName: "C",
-//           }),
-//           expect.objectContaining({
-//             index: 4,
-//             noteName: "E",
-//           }),
-//           expect.objectContaining({
-//             index: 7,
-//             noteName: "G",
-//           }),
-//         ])
-//       );
-//     });
-
-//     test("Can construct a C minor scale", () => {
-//       var scale = theory.newRandomScale(["minor"], "C");
-
-//       expect(scale.root).toBe("C");
-//       expect(scale.notes).toEqual(
-//         expect.arrayContaining([
-//           expect.objectContaining({
-//             index: 0,
-//             noteName: "C",
-//           }),
-//           // the Third and fifth in minors are flat
-//           expect.objectContaining({
-//             index: 3,
-//             noteName: "Eb",
-//           }),
-//           expect.objectContaining({
-//             index: 6,
-//             noteName: "Gb",
-//           }),
-//         ])
-//       );
-//     });
-
-//     test("Can construct a F major scale", () => {
-//       var scale = theory.newRandomScale(["major"], "F");
-
-//       expect(scale.root).toBe("F");
-//       expect(scale.notes).toEqual(
-//         expect.arrayContaining([
-//           expect.objectContaining({
-//             index: 5,
-//             noteName: "F",
-//           }),
-//           expect.objectContaining({
-//             index: 9,
-//             noteName: "A",
-//           }),
-//           expect.objectContaining({
-//             index: 12,
-//             noteName: "C",
-//           }),
-//         ])
-//       );
-//     });
-
-//     test("Can construct a F minor scale", () => {
-//       var scale = theory.newRandomScale(["minor"], "F");
-
-//       expect(scale.root).toBe("F");
-//       expect(scale.notes).toEqual(
-//         expect.arrayContaining([
-//           expect.objectContaining({
-//             index: 5,
-//             noteName: "F",
-//           }),
-//           //third and fifth are flat
-//           expect.objectContaining({
-//             index: 8,
-//             noteName: "Ab",
-//           }),
-//           expect.objectContaining({
-//             index: 11,
-//             noteName: "B",
-//           }),
-//         ])
-//       );
-//     });
-//   });
-// });
-
-describe("newChord()", () => {
-  test("works", () => {});
 });
 
 test("midiToNote to take a number and produce a Note", () => {

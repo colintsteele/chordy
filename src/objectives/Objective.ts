@@ -1,15 +1,20 @@
 import { Note } from "../Theory";
-interface Completable {
+export interface Completable {
   isComplete(): boolean;
+  pressNotes(notes: Note[]): boolean;
 }
-
-interface Progressable {
-  PressNote(notes: Note[]): boolean;
-}
-
-class NewObjective {
+abstract class Objective implements Completable {
   name!: string;
-  objectives!: Note[] | NewObjective[];
+
+  isComplete(): boolean {
+    console.error("objective.isComplete not implemented");
+    return false;
+  }
+
+  pressNotes(notes: Note[]): boolean {
+    console.error("objective.pressNotes not implemented");
+    return false;
+  }
 }
 
-export default NewObjective;
+export default Objective;

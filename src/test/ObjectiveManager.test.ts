@@ -4,12 +4,11 @@ import ScaleObjective from "../objectives/ScaleObjective";
 
 describe("randomObjective()", () => {
   describe("With major scales", () => {
-    let manager = new ObjectiveManager(["major"], ["scale"]);
+    test("will generate a random major scale objective", () => {
+      let manager = new ObjectiveManager(["major"], ["scale"]);
+      let objective = manager.currentObjective;
 
-    // test("can make a Scale objective", () => {
-    //   expect(manager.randomObjective().name).toEqual(
-    //     expect.stringMatching(/scale$/)
-    //   );
-    // });
+      expect(objective.name).toMatch(/major scale$/);
+    });
   });
 });

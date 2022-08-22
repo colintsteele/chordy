@@ -71,21 +71,12 @@ export function note(noteName: NoteName): Note {
   };
 }
 
-export function newRandomScale(scalesEnabled: string[]): Scale {
-  var rootNoteName = newRandomNote().noteName;
-  var scale = sample(scalesEnabled);
-
-  var notes = scales[scale as string].map(function (i: number) {
-    var index = i + twoOctaves.indexOf(rootNoteName);
-
-    return {
-      index: index,
-      noteName: twoOctaves[index],
-    };
-  });
-
-  var name = `${rootNoteName} ${scale}`;
-  return { root: rootNoteName, notes: notes, name: name, type: "scale" };
+export function randomNote(): Note {
+  var noteName = sample(octave) as NoteName;
+  return {
+    noteName: noteName,
+    index: octave.indexOf(noteName),
+  };
 }
 
 export function scale(rootNote: Note, scale: string): Scale {
@@ -100,6 +91,11 @@ export function scale(rootNote: Note, scale: string): Scale {
 
   let name = `${rootNote.noteName} ${scale}`;
   return { root: rootNote.noteName, notes: notes, name: name, type: "scale" };
+}
+
+export function randomScale(scalesEnabled: string[]) {
+  var rootNote = randomNote();
+  return scale(rootNote, sample(scalesEnabled) as string);
 }
 
 export function chord(rootNote: Note, scale: string): Chord {
@@ -122,53 +118,9 @@ export function chord(rootNote: Note, scale: string): Chord {
   };
 }
 
-export function randomScale(root, scale, offset) {
-  console.warn("this version of randomScale is deprecated");
-  var notes = scales[scale].map(function (i) {
-    return i + root["index"] + offset;
-  });
-
-  var name = `${root.noteName} ${scale}`;
-  return { root: root, notes: notes, name: name, type: "scale" };
-}
-
-export function newRandomNote(): Note {
-  var noteName = sample(octave) as NoteName;
-  return {
-    noteName: noteName,
-    index: octave.indexOf(noteName),
-  };
-}
-
-// export function newRandomChord(scaleavailableScales: string[]): Chord {
-//   var scale = scale || newRandomScale(availableScales);
-//   var notes = chords[scale]
-// }
-
-export function randomChord(root, scale, offset) {
-  var notes = chords[scale].map(function (i) {
-    return i + root["index"] + offset;
-  });
-
-  var name = `${root.noteName} ${scale}`;
-
-  return { root: root, notes: notes, name: name, type: "chord" };
-}
-
-export function sampleOld(list) {
-  var i = Math.floor(Math.random() * list.length);
-  return [list[i], i];
-}
-
-//deprecated
-export function randomNote() {
-  console.warn("this version of randomNote is deprecated");
-  var note = sampleOld(octave);
-  return {
-    // note: note[0],
-    noteName: note[0],
-    index: note[1],
-  };
+export function randomChord(scalesEnabled: string[]) {
+  var rootNote = randomNote();
+  return chord(rootNote, sample(scalesEnabled) as string);
 }
 
 export function midiToNote(midiNumber) {
