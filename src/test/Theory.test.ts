@@ -88,6 +88,7 @@ describe("scale()", () => {
     expect(cMinor.root).toBe("C");
     expect(cMinor.name).toBe("C minor");
 
+    //C
     expect(cMinor.notes[0]).toEqual(
       expect.objectContaining({
         index: 0,
@@ -95,6 +96,7 @@ describe("scale()", () => {
       })
     );
 
+    //D
     expect(cMinor.notes[1]).toEqual(
       expect.objectContaining({
         index: 2,
@@ -102,38 +104,84 @@ describe("scale()", () => {
       })
     );
 
+    //E flat
     expect(cMinor.notes[2]).toEqual(
       expect.objectContaining({
         index: 3,
         noteName: "Eb",
       })
     );
+
+    //F
+    expect(cMinor.notes[3]).toEqual(
+      expect.objectContaining({
+        index: 5,
+        noteName: "F",
+      })
+    );
+
+    //G
+    expect(cMinor.notes[4]).toEqual(
+      expect.objectContaining({
+        index: 7,
+        noteName: "G",
+      })
+    );
+
+    expect(cMinor.notes[5]).toEqual(
+      expect.objectContaining({
+        index: 8,
+        noteName: "Ab",
+      })
+    );
+
+    expect(cMinor.notes[6]).toEqual(
+      expect.objectContaining({
+        index: 10,
+        noteName: "Bb",
+      })
+    );
   });
 
-  test("Can make a Db minor", () => {
-    let Db = theory.note("Db");
-    let DbMinor = theory.scale(Db, "minor");
-    expect(DbMinor.root).toBe("Db");
-    expect(DbMinor.name).toBe("Db minor");
+  test("Can make a Db major", () => {
+    let Gb = theory.note("Gb");
+    let GbMinor = theory.scale(Gb, "major");
+    expect(GbMinor.root).toBe("Gb");
+    expect(GbMinor.name).toBe("Gb major");
 
-    expect(DbMinor.notes[0]).toEqual(
+    expect(GbMinor.notes[0]).toEqual(
       expect.objectContaining({
-        index: 1,
+        noteName: "Gb",
+      })
+    );
+    expect(GbMinor.notes[1]).toEqual(
+      expect.objectContaining({
+        noteName: "Ab",
+      })
+    );
+    expect(GbMinor.notes[2]).toEqual(
+      expect.objectContaining({
+        noteName: "Bb",
+      })
+    );
+    expect(GbMinor.notes[3]).toEqual(
+      expect.objectContaining({
+        noteName: "B",
+      })
+    );
+    expect(GbMinor.notes[4]).toEqual(
+      expect.objectContaining({
         noteName: "Db",
       })
     );
-
-    expect(DbMinor.notes[1]).toEqual(
+    expect(GbMinor.notes[5]).toEqual(
       expect.objectContaining({
-        index: 3,
         noteName: "Eb",
       })
     );
-
-    expect(DbMinor.notes[2]).toEqual(
+    expect(GbMinor.notes[6]).toEqual(
       expect.objectContaining({
-        index: 4,
-        noteName: "E",
+        noteName: "F",
       })
     );
   });

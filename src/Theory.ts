@@ -52,8 +52,9 @@ export const octave = [
 ];
 
 export const scales = {
+  // 0 W 2 W 4 H 5 W 7 W 9 W 10 H
   major: [0, 2, 4, 5, 7, 9, 11],
-  minor: [0, 2, 3, 5, 6, 7, 9],
+  minor: [0, 2, 3, 5, 7, 8, 10],
 };
 
 export const twoOctaves = [...octave, ...octave];

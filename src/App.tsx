@@ -5,7 +5,7 @@ import "./App.css";
 function App() {
   return (
     <div id="Keyboard">
-      <Keyboard />
+      <Keyboard progressed={undefined} completed={false} />
     </div>
   );
 }

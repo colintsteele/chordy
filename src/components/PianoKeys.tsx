@@ -35,12 +35,12 @@ class PianoKeys extends Component<
       <Piano
         activeNotes={this.activeNotes}
         noteRange={{ first: this.firstNote, last: this.lastNote }}
-        playNote={(midiNumber) => {
+        playNote={(midiNumber: number) => {
           let note = this.midiToNote(midiNumber);
           this.objectiveManager.pressNotes([note]);
-          console.log(midiNumber);
+          console.log(note.noteName);
         }}
-        stopNote={(midiNumber) => {}}
+        stopNote={(midiNumber: number) => {}}
         width={1000}
         keyboardShortcuts={this.keyboardShortcuts}
       />

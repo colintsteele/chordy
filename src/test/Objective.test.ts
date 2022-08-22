@@ -54,7 +54,7 @@ describe("Chord Objective", () => {
   });
 });
 
-describe("Chord Objective", () => {
+describe("Scale Objective", () => {
   var objective: ScaleObjective;
 
   beforeEach(async () => {
@@ -67,6 +67,13 @@ describe("Chord Objective", () => {
     test("progressed() is true", () => {
       let c = theory.note("C");
       expect(objective.pressNotes([c])).toBe(true);
+      expect(objective.progressed).toBe(true);
+    });
+
+    test("complete() is false", () => {
+      let c = theory.note("C");
+      expect(objective.pressNotes([c])).toBe(true);
+      expect(objective.complete).toBe(false);
     });
   });
 

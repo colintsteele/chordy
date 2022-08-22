@@ -5,7 +5,15 @@ export interface Completable {
 }
 abstract class Objective implements Completable {
   name!: string;
+  objectives!: Objective[] | Note[];
   completedNotes: any;
+  progressed: boolean;
+  complete: boolean;
+
+  constructor() {
+    this.progressed = false;
+    this.complete = false;
+  }
 
   isComplete(): boolean {
     console.error("objective.isComplete not implemented");

@@ -7,16 +7,22 @@ import { sample } from "lodash";
 class ObjectiveManager {
   scalesEnabled: string[] = ["major"];
   objectiveTypesEnabled: string[] = ["scale"];
+  progressed!: boolean;
   currentObjective: Objective;
+  progressUpdater: Function;
+  completed: boolean;
 
   constructor(
     availableScales: string[],
     objectiveTypes: string[],
+    progressUpdater: Function,
     objective?: Objective
   ) {
     this.scalesEnabled = availableScales;
     this.objectiveTypesEnabled = objectiveTypes;
     this.currentObjective = objective || this.randomObjective();
+    this.progressUpdater = progressUpdater;
+    this.completed = false;
   }
 
   randomObjective(): Objective {
@@ -38,7 +44,16 @@ class ObjectiveManager {
   }
 
   pressNotes(notes: theory.Note[]): boolean {
-    return this.currentObjective.pressNotes(notes);
+    let progressed = this.currentObjective.pressNotes(notes);
+    let completed = this.currentObjective.complete;
+    this.progressed = progressed;
+    this.completed = completed;
+
+    this.progressUpdater({
+      progressed: this.progressed,
+      completed: this.completed,
+    });
+    return progressed;
   }
 }
 

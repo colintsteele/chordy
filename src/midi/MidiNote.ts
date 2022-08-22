@@ -16,6 +16,7 @@ export class MidiNote {
     var noteName = twoOctaves[num] as theory.NoteName;
     var note = theory.note(noteName);
 
+    console.log(midiNumber, noteName);
     return note;
   }
 }

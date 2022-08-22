@@ -15,6 +15,7 @@ describe("Piano's Objective Manager", () => {
     var objectiveManager = new ObjectiveManager(
       ["major"],
       ["scale"],
+      () => {},
       objective
     );
 

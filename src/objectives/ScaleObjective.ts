@@ -18,15 +18,19 @@ class ScaleObjective extends Objective {
   pressNotes(notesPressed: Note[]): boolean {
     let allValid = notesPressed.every((note: Note) => {
       return this.objectives.some((pNote) => {
-        return isEqual(pNote, note);
+        return pNote.noteName === note.noteName;
       });
     });
 
     if (allValid === true) {
       this.completedNotes.push(...notesPressed);
       this.completedNotes = uniqWith(this.completedNotes, isEqual);
+      this.progressed = true;
+      this.complete = this.isComplete();
+
       return true;
     } else {
+      this.progressed = false;
       this.completedNotes = [];
       return false;
     }
