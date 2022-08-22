@@ -18,6 +18,7 @@ export type NoteName =
 export type Note = {
   noteName: NoteName;
   index: number;
+  octave?: number;
 };
 
 export type Scale = {

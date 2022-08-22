@@ -22,7 +22,7 @@ class ScaleObjective extends Objective {
       });
     });
 
-    if (allValid == true) {
+    if (allValid === true) {
       this.completedNotes.push(...notesPressed);
       this.completedNotes = uniqWith(this.completedNotes, isEqual);
       return true;
@@ -33,7 +33,7 @@ class ScaleObjective extends Objective {
   }
 
   isComplete(): boolean {
-    return this.completedNotes.length == this.objectives.length;
+    return this.completedNotes.length === this.objectives.length;
   }
 }
 

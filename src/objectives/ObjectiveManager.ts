@@ -9,10 +9,14 @@ class ObjectiveManager {
   objectiveTypesEnabled: string[] = ["scale"];
   currentObjective: Objective;
 
-  constructor(availableScales: string[], objectiveTypes: string[]) {
+  constructor(
+    availableScales: string[],
+    objectiveTypes: string[],
+    objective?: Objective
+  ) {
     this.scalesEnabled = availableScales;
     this.objectiveTypesEnabled = objectiveTypes;
-    this.currentObjective = this.randomObjective();
+    this.currentObjective = objective || this.randomObjective();
   }
 
   randomObjective(): Objective {

@@ -5,6 +5,7 @@ export interface Completable {
 }
 abstract class Objective implements Completable {
   name!: string;
+  completedNotes: any;
 
   isComplete(): boolean {
     console.error("objective.isComplete not implemented");

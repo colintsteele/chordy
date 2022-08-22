@@ -3,14 +3,13 @@ import { Piano, KeyboardShortcuts, MidiNumbers } from "react-piano";
 import "react-piano/dist/styles.css";
 import * as theory from "../Theory";
 import { Component, ReactNode } from "react";
-import Objective from "../objectives/Objective";
-import ScaleObjective from "../objectives/ScaleObjective";
-import * as React from "react";
-import { keys } from "lodash";
-import { KeyExportOptions } from "crypto";
 import ObjectiveManager from "../objectives/ObjectiveManager";
+import MidiNote from "../midi/MidiNote";
 
-class PianoKeys extends Component<{ activeNotes: any[] }, {}> {
+class PianoKeys extends Component<
+  { activeNotes: any[]; objectiveManager: ObjectiveManager },
+  {}
+> {
   activeNotes: any[];
   firstNote: any;
   lastNote: any;
@@ -36,12 +35,20 @@ class PianoKeys extends Component<{ activeNotes: any[] }, {}> {
       <Piano
         activeNotes={this.activeNotes}
         noteRange={{ first: this.firstNote, last: this.lastNote }}
-        playNote={(midiNumber) => {}}
+        playNote={(midiNumber) => {
+          let note = this.midiToNote(midiNumber);
+          this.objectiveManager.pressNotes([note]);
+          console.log(midiNumber);
+        }}
         stopNote={(midiNumber) => {}}
         width={1000}
         keyboardShortcuts={this.keyboardShortcuts}
       />
     );
+  }
+
+  midiToNote(midiNumber: number): theory.Note {
+    return new MidiNote(midiNumber).note;
   }
 }
 

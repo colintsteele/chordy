@@ -1,11 +1,11 @@
 import React from "react";
-import NewKeyboard from "./components/NewKeyboard";
+import Keyboard from "./components/Keyboard";
 import "./App.css";
 
 function App() {
   return (
     <div id="Keyboard">
-      <NewKeyboard />
+      <Keyboard />
     </div>
   );
 }
