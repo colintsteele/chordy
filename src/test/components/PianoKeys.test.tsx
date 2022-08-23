@@ -8,27 +8,31 @@ import { keyboard } from "@testing-library/user-event/dist/keyboard";
 import ScaleObjective from "../../objectives/ScaleObjective";
 
 describe("Piano's Objective Manager", () => {
-  test("responds to keypresses", () => {
-    let note = theory.note("C");
-    let scale = theory.scale(note, "major");
-    let objective = new ScaleObjective(scale);
-    var objectiveManager = new ObjectiveManager(
-      ["major"],
-      ["scale"],
-      () => {},
-      objective
-    );
+  let note = theory.note("C");
+  let scale = theory.scale(note, "major");
+  let objective = new ScaleObjective(scale);
+  var objectiveManager = new ObjectiveManager(
+    ["major"],
+    ["scale"],
+    () => {},
+    objective
+  );
 
+  beforeEach(async () => {
     render(
       <PianoKeys
         activeNotes={[]}
         objectiveManager={objectiveManager}
       ></PianoKeys>
     );
-    //simulate C note keypress
+  });
+
+  test("responds to keypresses", () => {
     keyboard("g");
     let notes = objectiveManager.currentObjective.completedNotes;
 
     expect(notes).toEqual(expect.arrayContaining([theory.note("C")]));
   });
+
+  test("responds to midi Inputs", () => {});
 });

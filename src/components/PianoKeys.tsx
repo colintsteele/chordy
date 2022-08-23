@@ -6,21 +6,27 @@ import { Component, ReactNode } from "react";
 import ObjectiveManager from "../objectives/ObjectiveManager";
 import MidiNote from "../midi/MidiNote";
 
-class PianoKeys extends Component<
-  { activeNotes: any[]; objectiveManager: ObjectiveManager },
-  {}
-> {
-  activeNotes: any[];
+type PianoKeysSate = {
+  objectiveManager: ObjectiveManager;
+  activeNotes: number[];
+};
+
+type PianoKeysProps = {
+  activeNotes: number[];
+};
+class PianoKeys extends Component<PianoKeysSate, PianoKeysProps> {
   firstNote: any;
   lastNote: any;
   keyboardShortcuts: any;
   objectiveManager: ObjectiveManager;
+  state = {
+    activeNotes: [],
+  };
 
   constructor(props) {
     super(props);
     this.firstNote = MidiNumbers.fromNote("F0"); //43
     this.lastNote = MidiNumbers.fromNote("E2"); //66
-    this.activeNotes = [];
     this.objectiveManager = props.objectiveManager;
 
     this.keyboardShortcuts = KeyboardShortcuts.create({
@@ -30,15 +36,24 @@ class PianoKeys extends Component<
     });
   }
 
+  static getDerivedStateFromProps(props: PianoKeysProps, state: PianoKeysSate) {
+    if (props.activeNotes !== state.activeNotes) {
+      return {
+        activeNotes: props.activeNotes,
+      };
+    }
+
+    return null;
+  }
+
   render(): ReactNode {
     return (
       <Piano
-        activeNotes={this.activeNotes}
+        activeNotes={this.state.activeNotes}
         noteRange={{ first: this.firstNote, last: this.lastNote }}
         playNote={(midiNumber: number) => {
           let note = this.midiToNote(midiNumber);
           this.objectiveManager.pressNotes([note]);
-          console.log(note.noteName);
         }}
         stopNote={(midiNumber: number) => {}}
         width={1000}

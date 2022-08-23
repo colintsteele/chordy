@@ -15,11 +15,9 @@ function Keyboard() {
       noteRange={{ first: firstNote, last: lastNote }}
       playNote={(midiNumber: Number) => {
         // Play a given note - see notes below
-        console.log(midiNumber);
       }}
       stopNote={(midiNumber: Number) => {
         // Stop playing a given note - see notes below
-        console.log(midiNumber);
       }}
       width={1000}
       keyboardShortcuts={keyboardShortcuts}

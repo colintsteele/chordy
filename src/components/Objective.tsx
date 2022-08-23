@@ -16,7 +16,7 @@ const Objective = ({
   objectives,
 }: ObjectiveProps) => (
   <Container>
-    <Box display="flex" justify-center justifyContent="center">
+    <Box sx={{ mb: 2 }} display="flex" justifyContent="center">
       <Chip label={name} color={progressed ? "success" : "primary"} />
     </Box>
   </Container>
