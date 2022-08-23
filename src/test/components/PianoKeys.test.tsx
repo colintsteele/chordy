@@ -6,6 +6,7 @@ import ObjectiveManager from "../../objectives/ObjectiveManager";
 import UserEvent from "@testing-library/user-event";
 import { keyboard } from "@testing-library/user-event/dist/keyboard";
 import ScaleObjective from "../../objectives/ScaleObjective";
+import React from "react";
 
 describe("Piano's Objective Manager", () => {
   let note = theory.note("C");

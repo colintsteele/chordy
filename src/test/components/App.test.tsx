@@ -4,5 +4,4 @@ import App from "../../App";
 
 test("renders the Piano", () => {
   render(<App />);
-  
 });
