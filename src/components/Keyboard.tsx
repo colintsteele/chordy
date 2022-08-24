@@ -7,7 +7,6 @@ import PianoKeys from "./PianoKeys";
 import ObjectiveManager from "../objectives/ObjectiveManager";
 import Objective from "../components/Objective";
 //for testing
-import * as theory from "../Theory";
 import ScaleObjective from "../objectives/ScaleObjective";
 import MidiController from "../midi/MidiController";
 import { uniq, remove } from "lodash";
@@ -17,7 +16,8 @@ type KeyboardState = {
   progressed: boolean | undefined;
   completed: boolean;
   activeNotes: number[];
-  midiMounted: boolean;
+  midiMounted?: boolean;
+  lastAction?: string;
 };
 
 type KeyboardProps = {};
@@ -31,6 +31,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     completed: false,
     midiMounted: false,
     activeNotes: [],
+    lastAction: "",
   };
 
   constructor(props) {
@@ -39,8 +40,8 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     this.objectiveTypesEnabled = ["scale"];
 
     //forced C for testing
-    let scale = theory.scale(theory.note("C"), "major");
-    let objective = new ScaleObjective(scale);
+    // let scale = theory.scale(theory.note("C"), "major");
+    // let objective = new ScaleObjective(scale);
 
     this.objectiveManager = new ObjectiveManager(
       this.scalesEnabled,
@@ -57,7 +58,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   }
 
   //TO-DO clean up signature
-  /* istanbul ignore next */
   midiMessageHandler = (event, onOff, midiNote, velocity) => {
     //can't test midi Events yet
     console.dir(event);
@@ -78,18 +78,22 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   pressNote(midiNumber: number) {
     let currentNotes = this.state.activeNotes;
     let newNotes = uniq([...currentNotes, midiNumber]);
+    let action = `pressed${midiNumber}`;
 
     this.setState({
+      lastAction: action,
       activeNotes: newNotes,
     });
   }
 
   liftNote(midiNumber: number) {
     let currentNotes = this.state.activeNotes;
-    let newNotes = remove(currentNotes, midiNumber);
+    remove(currentNotes, (num) => num === midiNumber);
+    let action = `lifted${midiNumber}`;
 
     this.setState({
-      activeNotes: newNotes,
+      lastAction: action,
+      activeNotes: currentNotes,
     });
   }
 
@@ -101,14 +105,12 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   };
 
   render(): ReactNode {
-    console.log(`midiMounted is ${this.state.midiMounted}`);
     return (
       <>
-        <Box>
-          <span hidden className={"midiMounted"}>
-            {this.state.midiMounted ? "midiMounted" : "midiUnmounted"}
-          </span>
-        </Box>
+        <span hidden>
+          {this.state.midiMounted ? "midiMounted" : "midiUnmounted"}
+        </span>
+        <span hidden>{this.state.lastAction}</span>
         <Objective
           name={this.objectiveManager.currentObjective.name}
           progressed={this.state.progressed}

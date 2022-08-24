@@ -1,5 +1,4 @@
-import { sample, sampleSize } from "lodash";
-var _ = require("lodash");
+import { sample } from "lodash";
 
 export type NoteName =
   | "C"

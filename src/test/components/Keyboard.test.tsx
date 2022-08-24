@@ -17,60 +17,72 @@ beforeEach(() => {
 });
 
 describe("Keyboard Component", () => {
-  // test("midiMessageHandler()", async () => {
-  //   await act(async () => {
-  //     const { container } = render(
-  //       <Keyboard
-  //         progressed={undefined}
-  //         completed={false}
-  //         activeNotes={[]}
-  //         midiMounted={false}
-  //       />
-  //     );
-
-  //     let mockEvent = {
-  //       data: [144, 29, 2], //F on
-  //     };
-
-  //     waitFor(() => {
-  //       screen.getByText(/midiMounted/);
-  //       mockObject.onmidimessage(mockEvent);
-  //       let c = container.getElementsByClassName(".ReactPiano__Key--active");
-
-  //       preview.debug();
-  //     });
-  //   });
-
-  //   //await screen.findByText(/midiMounted/);
-
-  //   console.log("blah");
-  // });
-
-  test("midiMessageHandler()", async () => {
-    const { container } = render(
-      <Keyboard
-        progressed={undefined}
-        completed={false}
-        activeNotes={[]}
-        midiMounted={false}
-      />
-    );
-
-    let mockEvent = {
-      data: [144, 29, 2], //F on
-    };
-
-    await waitFor(() => {
-      screen.getByText(/midiMounted/);
-      mockObject.onmidimessage(mockEvent);
+  describe("midiMessageHandler()", () => {
+    beforeEach(() => {
+      render(
+        <Keyboard
+          progressed={undefined}
+          completed={false}
+          activeNotes={[]}
+          midiMounted={false}
+        />
+      );
     });
 
-    await waitFor(() => {
-      screen.getByText(/active notes include/);
-      preview.debug();
+    let mockCPress = {
+      data: [144, 24, 2],
+    };
+    let mockCLift = {
+      data: [0, 24, 2],
+    };
+    let mockDPress = {
+      data: [144, 26, 2],
+    };
+    let mockDLift = {
+      data: [0, 26, 2],
+    };
+
+    test("registers multiple midi keypresses", async () => {
+      await waitFor(() => {
+        screen.getByText(/midiMounted/);
+        mockObject.onmidimessage(mockCPress);
+      });
+      await waitFor(() => {
+        screen.getByText(/active notes include/);
+        mockObject.onmidimessage(mockDPress);
+      });
+      await waitFor(() => {
+        screen.getByText(/pressed26/);
+      });
 
       expect(screen.getByText(/active notes include/)).toBeInTheDocument();
-      expect(screen.getByText(/active notes include/)).toHaveTextContent("29");
+      expect(screen.getByText(/active notes include/)).toHaveTextContent(
+        "24,26"
+      );
+    });
+
+    test("lifting a note lifts only that note", async () => {
+      await waitFor(() => {
+        screen.getByText(/midiMounted/);
+        mockObject.onmidimessage(mockCPress);
+      });
+      await waitFor(() => {
+        screen.getByText(/pressed24/);
+        mockObject.onmidimessage(mockDPress);
+      });
+      await waitFor(() => {
+        screen.getByText(/pressed26/);
+        mockObject.onmidimessage(mockCLift);
+      });
+
+      await waitFor(() => {
+        screen.getByText(/lifted/);
+      });
+
+      let notesElement = screen.getByText(/active notes include/);
+      expect(notesElement).toBeInTheDocument();
+      expect(notesElement).toHaveTextContent("26");
+      expect(notesElement).not.toHaveTextContent("24");
     });
   });
 });
