@@ -19,6 +19,7 @@ type KeyboardState = {
   activeNotes: number[];
   midiMounted: boolean;
 };
+
 type KeyboardProps = {};
 
 class Keyboard extends Component<KeyboardState, KeyboardProps> {
@@ -104,7 +105,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     return (
       <>
         <Box>
-          <span className={"midiMounted"}>
+          <span hidden className={"midiMounted"}>
             {this.state.midiMounted ? "midiMounted" : "midiUnmounted"}
           </span>
         </Box>

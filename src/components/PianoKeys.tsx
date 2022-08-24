@@ -46,19 +46,28 @@ class PianoKeys extends Component<PianoKeysSate, PianoKeysProps> {
     return null;
   }
 
+  listActiveNotes() {
+    if (this.state.activeNotes.length === 0) return null;
+
+    return `active notes include: ${this.state.activeNotes}`;
+  }
+
   render(): ReactNode {
     return (
-      <Piano
-        activeNotes={this.state.activeNotes}
-        noteRange={{ first: this.firstNote, last: this.lastNote }}
-        playNote={(midiNumber: number) => {
-          let note = this.midiToNote(midiNumber);
-          this.objectiveManager.pressNotes([note]);
-        }}
-        stopNote={(midiNumber: number) => {}}
-        width={1000}
-        keyboardShortcuts={this.keyboardShortcuts}
-      />
+      <>
+        <Piano
+          activeNotes={this.state.activeNotes}
+          noteRange={{ first: this.firstNote, last: this.lastNote }}
+          playNote={(midiNumber: number) => {
+            let note = this.midiToNote(midiNumber);
+            this.objectiveManager.pressNotes([note]);
+          }}
+          stopNote={(midiNumber: number) => {}}
+          width={1000}
+          keyboardShortcuts={this.keyboardShortcuts}
+        />
+        <span hidden>{this.listActiveNotes()}</span>
+      </>
     );
   }
 
