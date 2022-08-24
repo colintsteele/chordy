@@ -1,7 +1,6 @@
 import * as theory from "../../Theory";
 import { render, screen } from "@testing-library/react";
 import PianoKeys from "../../components/PianoKeys";
-import Keyboard from "../../Keyboard";
 import ObjectiveManager from "../../objectives/ObjectiveManager";
 import UserEvent from "@testing-library/user-event";
 import { keyboard } from "@testing-library/user-event/dist/keyboard";

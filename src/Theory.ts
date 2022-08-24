@@ -124,9 +124,3 @@ export function randomChord(scalesEnabled: string[]) {
   var rootNote = randomNote();
   return chord(rootNote, sample(scalesEnabled) as string);
 }
-
-export function midiToNote(midiNumber) {
-  var num = midiNumber % 24;
-  var octave = num > 11 ? 3 : 4;
-  return `${twoOctaves[num]}${octave}`;
-}

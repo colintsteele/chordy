@@ -11,11 +11,13 @@ import * as theory from "../Theory";
 import ScaleObjective from "../objectives/ScaleObjective";
 import MidiController from "../midi/MidiController";
 import { uniq, remove } from "lodash";
+import { Box } from "@mui/material";
 
 type KeyboardState = {
   progressed: boolean | undefined;
   completed: boolean;
   activeNotes: number[];
+  midiMounted: boolean;
 };
 type KeyboardProps = {};
 
@@ -26,6 +28,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   state: KeyboardState = {
     progressed: undefined,
     completed: false,
+    midiMounted: false,
     activeNotes: [],
   };
 
@@ -46,11 +49,16 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   }
 
   componentDidMount() {
-    new MidiController(this.midiMessageHandler.bind(this));
+    new MidiController(
+      this.midiMessageHandler.bind(this),
+      this.mountMidi.bind(this)
+    );
   }
 
-  //TODO clean up signature
+  //TO-DO clean up signature
+  /* istanbul ignore next */
   midiMessageHandler = (event, onOff, midiNote, velocity) => {
+    //can't test midi Events yet
     console.dir(event);
     var [pressOn, midiNumber, _something] = [...event.data];
 
@@ -60,6 +68,10 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     } else {
       this.liftNote(midiNote);
     }
+  };
+
+  mountMidi = (mounted: boolean) => {
+    this.setState({ midiMounted: mounted });
   };
 
   pressNote(midiNumber: number) {
@@ -88,8 +100,14 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   };
 
   render(): ReactNode {
+    console.log(`midiMounted is ${this.state.midiMounted}`);
     return (
       <>
+        <Box>
+          <span className={"midiMounted"}>
+            {this.state.midiMounted ? "midiMounted" : "midiUnmounted"}
+          </span>
+        </Box>
         <Objective
           name={this.objectiveManager.currentObjective.name}
           progressed={this.state.progressed}

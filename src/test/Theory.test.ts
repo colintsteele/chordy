@@ -1,7 +1,5 @@
 import * as theory from "../Theory";
 
-const noteRegex = /[A(b)?-G(b)?]/;
-
 describe("note()", () => {
   test("can correctly make a C", () => {
     let note = theory.note("C");
@@ -10,7 +8,7 @@ describe("note()", () => {
     expect(note.noteName).toBe("C");
   });
 
-  test("can correctly make a flat", () => {
+  test("can correctly make a flat note", () => {
     let note = theory.note("Bb");
 
     expect(note.index).toBe(10);
@@ -26,7 +24,7 @@ describe("note()", () => {
 });
 
 describe("scale()", () => {
-  test("can Make a C major", () => {
+  test("can Make a C major scale", () => {
     let c = theory.note("C");
     let cMajor = theory.scale(c, "major");
 
@@ -82,7 +80,7 @@ describe("scale()", () => {
     );
   });
 
-  test("can Make a C minor", () => {
+  test("can Make a C minor scale", () => {
     let c = theory.note("C");
     let cMinor = theory.scale(c, "minor");
     expect(cMinor.root).toBe("C");
@@ -143,7 +141,7 @@ describe("scale()", () => {
     );
   });
 
-  test("Can make a Db major", () => {
+  test("Can make a flat major scale", () => {
     let Gb = theory.note("Gb");
     let GbMinor = theory.scale(Gb, "major");
     expect(GbMinor.root).toBe("Gb");
@@ -186,36 +184,44 @@ describe("scale()", () => {
     );
   });
 
-  test("Can make a G Major", () => {
-    let g = theory.note("G");
-    let gMajor = theory.scale(g, "major");
-    expect(gMajor.root).toBe("G");
-    expect(gMajor.name).toBe("G major");
+  test("Can make a flat major scale", () => {
+    let Gb = theory.note("Gb");
+    let GbMinor = theory.scale(Gb, "minor");
+    expect(GbMinor.root).toBe("Gb");
+    expect(GbMinor.name).toBe("Gb minor");
 
-    expect(gMajor.notes[0]).toEqual(
+    expect(GbMinor.notes[0]).toEqual(
       expect.objectContaining({
-        index: 7,
-        noteName: "G",
+        noteName: "Gb",
       })
     );
-
-    expect(gMajor.notes[1]).toEqual(
+    expect(GbMinor.notes[1]).toEqual(
       expect.objectContaining({
-        index: 9,
+        noteName: "Ab",
+      })
+    );
+    expect(GbMinor.notes[2]).toEqual(
+      expect.objectContaining({
         noteName: "A",
       })
     );
-
-    expect(gMajor.notes[2]).toEqual(
+    expect(GbMinor.notes[3]).toEqual(
       expect.objectContaining({
-        index: 11,
         noteName: "B",
       })
     );
-
-    expect(gMajor.notes[5]).toEqual(
+    expect(GbMinor.notes[4]).toEqual(
       expect.objectContaining({
-        index: 16,
+        noteName: "Db",
+      })
+    );
+    expect(GbMinor.notes[5]).toEqual(
+      expect.objectContaining({
+        noteName: "D",
+      })
+    );
+    expect(GbMinor.notes[6]).toEqual(
+      expect.objectContaining({
         noteName: "E",
       })
     );
@@ -364,14 +370,29 @@ describe("chord()", () => {
   });
 });
 
+describe("randomChord()", () => {
+  test("Can construct a major chord", () => {
+    let scale = theory.randomChord(["major"]);
+    let note = scale.root;
+
+    expect(scale.name).toMatch(new RegExp(`^${note}`));
+    expect(scale.name).toMatch(/major$/);
+  });
+
+  test("Can construct a minor chord", () => {
+    let scale = theory.randomChord(["minor"]);
+    let note = scale.root;
+
+    expect(scale.name).toMatch(new RegExp(`^${note}`));
+    expect(scale.name).toMatch(/minor$/);
+  });
+});
+
 describe("randomNote()", () => {
-  test("randomNote returns an object with a .index and a .note", () => {
+  test("randomNote returns a note", () => {
+    const noteRegex = /[A(b)?-G(b)?]/;
     var note = theory.randomNote();
     expect(note.index).not.toBeNull();
     expect(note.noteName).toMatch(noteRegex);
   });
-});
-
-test("midiToNote to take a number and produce a Note", () => {
-  expect(theory.midiToNote(40)).toBe("E3");
 });

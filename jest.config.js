@@ -2,10 +2,10 @@ const { defaults } = require("jest-config");
 module.exports = {
   preset: "ts-jest",
   moduleDirectories: ["node_modules"],
-  transform: {
-    // "\\.tsx?$": "ts-jest",
-    "^.+\\.(t|j)sx?$": "ts-jest",
-  },
+  // transform: {
+  //   // "\\.tsx?$": "ts-jest",
+  //   "^.+\\.(t|j)sx?$": "ts-jest",
+  // },
   moduleNameMapper: {
     "@components/(.*)$": "<rootDir>/src/components/$1",
     "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",

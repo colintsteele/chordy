@@ -14,7 +14,7 @@ function App() {
       style={{ minHeight: "100vh" }}
     >
       <div id="Keyboard">
-        <Keyboard progressed={undefined} completed={false} activeNotes={[]} />
+        <Keyboard progressed={undefined} completed={false} activeNotes={[]} midiMounted={false} />
       </div>
     </Grid>
   );
