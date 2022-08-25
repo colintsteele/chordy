@@ -3,6 +3,7 @@ import Keyboard from "../../components/Keyboard";
 import "@testing-library/jest-dom";
 import { waitFor } from "@testing-library/dom";
 import preview from "jest-preview";
+import { act } from "react-dom/test-utils";
 
 let mockObject = { onmidimessage: ({}) => {} };
 let mockObject2 = {};
@@ -19,14 +20,17 @@ beforeEach(() => {
 describe("Keyboard Component", () => {
   describe("midiMessageHandler()", () => {
     beforeEach(() => {
-      render(
-        <Keyboard
-          progressed={undefined}
-          completed={false}
-          activeNotes={[]}
-          midiMounted={false}
-        />
-      );
+      console.log(`IS_REACT_ACT ${global.IS_REACT_ACT_ENVIRONMENT}`);
+      act(() => {
+        render(
+          <Keyboard
+            progressed={undefined}
+            completed={false}
+            activeNotes={[]}
+            midiMounted={false}
+          />
+        );
+      });
     });
 
     let mockCPress = {
@@ -45,16 +49,14 @@ describe("Keyboard Component", () => {
     test("registers multiple midi keypresses", async () => {
       await waitFor(() => {
         screen.getByText(/midiMounted/);
-        mockObject.onmidimessage(mockCPress);
-      });
-      await waitFor(() => {
-        screen.getByText(/active notes include/);
-        mockObject.onmidimessage(mockDPress);
-      });
-      await waitFor(() => {
+        act(() => {
+          mockObject.onmidimessage(mockCPress);
+        });
+        act(() => {
+          mockObject.onmidimessage(mockDPress);
+        });
         screen.getByText(/pressed26/);
       });
-
       expect(screen.getByText(/active notes include/)).toBeInTheDocument();
       expect(screen.getByText(/active notes include/)).toHaveTextContent(
         "24,26"
@@ -63,19 +65,17 @@ describe("Keyboard Component", () => {
 
     test("lifting a note lifts only that note", async () => {
       await waitFor(() => {
+        // midi to mount
         screen.getByText(/midiMounted/);
-        mockObject.onmidimessage(mockCPress);
-      });
-      await waitFor(() => {
-        screen.getByText(/pressed24/);
-        mockObject.onmidimessage(mockDPress);
-      });
-      await waitFor(() => {
-        screen.getByText(/pressed26/);
-        mockObject.onmidimessage(mockCLift);
-      });
-
-      await waitFor(() => {
+        act(() => {
+          mockObject.onmidimessage(mockCPress);
+        });
+        act(() => {
+          mockObject.onmidimessage(mockDPress);
+        });
+        act(() => {
+          mockObject.onmidimessage(mockCLift);
+        });
         screen.getByText(/lifted/);
       });
 

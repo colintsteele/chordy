@@ -2,8 +2,6 @@ import * as theory from "../Theory";
 import ChordObjective from "../objectives/ChordObjective";
 import ScaleObjective from "../objectives/ScaleObjective";
 
-const noteRegex = /[A(b)?-G(b)?]/;
-
 describe("Chord Objective", () => {
   var objective: ChordObjective;
 

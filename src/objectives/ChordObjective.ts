@@ -1,10 +1,12 @@
 import { Note, Chord } from "../Theory";
-import { isEqual } from "lodash";
+import { isEqual, spread } from "lodash";
+import Objective from "./Objective";
 
-class ChordObjective {
+class ChordObjective extends Objective {
   objectiveNotes: Note[];
 
   constructor(chord: Chord) {
+    super();
     this.objectiveNotes = chord.notes;
   }
 

@@ -1,5 +1,6 @@
 const { defaults } = require("jest-config");
 module.exports = {
+  setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
   preset: "ts-jest",
   moduleDirectories: ["node_modules"],
   // transform: {

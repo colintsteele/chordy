@@ -23,11 +23,9 @@ class MidiController {
             };
           });
           mountMidi(true);
-          console.log("inputs assigned");
         },
         () => {
           mountMidi(false);
-          console.warn("Midi access failure");
         }
       );
     } else {

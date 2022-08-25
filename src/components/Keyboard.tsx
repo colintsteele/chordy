@@ -60,7 +60,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   //TO-DO clean up signature
   midiMessageHandler = (event, onOff, midiNote, velocity) => {
     //can't test midi Events yet
-    console.dir(event);
     var [pressOn, midiNumber, _something] = [...event.data];
 
     // if (pressOn == 144) {
@@ -104,6 +103,14 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     });
   };
 
+  objectiveNotes(): string[] {
+    return this.objectiveManager.currentObjective.objectives.map(
+      (objective: any) => {
+        return `${objective.noteName}, `;
+      }
+    );
+  }
+
   render(): ReactNode {
     return (
       <>
@@ -122,14 +129,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
           objectiveManager={this.objectiveManager}
         />
       </>
-    );
-  }
-
-  objectiveNotes(): string[] {
-    return this.objectiveManager.currentObjective.objectives.map(
-      (objective: any) => {
-        return `${objective.noteName}, `;
-      }
     );
   }
 }
