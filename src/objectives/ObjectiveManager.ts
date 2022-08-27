@@ -26,19 +26,22 @@ class ObjectiveManager {
   }
 
   randomObjective(): Objective {
-    let scale = theory.randomScale(this.scalesEnabled);
     let objective: Objective;
-
     let objectiveType = sample(this.objectiveTypesEnabled);
+
     switch (objectiveType) {
       case "scale":
+        let scale = theory.randomScale(this.scalesEnabled);
+        objective = new ScaleObjective(scale);
+        break;
+      case "chord":
+        let chord = theory.randomChord(this.scalesEnabled);
+        objective = new ChordObjective(chord);
+        break;
+      default:
         scale = theory.randomScale(this.scalesEnabled);
         objective = new ScaleObjective(scale);
     }
-
-    // BAD MAKE INTO DEFAULT CASE
-    scale = theory.randomScale(this.scalesEnabled);
-    objective = new ScaleObjective(scale);
 
     return objective;
   }
@@ -53,7 +56,19 @@ class ObjectiveManager {
       progressed: this.progressed,
       completed: this.completed,
     });
+
+    if (this.completed) {
+      this.currentObjective = this.randomObjective();
+      this.progressUpdater({
+        completed: false,
+      });
+    }
+
     return progressed;
+  }
+
+  liftNotes(notes: theory.Note[]): void {
+    this.currentObjective.liftNotes(notes);
   }
 }
 

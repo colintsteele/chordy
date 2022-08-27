@@ -4,6 +4,11 @@ import ScaleObjective from "../objectives/ScaleObjective";
 
 describe("Chord Objective", () => {
   var objective: ChordObjective;
+  let cNote = theory.note("C");
+  let dbNote = theory.note("Db");
+  let dNote = theory.note("D");
+  let eNote = theory.note("E");
+  let gNote = theory.note("G");
 
   beforeEach(async () => {
     let c = theory.note("C");
@@ -13,15 +18,39 @@ describe("Chord Objective", () => {
 
   describe("when all notes in chord are pressed", () => {
     test("isComplete() is true", () => {
-      let notes = [theory.note("C"), theory.note("E"), theory.note("G")];
-      expect(objective.isComplete(notes)).toBe(true);
+      objective.pressNotes([cNote, eNote, gNote]);
+      expect(objective.isComplete()).toBe(true);
     });
   });
 
   describe("when some notes in chord are pressed", () => {
     test("isComplete() is false", () => {
-      let notes = [theory.note("C"), theory.note("G")];
-      expect(objective.isComplete(notes)).toBe(false);
+      objective.pressNotes([cNote, gNote]);
+      expect(objective.isComplete()).toBe(false);
+    });
+  });
+
+  describe("when a note is lifted", () => {
+    test("isComplete() is false", () => {
+      objective.pressNotes([cNote, eNote]);
+      objective.liftNotes([eNote]);
+      objective.pressNotes([gNote]);
+
+      expect(objective.completedNotes).not.toContain(eNote)
+      expect(objective.isComplete()).toBe(false);
+    });
+  });
+
+  describe("when an incorrect note is pressed", () => {
+    test("pressNotes() returns false", () => {
+      let result = objective.pressNotes([cNote, dNote, gNote]);
+      expect(result).toBe(false);
+      expect(objective.isComplete()).toBe(false);
+    });
+
+    test("isComplete() is false", () => {
+      objective.pressNotes([cNote, dNote, gNote]);
+      expect(objective.isComplete()).toBe(false);
     });
   });
 
@@ -34,7 +63,8 @@ describe("Chord Objective", () => {
     describe("when a chord is pressed but the 7th note is missing", () => {
       test("isComplete() is false", () => {
         let notes = [theory.note("C"), theory.note("E"), theory.note("G")];
-        expect(objective.isComplete(notes)).toBe(false);
+        objective.pressNotes(notes);
+        expect(objective.isComplete()).toBe(false);
       });
     });
 
@@ -46,7 +76,8 @@ describe("Chord Objective", () => {
           theory.note("G"),
           theory.note("B"),
         ];
-        expect(objective.isComplete(notes)).toBe(true);
+        objective.pressNotes(notes);
+        expect(objective.isComplete()).toBe(true);
       });
     });
   });

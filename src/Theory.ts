@@ -123,3 +123,10 @@ export function randomChord(scalesEnabled: string[]) {
   var rootNote = randomNote();
   return chord(rootNote, sample(scalesEnabled) as string);
 }
+
+export function notesEqual(note1: Note, note2: Note): boolean {
+  let namesEqual = note1.noteName === note2.noteName;
+  let notesNumbers = note1.index === note2.index;
+
+  return namesEqual && notesNumbers;
+}

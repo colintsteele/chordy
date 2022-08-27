@@ -62,7 +62,10 @@ class PianoKeys extends Component<PianoKeysSate, PianoKeysProps> {
             let note = this.midiToNote(midiNumber);
             this.objectiveManager.pressNotes([note]);
           }}
-          stopNote={(midiNumber: number) => {}}
+          stopNote={(midiNumber: number) => {
+            let note = this.midiToNote(midiNumber);
+            this.objectiveManager.liftNotes([note]);
+          }}
           width={1000}
           keyboardShortcuts={this.keyboardShortcuts}
         />
