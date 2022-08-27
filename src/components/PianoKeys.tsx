@@ -5,6 +5,8 @@ import * as theory from "../Theory";
 import { Component, ReactNode } from "react";
 import ObjectiveManager from "../objectives/ObjectiveManager";
 import MidiNote from "../midi/MidiNote";
+import "../PianoKey.css";
+import NewKeys from "./NewKeys";
 
 type PianoKeysSate = {
   objectiveManager: ObjectiveManager;
@@ -70,6 +72,8 @@ class PianoKeys extends Component<PianoKeysSate, PianoKeysProps> {
           keyboardShortcuts={this.keyboardShortcuts}
         />
         <span hidden>{this.listActiveNotes()}</span>
+
+        {/* <NewKeys /> */}
       </>
     );
   }
