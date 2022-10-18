@@ -17,8 +17,8 @@
                  -0px -0px 8px #f8f8f8;
 }
 
-
-.NewKeyNatural:active {
+.NewKeyNatural:active, .NaturalPressed {
+    background: #5fa4a9;
     border-bottom: none;
     box-shadow:  9px 5px 8px #d4d4d4,
                  -0px -0px 8px #f8f8f8,
@@ -35,14 +35,26 @@
     border-radius: 4px;
 
     background: #383838;
-    box-shadow:  3px 3px 10px #333333,
-                 0px 0px 0px #3d3d3d;
+    box-shadow: 2px 3px 2px #333333,
+        0px 0px 0px #3d3d3d;
 }
 
-.Gb, .Db {
+.NewKeyAccidental:active, .AccidentalPressed {
+    width: 41px;
+    background: #3a6467;
+    box-shadow: 1px 0px 1px #3d3d3d,
+        0px 0px 0px #3d3d3d,
+        inset 0px 0px 0px #517c87,
+        inset 0px 0px 0px #517c87;
+}
+
+.Gb,
+.Db {
     left: 52px;
 }
-.Ab, .Eb {
+
+.Ab,
+.Eb {
     left: 124px;
 }
 .Bb {

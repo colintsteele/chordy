@@ -57,7 +57,7 @@ class PianoKeys extends Component<PianoKeysSate, PianoKeysProps> {
   render(): ReactNode {
     return (
       <>
-        <Piano
+        {/* <Piano
           activeNotes={this.state.activeNotes}
           noteRange={{ first: this.firstNote, last: this.lastNote }}
           playNote={(midiNumber: number) => {
@@ -70,10 +70,11 @@ class PianoKeys extends Component<PianoKeysSate, PianoKeysProps> {
           }}
           width={1000}
           keyboardShortcuts={this.keyboardShortcuts}
-        />
+        /> */}
         <span hidden>{this.listActiveNotes()}</span>
 
-        {/* <NewKeys /> */}
+        <NewKeys startingNote={41} activeKeys={this.state.activeNotes} />
+        <NewKeys startingNote={41 + 12} activeKeys={this.state.activeNotes} />
       </>
     );
   }
