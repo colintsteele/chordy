@@ -2,12 +2,23 @@ import * as theory from "../Theory";
 import ObjectiveManager from "../objectives/ObjectiveManager";
 import ScaleObjective from "../objectives/ScaleObjective";
 import ChordObjective from "../objectives/ChordObjective";
+import NoteObjective from "../objectives/NoteObjective";
 
 let cNote = theory.note("C");
 let dbNote = theory.note("Db");
 let dNote = theory.note("D");
 let eNote = theory.note("E");
 let gNote = theory.note("G");
+
+describe("With a preset note objective", () => {
+  let note = theory.note("C", 4);
+  let objective = new NoteObjective(note);
+  let manager = new ObjectiveManager(["major"], ["note"], () => {});
+
+  test("will use the given objective", () => {
+    expect(manager.currentObjective.name).toMatch(/[A-G](b)?\d$/);
+  });
+});
 
 describe("With a preset chord objective", () => {
   let chord = theory.chord(cNote, "major");

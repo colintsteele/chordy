@@ -1,6 +1,7 @@
 import * as theory from "../Theory";
 import ChordObjective from "../objectives/ChordObjective";
 import ScaleObjective from "../objectives/ScaleObjective";
+import NoteObjective from "../objectives/NoteObjective";
 
 describe("Chord Objective", () => {
   var objective: ChordObjective;
@@ -138,6 +139,29 @@ describe("Scale Objective", () => {
           expect(objective.pressNotes([b])).toBe(true);
         });
       });
+    });
+  });
+});
+
+describe("Note Objective", () => {
+  var objective: NoteObjective;
+
+  beforeEach(async () => {
+    let c = theory.note("C", 4)
+    objective = new NoteObjective(c)
+  });
+
+  describe("When a correct note is played", () => {
+    test("progressed() is true", () => {
+      let c = theory.note("C");
+      expect(objective.pressNotes([c])).toBe(true);
+      expect(objective.progressed).toBe(true);
+    });
+
+    test("complete() is true", () => {
+      let c = theory.note("C");
+      expect(objective.pressNotes([c])).toBe(true);
+      expect(objective.complete).toBe(true);
     });
   });
 });

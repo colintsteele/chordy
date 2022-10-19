@@ -1,6 +1,7 @@
 import Objective from "./Objective";
 import ChordObjective from "./ChordObjective";
 import ScaleObjective from "./ScaleObjective";
+import NoteObjective from "./NoteObjective";
 import * as theory from "../Theory";
 import { sample } from "lodash";
 
@@ -37,6 +38,10 @@ class ObjectiveManager {
       case "chord":
         let chord = theory.randomChord(this.scalesEnabled);
         objective = new ChordObjective(chord);
+        break;
+      case "note":
+        let note = theory.randomNote();
+        objective = new NoteObjective(note);
         break;
       default:
         scale = theory.randomScale(this.scalesEnabled);

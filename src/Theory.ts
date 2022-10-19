@@ -65,10 +65,11 @@ export const chords = {
   minor7: [0, 3, 7, 10],
 };
 
-export function note(noteName: NoteName): Note {
+export function note(noteName: NoteName, noteOctave?: number): Note {
   return {
     noteName: noteName,
     index: octave.indexOf(noteName),
+    octave: noteOctave,
   };
 }
 
@@ -77,6 +78,7 @@ export function randomNote(): Note {
   return {
     noteName: noteName,
     index: octave.indexOf(noteName),
+    octave: Math.floor(Math.random() * 3) + 3,
   };
 }
 

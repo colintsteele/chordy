@@ -38,7 +38,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   constructor(props) {
     super(props);
     this.scalesEnabled = ["major"];
-    this.objectiveTypesEnabled = ["chord"];
+    this.objectiveTypesEnabled = ["note"];
 
     //forced C for testing
     // let scale = theory.scale(theory.note("C"), "major");
