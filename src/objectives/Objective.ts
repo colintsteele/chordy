@@ -42,7 +42,6 @@ abstract class Objective implements Completable {
 
   liftNotes(notesLifted: Note[]): void {
     remove(this.completedNotes, (note) => notesLifted.includes(note));
-    console.log('testing')
   }
 
   isComplete(): boolean {

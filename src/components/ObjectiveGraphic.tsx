@@ -5,11 +5,16 @@ import { Box, Chip, Container, Grid } from "@mui/material";
 import { Vex } from "vexflow";
 import Staff from "./Staff";
 
-const ObjectiveGraphic = ({ name }) => (
+const ObjectiveGraphic = ({ name, progressed, completed, objectives }) => (
   //I think I need to drop the CSS and just do Canvas drawing bit by bit
   <>
-    <Box sx={{ mb: 2 }} display="block" justifyContent="center">
-      <Staff noteProps={[name]}></Staff>
+    <Box key={name} sx={{ mb: 2 }} display="block" justifyContent="center">
+      <Staff noteProps={[name]} completed={completed}></Staff>
+      <span>objectives: {`${objectives}`}</span>
+      <br></br>
+      <span>progressed: {`${progressed}`}</span>
+      <br></br>
+      <span>completed: {`${completed}`}</span>
     </Box>
   </>
 );

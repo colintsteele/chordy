@@ -83,20 +83,20 @@ class NewKeys extends Component<NewKeysState, {}> {
                   }${
                     this.state.activeKeys.includes(props.key) ? "Pressed" : ""
                   }`}
-                >
-                  {props.key}
-                </div>
+                ></div>
               );
             })}
           </div>
           <div className="NewKeys C-E">
-            {this.noteProps.slice(7).map(function (props) {
+            {this.noteProps.slice(7).map((props) => {
               return (
                 <div
                   key={props.key}
                   className={`NewKey${props.accidental} ${props.noteName} ${
                     props.accidental
-                  }s${props.pressed || ""}`}
+                  }${
+                    this.state.activeKeys.includes(props.key) ? "Pressed" : ""
+                  }`}
                 ></div>
               );
             })}

@@ -12,6 +12,7 @@ import MidiController from "../midi/MidiController";
 import { uniq, remove } from "lodash";
 import { Box } from "@mui/material";
 import MidiNote from "../midi/MidiNote";
+import { note } from "../Theory";
 
 type KeyboardState = {
   progressed: boolean | undefined;
@@ -79,6 +80,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     let currentNotes = this.state.activeNotes;
     let newNotes = uniq([...currentNotes, midiNumber]);
     let action = `pressed${midiNumber}`;
+    this.objectiveManager.pressNotes([new MidiNote(midiNumber).note])
 
     this.setState({
       lastAction: action,
