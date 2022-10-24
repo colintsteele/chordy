@@ -22,7 +22,7 @@ abstract class Objective implements Completable {
 
   pressNotes(notesPressed: Note[]): boolean {
     //needs to stay as boolean to immediately return false in case note is wrong
-    let allValid = notesPressed.every((note: Note) => {
+    let allValid: boolean = notesPressed.every((note: Note) => {
       return this.objectives.some((pNote) => {
         return pNote.noteName === note.noteName;
       });
@@ -33,11 +33,8 @@ abstract class Objective implements Completable {
       this.completedNotes = uniqWith(this.completedNotes, isEqual);
       this.progressed = true;
       this.complete = this.isComplete();
-
-      return true;
-    } else {
-      return false;
     }
+    return allValid;
   }
 
   liftNotes(notesLifted: Note[]): void {
@@ -47,8 +44,6 @@ abstract class Objective implements Completable {
   isComplete(): boolean {
     return this.completedNotes.length === this.objectives.length;
   }
-
-  private;
 
   checkSuccess(): void {}
 }

@@ -31,8 +31,20 @@ export default function ObjectiveTypesToggle(props) {
   };
 
   //we can probably pretty easily reduce the amount of lines and duplication here
+  // since each FormControlLabel is almost exactly the same, with only the
+  // checked property and toggle function changing
   return (
     <FormGroup>
+      <FormControlLabel
+        control={
+          <Switch
+            checked={notesEnabled}
+            onChange={() => toggleType("note")}
+            inputProps={{ "aria-label": "controlled" }}
+          />
+        }
+        label="Note"
+      />
       <FormControlLabel
         key={"chord"}
         control={
@@ -53,16 +65,6 @@ export default function ObjectiveTypesToggle(props) {
           />
         }
         label="Scale"
-      />
-      <FormControlLabel
-        control={
-          <Switch
-            checked={notesEnabled}
-            onChange={() => toggleType("note")}
-            inputProps={{ "aria-label": "controlled" }}
-          />
-        }
-        label="Note"
       />
     </FormGroup>
   );
