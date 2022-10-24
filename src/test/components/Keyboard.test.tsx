@@ -20,7 +20,6 @@ beforeEach(() => {
 describe("Keyboard Component", () => {
   describe("midiMessageHandler()", () => {
     beforeEach(() => {
-      console.log(`IS_REACT_ACT ${global.IS_REACT_ACT_ENVIRONMENT}`);
       act(() => {
         render(
           <Keyboard

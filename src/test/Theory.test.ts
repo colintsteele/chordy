@@ -396,3 +396,19 @@ describe("randomNote()", () => {
     expect(note.noteName).toMatch(noteRegex);
   });
 });
+
+describe("notesEqual()", () => {
+  test("two C notes are equal", () => {
+    let cNote1 = theory.note("C");
+    let cNote2 = theory.note("C");
+
+    expect(theory.notesEqual(cNote1, cNote2)).toBe(true);
+  });
+
+  test("two different notes are equal", () => {
+    let cNote = theory.note("C");
+    let dNote = theory.note("D");
+
+    expect(theory.notesEqual(cNote, dNote)).toBe(false);
+  });
+});

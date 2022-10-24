@@ -65,10 +65,11 @@ export const chords = {
   minor7: [0, 3, 7, 10],
 };
 
-export function note(noteName: NoteName): Note {
+export function note(noteName: NoteName, noteOctave?: number): Note {
   return {
     noteName: noteName,
     index: octave.indexOf(noteName),
+    octave: noteOctave,
   };
 }
 
@@ -77,6 +78,7 @@ export function randomNote(): Note {
   return {
     noteName: noteName,
     index: octave.indexOf(noteName),
+    octave: Math.floor(Math.random() * 3) + 3,
   };
 }
 
@@ -122,4 +124,11 @@ export function chord(rootNote: Note, scale: string): Chord {
 export function randomChord(scalesEnabled: string[]) {
   var rootNote = randomNote();
   return chord(rootNote, sample(scalesEnabled) as string);
+}
+
+export function notesEqual(note1: Note, note2: Note): boolean {
+  let namesEqual = note1.noteName === note2.noteName;
+  let notesNumbers = note1.index === note2.index;
+
+  return namesEqual && notesNumbers;
 }

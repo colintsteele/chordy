@@ -10,7 +10,16 @@ import Objective from "../components/Objective";
 import ScaleObjective from "../objectives/ScaleObjective";
 import MidiController from "../midi/MidiController";
 import { uniq, remove } from "lodash";
-import { Box } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Switch,
+} from "@mui/material";
+import MidiNote from "../midi/MidiNote";
+import { Note, note } from "../Theory";
+import ObjectiveTypesToggle from "./ObjectiveTypesToggle";
 
 type KeyboardState = {
   progressed: boolean | undefined;
@@ -37,7 +46,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   constructor(props) {
     super(props);
     this.scalesEnabled = ["major"];
-    this.objectiveTypesEnabled = ["scale"];
+    this.objectiveTypesEnabled = ["note"];
 
     //forced C for testing
     // let scale = theory.scale(theory.note("C"), "major");
@@ -78,6 +87,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     let currentNotes = this.state.activeNotes;
     let newNotes = uniq([...currentNotes, midiNumber]);
     let action = `pressed${midiNumber}`;
+    this.objectiveManager.pressNotes([new MidiNote(midiNumber).note]);
 
     this.setState({
       lastAction: action,
@@ -87,12 +97,14 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
 
   liftNote(midiNumber: number) {
     let currentNotes = this.state.activeNotes;
+    let newNotes = currentNotes.filter((num) => num != midiNumber);
     remove(currentNotes, (num) => num === midiNumber);
+    this.objectiveManager.liftNotes([new MidiNote(midiNumber).note]);
     let action = `lifted${midiNumber}`;
 
     this.setState({
       lastAction: action,
-      activeNotes: currentNotes,
+      activeNotes: newNotes,
     });
   }
 
@@ -105,8 +117,8 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
 
   objectiveNotes(): string[] {
     return this.objectiveManager.currentObjective.objectives.map(
-      (objective: any) => {
-        return `${objective.noteName}, `;
+      (objective: Note) => {
+        return `${objective.noteName}${objective.octave || ""}`;
       }
     );
   }
@@ -123,10 +135,20 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
           progressed={this.state.progressed}
           completed={this.state.completed}
           objectives={this.objectiveNotes()}
+          // objectives={this.objectiveManager.currentObjective.objectives}
         />
+
+        <ObjectiveTypesToggle
+          objectiveTypesEnabled={this.objectiveManager.objectiveTypesEnabled}
+          toggleType={this.objectiveManager.updateTypesEnabled.bind(
+            this.objectiveManager
+          )}
+        />
+
         <PianoKeys
           activeNotes={this.state.activeNotes}
           objectiveManager={this.objectiveManager}
+          // updateKeys={}
         />
       </>
     );

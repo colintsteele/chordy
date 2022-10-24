@@ -5,6 +5,8 @@ import * as theory from "../Theory";
 import { Component, ReactNode } from "react";
 import ObjectiveManager from "../objectives/ObjectiveManager";
 import MidiNote from "../midi/MidiNote";
+import "../PianoKey.css";
+import NewKeys from "./NewKeys";
 
 type PianoKeysSate = {
   objectiveManager: ObjectiveManager;
@@ -55,18 +57,32 @@ class PianoKeys extends Component<PianoKeysSate, PianoKeysProps> {
   render(): ReactNode {
     return (
       <>
-        <Piano
+        {/* <Piano
           activeNotes={this.state.activeNotes}
           noteRange={{ first: this.firstNote, last: this.lastNote }}
           playNote={(midiNumber: number) => {
             let note = this.midiToNote(midiNumber);
             this.objectiveManager.pressNotes([note]);
           }}
-          stopNote={(midiNumber: number) => {}}
+          stopNote={(midiNumber: number) => {
+            let note = this.midiToNote(midiNumber);
+            this.objectiveManager.liftNotes([note]);
+          }}
           width={1000}
           keyboardShortcuts={this.keyboardShortcuts}
-        />
+        /> */}
         <span hidden>{this.listActiveNotes()}</span>
+
+        <NewKeys
+          startingNote={41}
+          activeKeys={this.state.activeNotes}
+          objectiveManager={this.objectiveManager}
+        />
+        <NewKeys
+          startingNote={41 + 12}
+          activeKeys={this.state.activeNotes}
+          objectiveManager={this.objectiveManager}
+        />
       </>
     );
   }
