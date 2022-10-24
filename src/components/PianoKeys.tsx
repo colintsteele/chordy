@@ -73,8 +73,16 @@ class PianoKeys extends Component<PianoKeysSate, PianoKeysProps> {
         /> */}
         <span hidden>{this.listActiveNotes()}</span>
 
-        <NewKeys startingNote={41} activeKeys={this.state.activeNotes} />
-        <NewKeys startingNote={41 + 12} activeKeys={this.state.activeNotes} />
+        <NewKeys
+          startingNote={41}
+          activeKeys={this.state.activeNotes}
+          objectiveManager={this.objectiveManager}
+        />
+        <NewKeys
+          startingNote={41 + 12}
+          activeKeys={this.state.activeNotes}
+          objectiveManager={this.objectiveManager}
+        />
       </>
     );
   }

@@ -75,6 +75,24 @@ class ObjectiveManager {
   liftNotes(notes: theory.Note[]): void {
     this.currentObjective.liftNotes(notes);
   }
+
+  updateTypesEnabled(toggleType: string): boolean {
+    if (this.objectiveTypesEnabled.includes(toggleType)) {
+      this.objectiveTypesEnabled = this.objectiveTypesEnabled.filter(
+        (type) => type != toggleType
+      );
+    } else {
+      this.objectiveTypesEnabled.push(toggleType);
+    }
+
+    // reject change if it renders objectiveTypesEnabld empty
+    if (this.objectiveTypesEnabled.length == 0) {
+      this.objectiveTypesEnabled.push(toggleType);
+      return false;
+    } else {
+      return true;
+    }
+  }
 }
 
 export default ObjectiveManager;

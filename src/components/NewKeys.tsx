@@ -1,10 +1,12 @@
 import { Component, ReactNode } from "react";
+import ObjectiveManager from "../objectives/ObjectiveManager";
 import "../PianoKey.css";
 import * as theory from "../Theory";
 
 type NewKeysState = {
   activeKeys: number[];
   startingNote: number;
+  objectiveManager: ObjectiveManager;
 };
 
 type NoteDivProps = {
@@ -17,16 +19,24 @@ class NewKeys extends Component<NewKeysState, {}> {
   activeKeys: any;
   startingNote: any;
   noteProps: NoteDivProps[];
+  objectiveManager: ObjectiveManager;
   state: NewKeysState = {
     startingNote: 41,
     activeKeys: [],
+    objectiveManager: null,
   };
+
+  clickKey(e) {
+    console.dir(this.state.objectiveManager);
+    // this.objectiveManager
+    this.objectiveManager.pressNotes([theory.note(e)]);
+  }
 
   constructor(props) {
     super(props);
     this.activeKeys = props.activeKeys;
-    // this.activeKeys = [27, 28, 43, 44];
     this.startingNote = props.startingNote;
+    this.objectiveManager = props.objectiveManager;
     let cCluster = theory.octave.slice(0, 5);
     this.noteProps = [];
     let fCluster = theory.octave.slice(5);
@@ -83,6 +93,10 @@ class NewKeys extends Component<NewKeysState, {}> {
                   }${
                     this.state.activeKeys.includes(props.key) ? "Pressed" : ""
                   }`}
+                  // onClick={this.clickKey.bind(this)}
+                  onClick={() => {
+                    this.clickKey(props.noteName);
+                  }}
                 ></div>
               );
             })}
@@ -97,29 +111,14 @@ class NewKeys extends Component<NewKeysState, {}> {
                   }${
                     this.state.activeKeys.includes(props.key) ? "Pressed" : ""
                   }`}
+                  onClick={() => {
+                    this.clickKey(props.noteName);
+                  }}
                 ></div>
               );
             })}
           </div>
         </div>
-        {/* <div className="NewKeys Octave">
-          <div className="NewKeys F-B">
-            <div className={"NewKeyNatural F"}></div>
-            <div className={"NewKeyAccidental Gb"}></div>
-            <div className={"NewKeyNatural G"}></div>
-            <div className={"NewKeyAccidental Ab"}></div>
-            <div className={"NewKeyNatural A"}></div>
-            <div className={"NewKeyAccidental Bb"}></div>
-            <div className={"NewKeyNatural B"}></div>
-          </div>
-          <div className="NewKeys C-E">
-            <div className={"NewKeyNatural C"}></div>
-            <div className={"NewKeyAccidental Db"}></div>
-            <div className={"NewKeyNatural D"}></div>
-            <div className={"NewKeyAccidental Eb"}></div>
-            <div className={"NewKeyNatural E"}></div>
-          </div>
-        </div> */}
       </>
     );
   }

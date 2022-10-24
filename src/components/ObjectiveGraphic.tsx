@@ -9,7 +9,8 @@ const ObjectiveGraphic = ({ name, progressed, completed, objectives }) => (
   //I think I need to drop the CSS and just do Canvas drawing bit by bit
   <>
     <Box key={name} sx={{ mb: 2 }} display="block" justifyContent="center">
-      <Staff noteProps={[name]} completed={completed}></Staff>
+      <Staff noteProps={[name]} objectives={objectives}></Staff>
+
       <span>objectives: {`${objectives}`}</span>
       <br></br>
       <span>progressed: {`${progressed}`}</span>

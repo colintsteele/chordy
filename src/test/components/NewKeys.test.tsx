@@ -6,8 +6,8 @@ describe("The New Keys work", () => {
     act(() => {
       render(
         <>
-          <NewKeys startingNote={41} activeKeys={[]} />
-          <NewKeys startingNote={41 + 12} activeKeys={[]} />
+          {/* <NewKeys startingNote={41} activeKeys={[]} />
+          <NewKeys startingNote={41 + 12} activeKeys={[]} /> */}
         </>
       );
     });

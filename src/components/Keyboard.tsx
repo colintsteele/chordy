@@ -10,9 +10,16 @@ import Objective from "../components/Objective";
 import ScaleObjective from "../objectives/ScaleObjective";
 import MidiController from "../midi/MidiController";
 import { uniq, remove } from "lodash";
-import { Box } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Switch,
+} from "@mui/material";
 import MidiNote from "../midi/MidiNote";
-import { note } from "../Theory";
+import { Note, note } from "../Theory";
+import ObjectiveTypesToggle from "./ObjectiveTypesToggle";
 
 type KeyboardState = {
   progressed: boolean | undefined;
@@ -80,7 +87,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     let currentNotes = this.state.activeNotes;
     let newNotes = uniq([...currentNotes, midiNumber]);
     let action = `pressed${midiNumber}`;
-    this.objectiveManager.pressNotes([new MidiNote(midiNumber).note])
+    this.objectiveManager.pressNotes([new MidiNote(midiNumber).note]);
 
     this.setState({
       lastAction: action,
@@ -110,8 +117,8 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
 
   objectiveNotes(): string[] {
     return this.objectiveManager.currentObjective.objectives.map(
-      (objective: any) => {
-        return `${objective.noteName}, `;
+      (objective: Note) => {
+        return `${objective.noteName}${objective.octave || ""}`;
       }
     );
   }
@@ -128,10 +135,20 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
           progressed={this.state.progressed}
           completed={this.state.completed}
           objectives={this.objectiveNotes()}
+          // objectives={this.objectiveManager.currentObjective.objectives}
         />
+
+        <ObjectiveTypesToggle
+          objectiveTypesEnabled={this.objectiveManager.objectiveTypesEnabled}
+          toggleType={this.objectiveManager.updateTypesEnabled.bind(
+            this.objectiveManager
+          )}
+        />
+
         <PianoKeys
           activeNotes={this.state.activeNotes}
           objectiveManager={this.objectiveManager}
+          // updateKeys={}
         />
       </>
     );
