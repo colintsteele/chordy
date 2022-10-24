@@ -27,8 +27,6 @@ class NewKeys extends Component<NewKeysState, {}> {
   };
 
   clickKey(e) {
-    console.dir(this.state.objectiveManager);
-    // this.objectiveManager
     this.objectiveManager.pressNotes([theory.note(e)]);
   }
 
