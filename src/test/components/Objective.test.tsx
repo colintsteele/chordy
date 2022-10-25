@@ -16,6 +16,7 @@ describe("base test", () => {
       render(
         <Objective
           name={manager.currentObjective.name}
+          type={''}
           progressed={false}
           completed={false}
           objectives={[note.noteName]}

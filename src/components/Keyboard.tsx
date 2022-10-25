@@ -132,6 +132,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
         <span hidden>{this.state.lastAction}</span>
         <Objective
           name={this.objectiveManager.currentObjective.name}
+          type={this.objectiveManager.currentObjective.type}
           progressed={this.state.progressed}
           completed={this.state.completed}
           objectives={this.objectiveNotes()}

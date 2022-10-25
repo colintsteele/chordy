@@ -7,6 +7,7 @@ type ObjectiveProps = {
   progressed?: boolean;
   completed?: boolean;
   octave?: number;
+  type: string;
   objectives: string[]; //TODO test and remove
 };
 
@@ -15,10 +16,12 @@ const Objective = ({
   progressed,
   completed,
   objectives,
+  type,
 }: ObjectiveProps) => (
   <Container id="objectiveContainer">
     <ObjectiveGraphic
       name={name}
+      type={type}
       progressed={progressed}
       completed={completed}
       objectives={objectives}

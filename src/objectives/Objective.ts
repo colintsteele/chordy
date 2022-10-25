@@ -11,6 +11,7 @@ abstract class Objective implements Completable {
   completedNotes: Note[];
   progressed: boolean;
   complete: boolean;
+  type: string;
 
   constructor(objective: { notes: Note[]; name: string }) {
     this.objectives = objective.notes;

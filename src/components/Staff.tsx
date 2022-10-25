@@ -2,6 +2,7 @@ import { Component, ReactNode, useEffect, useRef } from "react";
 import React from "react";
 import { Box, Chip, Container, Grid } from "@mui/material";
 import { Vex } from "vexflow";
+import VexFlowNotes from "../services/VexFlowNote";
 
 //for potentially creating sharops from flats
 function accidentalMap(note: string) {
@@ -14,56 +15,7 @@ function accidentalMap(note: string) {
   };
 }
 
-function vexifyNotes(notes: string[], type?: string) {
-  const { StaveNote, Accidental } = Vex.Flow;
-  let accidentals = [];
-
-  if (type == "chord") {
-    let staveNotes = notes.map((note) => {
-      const match = note.match(/(?<n>[a-zA-Z])(?<acci>b)?(?<octave>.$)?/)!;
-      let g = match.groups;
-      if (g?.acci) {
-        accidentals.push(g?.acci);
-      } else {
-        accidentals.push(null);
-      }
-
-      return `${g?.n}${g?.acci || ""}/${g?.octave || 5}`;
-    });
-
-    let staveNote = new StaveNote({
-      keys: staveNotes,
-      duration: "q",
-    });
-
-    accidentals.map((fos, i) => {
-      if (fos != null) {
-        staveNote.addModifier(new Accidental(fos), i);
-      }
-    });
-
-    return [staveNote];
-  }
-
-  return notes.map((note) => {
-    const match = note.match(/(?<n>[a-zA-Z])(?<acci>b)?(?<octave>.$)?/)!;
-    let g = match.groups;
-    let name = `${g?.n}${g?.acci || ""}/${g?.octave || 5}`;
-
-    let staveNote = new StaveNote({
-      keys: [name],
-      duration: "q",
-    });
-
-    if (g?.acci) {
-      staveNote.addModifier(new Accidental("b"));
-    }
-
-    return staveNote;
-  });
-}
-
-const Staff = ({ noteProps, objectives }) => {
+const Staff = ({ noteProps, objectives, objectiveType }) => {
   const { Renderer, Stave, Voice, Formatter } = Vex.Flow;
 
   useEffect(() => {
@@ -77,7 +29,15 @@ const Staff = ({ noteProps, objectives }) => {
       .draw();
 
     // add notes
-    const notes = vexifyNotes(objectives, "chord");
+    let notes;
+
+    if (objectiveType == "scale") {
+      notes = new VexFlowNotes(objectives, objectiveType).scaleVisual();
+    } else {
+      // notes = vexifyNotes(objectives, "chord");
+      notes = new VexFlowNotes(objectives, objectiveType).chordVisual();
+    }
+
     const voice = new Voice({ num_beats: 4, beat_value: 4 })
       .setStrict(false)
       .addTickables(notes);
