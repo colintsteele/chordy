@@ -35,7 +35,6 @@ const Objective = ({
       <div hidden={description == null}>
         <Chip label={description} color={progressed ? "success" : "primary"}/>
       </div>
-      {/* <Chip label={name} color={progressed ? "success" : "primary"} /> */}
     </Box>
   </Container>
 );
