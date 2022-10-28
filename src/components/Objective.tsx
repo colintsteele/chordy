@@ -2,11 +2,14 @@ import { Box, Chip, Container } from "@mui/material";
 import ObjectiveGraphic from "./ObjectiveGraphic";
 import "../css/ObjectiveGraphic.css";
 
+function hidden(description) {}
+
 type ObjectiveProps = {
   name: string;
   progressed?: boolean;
   completed?: boolean;
   octave?: number;
+  description?: string;
   type: string;
   objectives: string[]; //TODO test and remove
 };
@@ -16,6 +19,7 @@ const Objective = ({
   progressed,
   completed,
   objectives,
+  description,
   type,
 }: ObjectiveProps) => (
   <Container id="objectiveContainer">
@@ -28,7 +32,10 @@ const Objective = ({
     />
 
     <Box sx={{ mb: 2 }} display="flex" justifyContent="center">
-      <Chip label={name} color={progressed ? "success" : "primary"} />
+      <div hidden={description == null}>
+        <Chip label={description} color={progressed ? "success" : "primary"}/>
+      </div>
+      {/* <Chip label={name} color={progressed ? "success" : "primary"} /> */}
     </Box>
   </Container>
 );

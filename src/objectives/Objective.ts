@@ -11,6 +11,7 @@ abstract class Objective implements Completable {
   completedNotes: Note[];
   progressed: boolean;
   complete: boolean;
+  description?: string;
   type: string;
 
   constructor(objective: { notes: Note[]; name: string }) {
@@ -18,7 +19,6 @@ abstract class Objective implements Completable {
     this.completedNotes = [];
     this.progressed = false;
     this.complete = false;
-    this.name = "";
   }
 
   pressNotes(notesPressed: Note[]): boolean {

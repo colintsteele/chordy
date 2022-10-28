@@ -136,6 +136,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
           progressed={this.state.progressed}
           completed={this.state.completed}
           objectives={this.objectiveNotes()}
+          description={this.objectiveManager.currentObjective.description}
           // objectives={this.objectiveManager.currentObjective.objectives}
         />
 

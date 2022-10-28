@@ -7,6 +7,7 @@ class ScaleObjective extends Objective {
   constructor(scale: Scale) {
     super(scale);
     this.name = `${scale.name} scale`;
+    this.description = this.name;
     this.type = TYPE;
   }
 

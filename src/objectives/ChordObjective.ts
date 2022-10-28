@@ -7,6 +7,7 @@ class ChordObjective extends Objective {
   constructor(chord: Chord) {
     super(chord);
     this.name = `${chord.name} chord`;
+    this.description = this.name;
     this.type = TYPE;
   }
 }
