@@ -19,6 +19,7 @@ function App() {
           completed={false}
           activeNotes={[]}
           midiMounted={false}
+            soundOn={false}
         />
       </div>
     </Grid>

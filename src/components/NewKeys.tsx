@@ -2,6 +2,7 @@ import { Component, ReactNode } from "react";
 import ObjectiveManager from "../objectives/ObjectiveManager";
 import "../PianoKey.css";
 import * as theory from "../Theory";
+import ToneService from "../services/ToneService";
 
 type NewKeysState = {
   activeKeys: number[];
@@ -28,6 +29,11 @@ class NewKeys extends Component<NewKeysState, {}> {
 
   clickKey(e) {
     this.objectiveManager.pressNotes([theory.note(e)]);
+  }
+
+  playNote(e) {
+    console.log(e.key)
+    ToneService.playNote(e.key)
   }
 
   constructor(props) {
@@ -94,6 +100,7 @@ class NewKeys extends Component<NewKeysState, {}> {
                   // onClick={this.clickKey.bind(this)}
                   onClick={() => {
                     this.clickKey(props.noteName);
+                    this.playNote(props);
                   }}
                 ></div>
               );

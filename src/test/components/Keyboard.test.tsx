@@ -27,6 +27,7 @@ describe("Keyboard Component", () => {
             completed={false}
             activeNotes={[]}
             midiMounted={false}
+            soundOn={false}
           />
         );
       });

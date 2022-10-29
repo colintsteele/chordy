@@ -20,6 +20,7 @@ import {
 import MidiNote from "../midi/MidiNote";
 import { Note, note } from "../Theory";
 import ObjectiveTypesToggle from "./ObjectiveTypesToggle";
+import ToneService from "../services/ToneService";
 
 type KeyboardState = {
   progressed: boolean | undefined;
@@ -27,6 +28,7 @@ type KeyboardState = {
   activeNotes: number[];
   midiMounted?: boolean;
   lastAction?: string;
+  soundOn: boolean;
 };
 
 type KeyboardProps = {};
@@ -39,6 +41,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     progressed: undefined,
     completed: false,
     midiMounted: false,
+    soundOn: false,
     activeNotes: [],
     lastAction: "",
   };
@@ -82,6 +85,12 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   mountMidi = (mounted: boolean) => {
     this.setState({ midiMounted: mounted });
   };
+
+  toggleSound() {
+    this.setState({soundOn: !this.state.soundOn})
+    console.log(this.state.soundOn);
+    ToneService.playSound();
+  }
 
   pressNote(midiNumber: number) {
     let currentNotes = this.state.activeNotes;
@@ -150,8 +159,14 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
         <PianoKeys
           activeNotes={this.state.activeNotes}
           objectiveManager={this.objectiveManager}
-          // updateKeys={}
+        // updateKeys={}
         />
+
+        <Switch
+          defaultChecked={false}
+          onChange={() => this.toggleSound()}
+        />
+
       </>
     );
   }
