@@ -45,6 +45,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     activeNotes: [],
     lastAction: "",
   };
+  toneService: typeof ToneService;
 
   constructor(props) {
     super(props);
@@ -55,6 +56,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     // let scale = theory.scale(theory.note("C"), "major");
     // let objective = new ScaleObjective(scale);
 
+    this.toneService = ToneService;
     this.objectiveManager = new ObjectiveManager(
       this.scalesEnabled,
       this.objectiveTypesEnabled,
@@ -97,6 +99,8 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     let newNotes = uniq([...currentNotes, midiNumber]);
     let action = `pressed${midiNumber}`;
     this.objectiveManager.pressNotes([new MidiNote(midiNumber).note]);
+    // this.toneService.playNote(midiNumber)
+    this.toneService.pressNote(midiNumber)
 
     this.setState({
       lastAction: action,
@@ -110,6 +114,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     remove(currentNotes, (num) => num === midiNumber);
     this.objectiveManager.liftNotes([new MidiNote(midiNumber).note]);
     let action = `lifted${midiNumber}`;
+    this.toneService.liftNote(midiNumber)
 
     this.setState({
       lastAction: action,

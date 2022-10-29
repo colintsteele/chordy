@@ -4,6 +4,7 @@ import "../PianoKey.css";
 import * as theory from "../Theory";
 import ToneService from "../services/ToneService";
 
+//TODO man you gotta clean this shit up
 type NewKeysState = {
   activeKeys: number[];
   startingNote: number;
@@ -118,6 +119,7 @@ class NewKeys extends Component<NewKeysState, {}> {
                   }`}
                   onClick={() => {
                     this.clickKey(props.noteName);
+                    this.playNote(props);
                   }}
                 ></div>
               );

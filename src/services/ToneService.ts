@@ -15,12 +15,6 @@ class ToneService {
         instrument.toMaster();
         instrument.triggerAttackRelease("C3", '4n');
         instrument.triggerAttackRelease("C4", '4n');
-
-        // //play a middle 'C' for the duration of an 8th note
-        // synth.triggerAttackRelease("C4", "8n");
-        // synth.triggerAttackRelease("E4", "8n");
-        // synth.triggerAttackRelease("G4", "8n");
-
     }
 
     static playNote(midiNumber: number) {
@@ -28,6 +22,20 @@ class ToneService {
         let noteArg = `${note.noteName}${note.octave}`
 
         instrument.triggerAttackRelease(noteArg,'4n');
+    }
+
+    static pressNote(midiNumber: number) {
+        let note = new MidiNote(midiNumber).octaveNote;
+        let noteArg = `${note.noteName}${note.octave}`
+
+        instrument.triggerAttack(noteArg);
+    }
+
+    static liftNote(midiNumber: number) {
+        let note = new MidiNote(midiNumber).octaveNote;
+        let noteArg = `${note.noteName}${note.octave}`
+
+        instrument.triggerRelease(noteArg);
     }
 }
 
