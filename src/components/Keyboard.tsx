@@ -89,9 +89,9 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   };
 
   toggleSound() {
-    this.setState({soundOn: !this.state.soundOn})
+    this.setState({ soundOn: !this.state.soundOn });
     console.log(this.state.soundOn);
-    ToneService.playSound();
+    // ToneService.playSound();
   }
 
   pressNote(midiNumber: number) {
@@ -100,7 +100,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     let action = `pressed${midiNumber}`;
     this.objectiveManager.pressNotes([new MidiNote(midiNumber).note]);
     // this.toneService.playNote(midiNumber)
-    this.toneService.pressNote(midiNumber)
+    // this.toneService.pressNote(midiNumber);
 
     this.setState({
       lastAction: action,
@@ -114,7 +114,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     remove(currentNotes, (num) => num === midiNumber);
     this.objectiveManager.liftNotes([new MidiNote(midiNumber).note]);
     let action = `lifted${midiNumber}`;
-    this.toneService.liftNote(midiNumber)
+    // this.toneService.liftNote(midiNumber);
 
     this.setState({
       lastAction: action,
@@ -164,14 +164,10 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
         <PianoKeys
           activeNotes={this.state.activeNotes}
           objectiveManager={this.objectiveManager}
-        // updateKeys={}
+          // updateKeys={}
         />
 
-        <Switch
-          defaultChecked={false}
-          onChange={() => this.toggleSound()}
-        />
-
+        <Switch defaultChecked={false} onChange={() => this.toggleSound()} />
       </>
     );
   }

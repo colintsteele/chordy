@@ -33,8 +33,8 @@ class NewKeys extends Component<NewKeysState, {}> {
   }
 
   playNote(e) {
-    console.log(e.key)
-    ToneService.playNote(e.key)
+    console.log(e.key);
+    // ToneService.playNote(e.key)
   }
 
   constructor(props) {
