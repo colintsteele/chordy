@@ -62,13 +62,21 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
       this.objectiveTypesEnabled,
       this.progressUpdater
     );
+
   }
 
   componentDidMount() {
+    setInterval(this.soundMalloc.bind(this), 3000);
+
     new MidiController(
       this.midiMessageHandler.bind(this),
       this.mountMidi.bind(this)
     );
+  }
+
+
+  soundMalloc = () => {
+    this.toneService.cleanup();
   }
 
   //TO-DO clean up signature
@@ -91,7 +99,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   toggleSound() {
     this.setState({soundOn: !this.state.soundOn})
     console.log(this.state.soundOn);
-    ToneService.playSound();
+    ToneService.cleanup();
   }
 
   pressNote(midiNumber: number) {

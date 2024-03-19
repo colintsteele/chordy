@@ -3,40 +3,64 @@ import * as Tone from 'tone';
 import PianoMp3 from 'tonejs-instrument-piano-mp3';
 import MidiNote from '../midi/MidiNote';
 
-const instrument = new PianoMp3;
+const BufferUnsetError = "buffer is either not set or not loaded";
+let instrument = new PianoMp3;
+let oldInstrument = null;
 instrument.toMaster();
 
 class ToneService {
-    static playSound() {
+  static playSound() {
+    //create a synth and connect it to the main output (your speakers)
+    const synth = new Tone.Synth().toDestination();
 
-        //create a synth and connect it to the main output (your speakers)
-        const synth = new Tone.Synth().toDestination();
+    // instrument.toMaster();
+    instrument.triggerAttackRelease("C3", "4n");
+    instrument.triggerAttackRelease("C4", "4n");
+  }
 
-        instrument.toMaster();
-        instrument.triggerAttackRelease("C3", '4n');
-        instrument.triggerAttackRelease("C4", '4n');
+  static playNote(midiNumber: number) {
+    let note = new MidiNote(midiNumber).octaveNote;
+    let noteArg = `${note.noteName}${note.octave}`;
+
+    try {
+      instrument.triggerAttackRelease(noteArg, "4n");
+    } catch (error: any) {
+      // play notes on the old buffer if the new one is not available
+      if (error?.message === BufferUnsetError) {
+        try {
+          oldInstrument.triggerAttackRelease(noteArg, "4n");
+        } catch (_e: any) {
+          
+        } // if it still doesn't work, just no-op
+      }
     }
+  }
 
-    static playNote(midiNumber: number) {
-        let note = new MidiNote(midiNumber).octaveNote;
-        let noteArg = `${note.noteName}${note.octave}`
+  static pressNote(midiNumber: number) {
+    let note = new MidiNote(midiNumber).octaveNote;
+    let noteArg = `${note.noteName}${note.octave}`;
 
-        instrument.triggerAttackRelease(noteArg,'4n');
-    }
+    instrument.triggerAttack(noteArg);
+  }
 
-    static pressNote(midiNumber: number) {
-        let note = new MidiNote(midiNumber).octaveNote;
-        let noteArg = `${note.noteName}${note.octave}`
+  static liftNote(midiNumber: number) {
+    let note = new MidiNote(midiNumber).octaveNote;
+    let noteArg = `${note.noteName}${note.octave}`;
 
-        instrument.triggerAttack(noteArg);
-    }
+    instrument.triggerRelease(noteArg);
+  }
 
-    static liftNote(midiNumber: number) {
-        let note = new MidiNote(midiNumber).octaveNote;
-        let noteArg = `${note.noteName}${note.octave}`
+  static cleanup() {
+    let secondInstrument = new PianoMp3();
+    oldInstrument = instrument;
 
-        instrument.triggerRelease(noteArg);
-    }
+    secondInstrument.toMaster();
+    instrument = secondInstrument;
+
+    setTimeout(async () => {
+      await oldInstrument.dispose();
+    }, 200);
+  }
 }
 
 export default ToneService;
