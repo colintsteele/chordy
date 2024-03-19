@@ -33,7 +33,6 @@ class NewKeys extends Component<NewKeysState, {}> {
   }
 
   playNote(e) {
-    console.log(e.key)
     ToneService.playNote(e.key)
   }
 

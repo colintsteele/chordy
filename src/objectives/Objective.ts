@@ -1,5 +1,5 @@
 import { isEqual, remove, uniqWith } from "lodash";
-import { Note, notesEqual } from "../Theory";
+import { Note } from "../Theory";
 
 export interface Completable {
   isComplete(): boolean;

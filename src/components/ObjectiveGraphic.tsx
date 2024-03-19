@@ -1,8 +1,5 @@
 import "../css/MusicalNotation.css";
-import { Component, ReactNode } from "react";
-import React from "react";
-import { Box, Chip, Container, Grid } from "@mui/material";
-import { Vex } from "vexflow";
+import { Box } from "@mui/material";
 import Staff from "./Staff";
 
 const ObjectiveGraphic = ({

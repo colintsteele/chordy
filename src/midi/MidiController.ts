@@ -10,7 +10,7 @@ class MidiController {
 
           inputs.forEach((input) => {
             input.onmidimessage = function (event) {
-              var deviceKey, onOff, midiNote, velocity;
+              var onOff, midiNote, velocity;
 
               onOff = event.data[0] === 144;
               midiNote = event.data[1];

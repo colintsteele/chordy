@@ -7,18 +7,18 @@ import PianoKeys from "./PianoKeys";
 import ObjectiveManager from "../objectives/ObjectiveManager";
 import Objective from "../components/Objective";
 //for testing
-import ScaleObjective from "../objectives/ScaleObjective";
+// import ScaleObjective from "../objectives/ScaleObjective";
 import MidiController from "../midi/MidiController";
 import { uniq, remove } from "lodash";
 import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
+  // Box,
+  // Checkbox,
+  // FormControlLabel,
+  // FormGroup,
   Switch,
 } from "@mui/material";
 import MidiNote from "../midi/MidiNote";
-import { Note, note } from "../Theory";
+import { Note } from "../Theory";
 import ObjectiveTypesToggle from "./ObjectiveTypesToggle";
 import ToneService from "../services/ToneService";
 
@@ -80,9 +80,9 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   }
 
   //TO-DO clean up signature
-  midiMessageHandler = (event, onOff, midiNote, velocity) => {
+  midiMessageHandler = (_event, onOff, midiNote, _velocity) => {
     //can't test midi Events yet
-    var [pressOn, midiNumber, _something] = [...event.data];
+    // var [_pressOn, _midiNumber, _something] = [...event.data];
 
     // if (pressOn == 144) {
     if (onOff) {
@@ -118,7 +118,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
 
   liftNote(midiNumber: number) {
     let currentNotes = this.state.activeNotes;
-    let newNotes = currentNotes.filter((num) => num != midiNumber);
+    let newNotes = currentNotes.filter((num) => num !== midiNumber);
     remove(currentNotes, (num) => num === midiNumber);
     this.objectiveManager.liftNotes([new MidiNote(midiNumber).note]);
     let action = `lifted${midiNumber}`;

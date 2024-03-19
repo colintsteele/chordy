@@ -1,17 +1,17 @@
 
-import * as Tone from 'tone';
+// import * as Tone from 'tone';
 import PianoMp3 from 'tonejs-instrument-piano-mp3';
 import MidiNote from '../midi/MidiNote';
 
 const BufferUnsetError = "buffer is either not set or not loaded";
-let instrument = new PianoMp3;
+let instrument = new PianoMp3();
 let oldInstrument = null;
-instrument.toMaster();
+instrument.toDestination();
 
 class ToneService {
   static playSound() {
     //create a synth and connect it to the main output (your speakers)
-    const synth = new Tone.Synth().toDestination();
+    // const synth = new Tone.Synth().toDestination();
 
     // instrument.toMaster();
     instrument.triggerAttackRelease("C3", "4n");
@@ -30,7 +30,6 @@ class ToneService {
         try {
           oldInstrument.triggerAttackRelease(noteArg, "4n");
         } catch (_e: any) {
-          
         } // if it still doesn't work, just no-op
       }
     }
@@ -54,7 +53,7 @@ class ToneService {
     let secondInstrument = new PianoMp3();
     oldInstrument = instrument;
 
-    secondInstrument.toMaster();
+    secondInstrument.toDestination();
     instrument = secondInstrument;
 
     setTimeout(async () => {

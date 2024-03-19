@@ -1,5 +1,4 @@
-import { Note, Chord } from "../Theory";
-import { isEqual, spread, uniqWith } from "lodash";
+import { Chord } from "../Theory";
 import Objective from "./Objective";
 
 const TYPE = "chord";

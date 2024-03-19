@@ -1,5 +1,5 @@
 import "../App.css";
-import { Piano, KeyboardShortcuts, MidiNumbers } from "react-piano";
+import { KeyboardShortcuts, MidiNumbers } from "react-piano";
 import "react-piano/dist/styles.css";
 import * as theory from "../Theory";
 import { Component, ReactNode } from "react";
