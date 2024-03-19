@@ -1,5 +1,4 @@
-import { Note } from "../Theory";
-import { isNote, Vex } from "vexflow";
+import { Vex } from "vexflow";
 const { StaveNote, Accidental } = Vex.Flow;
 
 class VexFlowNotes {
@@ -23,7 +22,7 @@ class VexFlowNotes {
       let g = match.groups;
 
       if (g?.acci) {
-        let acci = this.randomAccidental();
+        // let acci = this.randomAccidental();
         this.accidentals.push(g?.acci);
       } else {
         let acci = null;
@@ -42,6 +41,7 @@ class VexFlowNotes {
       if (props.accidental) {
         staveNote.addModifier(new Accidental(props.accidental), i);
       }
+      return null;
     });
 
     return [staveNote];
