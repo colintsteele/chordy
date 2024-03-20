@@ -1,22 +1,12 @@
 import "../App.css";
 import "react-piano/dist/styles.css";
-// import * as theory from "../Theory";
 import { Component, ReactNode } from "react";
-import React from "react";
 import PianoKeys from "./PianoKeys";
 import ObjectiveManager from "../objectives/ObjectiveManager";
 import Objective from "../components/Objective";
-//for testing
-// import ScaleObjective from "../objectives/ScaleObjective";
 import MidiController from "../midi/MidiController";
 import { uniq, remove } from "lodash";
-import {
-  // Box,
-  // Checkbox,
-  // FormControlLabel,
-  // FormGroup,
-  Switch,
-} from "@mui/material";
+import { Switch } from "@mui/material";
 import MidiNote from "../midi/MidiNote";
 import { Note } from "../Theory";
 import ObjectiveTypesToggle from "./ObjectiveTypesToggle";
@@ -51,11 +41,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     super(props);
     this.scalesEnabled = ["major"];
     this.objectiveTypesEnabled = ["note"];
-
-    //forced C for testing
-    // let scale = theory.scale(theory.note("C"), "major");
-    // let objective = new ScaleObjective(scale);
-
     this.toneService = ToneService;
     this.objectiveManager = new ObjectiveManager(
       this.scalesEnabled,
