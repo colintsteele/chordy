@@ -11,6 +11,7 @@ import MidiNote from "../midi/MidiNote";
 import { Note } from "../Theory";
 import ObjectiveTypesToggle from "./ObjectiveTypesToggle";
 import ToneService from "../services/ToneService";
+import { useSelector, useDispatch } from 'react-redux'
 
 type KeyboardState = {
   progressed: boolean | undefined;
@@ -59,7 +60,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     );
   }
 
-
   soundMalloc = () => {
     this.toneService.cleanup();
   }
@@ -95,6 +95,9 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     // this.toneService.playNote(midiNumber)
     this.toneService.pressNote(midiNumber)
 
+    console.log('I want to call my reducer here');
+
+
     this.setState({
       lastAction: action,
       activeNotes: newNotes,
@@ -116,6 +119,8 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   }
 
   progressUpdater = (progression: KeyboardState) => {
+    console.log('I am updating');
+
     this.setState({
       progressed: progression.progressed,
       completed: progression.completed,
@@ -144,7 +149,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
           completed={this.state.completed}
           objectives={this.objectiveNotes()}
           description={this.objectiveManager.currentObjective.description}
-          // objectives={this.objectiveManager.currentObjective.objectives}
         />
 
         <ObjectiveTypesToggle
@@ -157,7 +161,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
         <PianoKeys
           activeNotes={this.state.activeNotes}
           objectiveManager={this.objectiveManager}
-        // updateKeys={}
         />
 
         <Switch
