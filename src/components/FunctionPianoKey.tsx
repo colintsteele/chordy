@@ -24,12 +24,9 @@ const PianoKey = ({
     dispatch(liftNote(midiNumber));
   };
 
-  const leftOffset = () => {
-  }
-
   return (
     <div
-      style={{ left: xOffset + "em" }}
+      style={accidental === true ? { left: xOffset + "em" } : {}}
       key={midiNumber}
       className={computeClassName(accidental, pressed, noteName)}
       onMouseDown={() => {
@@ -61,7 +58,3 @@ type PianoKeyType = {
 
 
 export default PianoKey;
-
-const startF = { F: null, Gb: 2.2, G: null, Ab: 5.2, A: null, Bb: 8.2, B: null, C: null, Db: 14.2, D: null, Eb: 17.2, E: null };
-const startE = { E: null, F: null, Gb: 5.2, G: null, Ab: 8.2, A: null, Bb: 11.2, B: null, C: null, Db: 17.2, D: null, Eb: 20.2 };
-const startGb = { Gb: -0.7, G: null, Ab: 2.2, A: null, Bb: 5.2, B: null, C: null, Db: 11.2, D: null, Eb: 14.2, E: null, F: null };
