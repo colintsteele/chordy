@@ -20,8 +20,6 @@ const FunctionKeys = ({startMidi, endMidi}: FunctionKeysProps) => {
     // fill in with modifiers for showMeta 
   }
 
-
-
   const pianoKeyProps = (midi: number, xOffset: number) => {
     let note = theory.midiToNote(midi);
     let accidental = note.noteName.match(/b|#$/) !== null;
@@ -33,7 +31,7 @@ const FunctionKeys = ({startMidi, endMidi}: FunctionKeysProps) => {
       noteName: note.noteName,
       midiNumber: midi,
       xOffset: accidental === true ? xOffset : 0,
-      showMeta: false
+      showMeta: true
     }
   }
 
