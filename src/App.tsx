@@ -1,16 +1,35 @@
 import Keyboard from "./components/Keyboard";
 import "./App.css";
 import { Grid } from "@mui/material";
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import store from './store'
-import { Provider } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import FunctionKeyboard from "./components/FunctionKeyboard";
+import { liftKey, pressKey } from "./store/slices/keyboardKeypressSlice";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const handleKeyDown = (keyPress) => {
+    dispatch(pressKey(keyPress.key))
+  };
+
+  const handleKeyUp = (keyPress) => {
+    dispatch(liftKey(keyPress.key))
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [handleKeyDown]);
+
   return (
-    <Provider store={store}>
       <Grid
         container
         spacing={0}
@@ -32,7 +51,6 @@ function App() {
         </div>
         <FunctionKeyboard/>
       </Grid>
-    </Provider>
   );
 }
 

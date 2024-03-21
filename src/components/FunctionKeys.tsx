@@ -1,8 +1,4 @@
-import { Component, ReactNode } from "react";
-import ObjectiveManager from "../objectives/ObjectiveManager";
-// import "../PianoKey.css";
 import * as theory from "../Theory";
-import ToneService from "../services/ToneService";
 import FunctionPianoKey from "./FunctionPianoKey";
 import { useSelector } from 'react-redux';
 
@@ -15,10 +11,6 @@ const FunctionKeys = ({startMidi, endMidi}: FunctionKeysProps) => {
   const isNotePressed = (note: number) => {
     return pressedNotes.some((pNote: number) => pNote === note );
   };
-
-  const isKeyboardKeyPressed = (key: any) => {
-    // fill in with modifiers for showMeta 
-  }
 
   const pianoKeyProps = (midi: number, xOffset: number) => {
     let note = theory.midiToNote(midi);

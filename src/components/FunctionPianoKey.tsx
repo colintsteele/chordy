@@ -1,7 +1,8 @@
-import { useDispatch } from 'react-redux';
-import { keypressSlice } from '../store/slices/keypressSlice';
+import { useDispatch } from "react-redux";
+import { keypressSlice } from "../store/slices/keypressSlice";
 // import "../PianoKey.css";
-import "../css/FunctionPianoKey.css"
+import "../css/FunctionPianoKey.css";
+import KeyInfo from "./KeyInfo";
 
 const { pressNote, liftNote } = keypressSlice.actions;
 // Component's responsibility is simply to be a piano key
@@ -12,7 +13,6 @@ const PianoKey = ({
   midiNumber,
   noteName,
   xOffset,
-  showMeta, //show meta properties like Note Name and MidiNumber
 }: PianoKeyType) => {
   const dispatch = useDispatch();
 
@@ -37,15 +37,17 @@ const PianoKey = ({
       }}
       data-testid={`${noteName}:${midiNumber}`}
     >
-      <span>{showMeta ? noteName : ''}</span>
+    <KeyInfo noteName={noteName} midi={midiNumber}/>
     </div>
   );
 };
 
-const computeClassName = ( accidental, pressed, noteName ) => {
-  let accidentalString = accidental ? 'Accidental' : 'Natural'
-  return `FunctionKey ${accidentalString} ${noteName} ${accidentalString} ${ pressed ? "Pressed" : "" }`
-}
+const computeClassName = (accidental, pressed, noteName) => {
+  let accidentalString = accidental ? "Accidental" : "Natural";
+  return `FunctionKey ${accidentalString} ${noteName} ${accidentalString} ${
+    pressed ? "Pressed" : ""
+  }`;
+};
 
 type PianoKeyType = {
   accidental: boolean;
@@ -53,8 +55,6 @@ type PianoKeyType = {
   midiNumber: number;
   noteName: string;
   xOffset: number;
-  showMeta: boolean;
 };
-
 
 export default PianoKey;

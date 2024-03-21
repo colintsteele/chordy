@@ -16,7 +16,6 @@ describe("FunctionPianoKey", () => {
           accidental={false}
           midiNumber={60}
           xOffset={0}
-          showMeta={false}
         />
       </Provider>
     );
@@ -33,7 +32,6 @@ describe("FunctionPianoKey", () => {
           accidental={true}
           midiNumber={61}
           xOffset={0}
-          showMeta={false}
         />
       </Provider>
     );
@@ -51,7 +49,6 @@ describe("FunctionPianoKey", () => {
           accidental={false}
           midiNumber={60}
           xOffset={1}
-          showMeta={false}
         />
       </Provider>
     );
@@ -68,11 +65,74 @@ describe("FunctionPianoKey", () => {
           accidental={true}
           midiNumber={61}
           xOffset={1}
-          showMeta={false}
         />
       </Provider>
     );
     const key = getByTestId("C#:61");
     expect(key).toHaveStyle("left: 1em");
   });
+
+  it("shows the midi number when showMeta is true", () => {
+    const { getByText } = render(
+      <Provider store={store}>
+        <FunctionPianoKey
+          pressed={false}
+          noteName="C"
+          accidental={false}
+          midiNumber={60}
+          xOffset={0}
+        />
+      </Provider>
+    );
+    const midiNumber = getByText("60");
+    expect(midiNumber).toBeInTheDocument();
+  });
+
+  it("shows the note name when showMeta is true", () => {
+    const { getByText } = render(
+      <Provider store={store}>
+        <FunctionPianoKey
+          pressed={false}
+          noteName="C"
+          accidental={false}
+          midiNumber={60}
+          xOffset={0}
+        />
+      </Provider>
+    );
+    const noteName = getByText("C");
+    expect(noteName).toBeInTheDocument();
+  });
+
+  it("does not show the midi number when showMeta is false", () => {
+    const { queryByText } = render(
+      <Provider store={store}>
+        <FunctionPianoKey
+          pressed={false}
+          noteName="C"
+          accidental={false}
+          midiNumber={60}
+          xOffset={0}
+        />
+      </Provider>
+    );
+    const midiNumber = queryByText("60");
+    expect(midiNumber).not.toBeInTheDocument();
+  });
+
+  it("does not show the note name when showMeta is false", () => {
+    const { queryByText } = render(
+      <Provider store={store}>
+        <FunctionPianoKey
+          pressed={false}
+          noteName="C"
+          accidental={false}
+          midiNumber={60}
+          xOffset={0}
+        />
+      </Provider>
+    );
+    const noteName = queryByText("C");
+    expect(noteName).not.toBeInTheDocument();
+  })
 });
