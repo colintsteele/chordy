@@ -1,0 +1,44 @@
+.KeyContainer {
+  position: relative; /* Ensure positioning context for absolute positioning */
+  display: flex;
+}
+
+.FunctionKey {
+  text-align: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 6em; /* Adjust height as needed */
+  box-sizing: border-box;
+  border: 1px solid #000; /* Border for keys */
+  border-radius: 5px; /* Rounded edges for natural keys */
+  display: flex;
+}
+
+.FunctionKey span {
+  align-self: flex-end
+}
+
+.Natural {
+  width: 3em; /* Width of natural keys */
+  background-color: #F5F2E4; /* Color of natural keys */
+}
+
+.Accidental {
+  width: 1.7em;
+  /* Width of accidental keys */
+  height: 4em;
+  /* Height of accidental keys */
+  color: #EEEEEE;
+  background-color: #454545;
+  position: absolute;
+  top: 0;
+  /* Align accidental keys to the top of the container */
+}
+
+.Natural.Pressed {
+  background-color: #b6b3a9; /* Color of natural keys */
+}
+
+.Accidental.Pressed {
+  background-color: #202020;
+}

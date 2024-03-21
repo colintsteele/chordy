@@ -1,4 +1,5 @@
 import { sample } from "lodash";
+import { MidiNote } from "./midi/MidiNote";
 
 export type NoteName =
   | "C"
@@ -131,4 +132,8 @@ export function notesEqual(note1: Note, note2: Note): boolean {
   let notesNumbers = note1.index === note2.index;
 
   return namesEqual && notesNumbers;
+}
+
+export function midiToNote(midiNumber: number): Note {
+  return new MidiNote(midiNumber).note;
 }

@@ -3,6 +3,6 @@ import { keypressSlice } from './slices/keypressSlice'
 
 export default configureStore({
   reducer: {
-    keyPresser: keypressSlice.reducer
+    keyPresser: keypressSlice.reducer,
   }
 })

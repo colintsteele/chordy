@@ -9,24 +9,23 @@ const initialState: keypressSliceType = {
 }
 
 export const keypressSlice = createSlice({
-  name: 'pressedNotes',
+  name: "pressedNotes",
   initialState: initialState,
 
   reducers: {
     pressNote: (state, action) => {
-      state.notesPressed.push(action.payload)
-      console.log('pressing note')
+      state.notesPressed.push(action.payload);
     },
+
     liftNote: (state, action) => {
-      state.notesPressed.push(action.payload)
-      console.log('"lifting" note')
+      state.notesPressed = state.notesPressed.filter(
+        (note) => action.payload !== note
+      );
     },
-    incrementByAmount: (state, action) => {
-    }
-  }
-})
+  },
+});
 
 // Action creators are generated for each case reducer function
-export const { pressNote, liftNote, incrementByAmount } = keypressSlice.actions
+export const { pressNote, liftNote } = keypressSlice.actions;
 
 export default keypressSlice.reducer

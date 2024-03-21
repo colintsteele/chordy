@@ -1,6 +1,6 @@
 import { Component, ReactNode } from "react";
 import ObjectiveManager from "../objectives/ObjectiveManager";
-import "../PianoKey.css";
+// import "../PianoKey.css";
 import * as theory from "../Theory";
 import ToneService from "../services/ToneService";
 

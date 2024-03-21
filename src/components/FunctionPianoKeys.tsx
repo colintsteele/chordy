@@ -5,7 +5,7 @@ import * as theory from "../Theory";
 import { Component, ReactNode } from "react";
 import ObjectiveManager from "../objectives/ObjectiveManager";
 import MidiNote from "../midi/MidiNote";
-import "../PianoKey.css";
+// import "../PianoKey.css";
 import NewKeys from "./NewKeys";
 import FunctionKeys from "./FunctionKeys";
 
@@ -22,10 +22,12 @@ type FunctionPianoKeysProps = {
 
 // On the flip side, it may be necessary to simply have this logic housed within a component here
 // to keep the growing Keyboard component more clean
-const FunctionPianoKeys = ({}: FunctionPianoKeysProps) => (
-  <>
-    <FunctionKeys />
-  </>
-);
+const FunctionPianoKeys = ({}: FunctionPianoKeysProps) => {
+  return (
+    <>
+      <FunctionKeys startMidi={41} endMidi={57} />
+    </>
+  );
+};
 
 export default FunctionPianoKeys;
