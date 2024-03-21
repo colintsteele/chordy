@@ -1,25 +1,11 @@
-import { Component, ReactNode, useEffect, useRef } from "react";
-import React from "react";
-import { Box, Chip, Container, Grid } from "@mui/material";
+import { useEffect } from "react";
 import { Vex } from "vexflow";
 import VexFlowNotes from "../services/VexFlowNote";
-
-//for potentially creating sharops from flats
-function accidentalMap(note: string) {
-  let map = {
-    Ab: "G#",
-    Bb: "A#",
-    Db: "C#",
-    Eb: "D#",
-    Gb: "F#",
-  };
-}
 
 const Staff = ({ noteProps, objectives, objectiveType }) => {
   const { Renderer, Stave, Voice, Formatter } = Vex.Flow;
 
   useEffect(() => {
-    //render staff
     const div = document.getElementById("canvasId") as HTMLCanvasElement;
     const renderer = new Renderer(div, Renderer.Backends.SVG);
     const context = renderer.getContext().resize(200, 200);
@@ -31,11 +17,11 @@ const Staff = ({ noteProps, objectives, objectiveType }) => {
     // add notes
     let notes;
 
-    if (objectiveType == "scale") {
+    if (objectiveType === "scale") {
       notes = new VexFlowNotes(objectives, objectiveType).scaleVisual();
     } else {
-      // notes = vexifyNotes(objectives, "chord");
       notes = new VexFlowNotes(objectives, objectiveType).chordVisual();
+      // A note-type objective is effectively just a chord with 1 note.
     }
 
     const voice = new Voice({ num_beats: 4, beat_value: 4 })
@@ -45,7 +31,9 @@ const Staff = ({ noteProps, objectives, objectiveType }) => {
 
     // draw notes
     voice.draw(context, stave);
-  }, []);
+  }, [Formatter, Renderer, Stave, Voice, objectiveType]); 
+  // TODO add objectives here as dependency
+  // Adding objectives to the dependency list above causes the staff to redraw a new SVG each time
 
   return (
     <>

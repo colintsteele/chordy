@@ -1,5 +1,4 @@
 import { Note, Scale } from "../Theory";
-import { isEqual, uniqWith } from "lodash";
 import Objective from "./Objective";
 
 const TYPE = "scale";

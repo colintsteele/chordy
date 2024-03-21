@@ -1,26 +1,17 @@
 import "../App.css";
 import "react-piano/dist/styles.css";
-// import * as theory from "../Theory";
 import { Component, ReactNode } from "react";
-import React from "react";
 import PianoKeys from "./PianoKeys";
 import ObjectiveManager from "../objectives/ObjectiveManager";
 import Objective from "../components/Objective";
-//for testing
-import ScaleObjective from "../objectives/ScaleObjective";
 import MidiController from "../midi/MidiController";
 import { uniq, remove } from "lodash";
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Switch,
-} from "@mui/material";
+import { Switch } from "@mui/material";
 import MidiNote from "../midi/MidiNote";
-import { Note, note } from "../Theory";
+import { Note } from "../Theory";
 import ObjectiveTypesToggle from "./ObjectiveTypesToggle";
 import ToneService from "../services/ToneService";
+import { useSelector, useDispatch } from 'react-redux'
 
 type KeyboardState = {
   progressed: boolean | undefined;
@@ -51,11 +42,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     super(props);
     this.scalesEnabled = ["major"];
     this.objectiveTypesEnabled = ["note"];
-
-    //forced C for testing
-    // let scale = theory.scale(theory.note("C"), "major");
-    // let objective = new ScaleObjective(scale);
-
     this.toneService = ToneService;
     this.objectiveManager = new ObjectiveManager(
       this.scalesEnabled,
@@ -74,15 +60,14 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     );
   }
 
-
   soundMalloc = () => {
     this.toneService.cleanup();
   }
 
   //TO-DO clean up signature
-  midiMessageHandler = (event, onOff, midiNote, velocity) => {
+  midiMessageHandler = (_event, onOff, midiNote, _velocity) => {
     //can't test midi Events yet
-    var [pressOn, midiNumber, _something] = [...event.data];
+    // var [_pressOn, _midiNumber, _something] = [...event.data];
 
     // if (pressOn == 144) {
     if (onOff) {
@@ -110,6 +95,9 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     // this.toneService.playNote(midiNumber)
     this.toneService.pressNote(midiNumber)
 
+    console.log('I want to call my reducer here');
+
+
     this.setState({
       lastAction: action,
       activeNotes: newNotes,
@@ -118,7 +106,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
 
   liftNote(midiNumber: number) {
     let currentNotes = this.state.activeNotes;
-    let newNotes = currentNotes.filter((num) => num != midiNumber);
+    let newNotes = currentNotes.filter((num) => num !== midiNumber);
     remove(currentNotes, (num) => num === midiNumber);
     this.objectiveManager.liftNotes([new MidiNote(midiNumber).note]);
     let action = `lifted${midiNumber}`;
@@ -131,6 +119,8 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   }
 
   progressUpdater = (progression: KeyboardState) => {
+    console.log('I am updating');
+
     this.setState({
       progressed: progression.progressed,
       completed: progression.completed,
@@ -159,7 +149,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
           completed={this.state.completed}
           objectives={this.objectiveNotes()}
           description={this.objectiveManager.currentObjective.description}
-          // objectives={this.objectiveManager.currentObjective.objectives}
         />
 
         <ObjectiveTypesToggle
@@ -172,7 +161,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
         <PianoKeys
           activeNotes={this.state.activeNotes}
           objectiveManager={this.objectiveManager}
-        // updateKeys={}
         />
 
         <Switch

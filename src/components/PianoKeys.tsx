@@ -1,11 +1,11 @@
 import "../App.css";
-import { Piano, KeyboardShortcuts, MidiNumbers } from "react-piano";
+import { KeyboardShortcuts, MidiNumbers } from "react-piano";
 import "react-piano/dist/styles.css";
 import * as theory from "../Theory";
 import { Component, ReactNode } from "react";
 import ObjectiveManager from "../objectives/ObjectiveManager";
 import MidiNote from "../midi/MidiNote";
-import "../PianoKey.css";
+// import "../PianoKey.css";
 import NewKeys from "./NewKeys";
 
 type PianoKeysSate = {
@@ -72,7 +72,7 @@ class PianoKeys extends Component<PianoKeysSate, PianoKeysProps> {
           keyboardShortcuts={this.keyboardShortcuts}
         /> */}
         <span hidden>{this.listActiveNotes()}</span>
-
+{/* 
         <NewKeys
           startingNote={41}
           activeKeys={this.state.activeNotes}
@@ -82,7 +82,7 @@ class PianoKeys extends Component<PianoKeysSate, PianoKeysProps> {
           startingNote={41 + 12}
           activeKeys={this.state.activeNotes}
           objectiveManager={this.objectiveManager}
-        />
+        /> */}
       </>
     );
   }

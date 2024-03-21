@@ -2,8 +2,6 @@ import { Box, Chip, Container } from "@mui/material";
 import ObjectiveGraphic from "./ObjectiveGraphic";
 import "../css/ObjectiveGraphic.css";
 
-function hidden(description) {}
-
 type ObjectiveProps = {
   name: string;
   progressed?: boolean;
