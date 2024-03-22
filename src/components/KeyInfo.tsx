@@ -1,9 +1,18 @@
-const KeyInfo = ({shiftMod, ctrlMod, noteName, midi}: KeyInfoPropsType) => {
+import KeyMap from "../KeyboardKeyMap"
+// write a function that takes a midi number and returns the key with that number in the KeyMap
+
+const KeyInfo = ({ shiftMod, ctrlMod, noteName, midi }: KeyInfoPropsType) => {
+  const getKey = (midi: number) => {
+    return Object.keys(KeyMap).find((key) => KeyMap[key] === midi);
+  };
 
   return (
     <>
-      <span>{shiftMod ? noteName : ""}</span>
-      <span>{ctrlMod ? midi : ""}</span>
+      <span className={'KeyboardKeyMappedKey'}>
+        {!shiftMod && !ctrlMod && getKey(midi)}
+      </span>
+      <span>{shiftMod && noteName}</span>
+      <span>{ctrlMod && midi}</span>
     </>
   );
 };
