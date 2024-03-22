@@ -16,6 +16,11 @@ const PianoKey = ({
   const pressedKeys = useSelector(
     (state: any) => state.keyboardKeypress.keysPressed
   );
+
+  const pressedNotes = useSelector(
+    (state: any) => state.keyPresser.notesPressed
+  );
+
   const dispatch = useDispatch();
 
   const handlePress = () => {
@@ -26,11 +31,17 @@ const PianoKey = ({
     dispatch(liftNote(midiNumber));
   };
 
+  const isPressed = () => {
+    let statePressed = pressedNotes.some((note: number) => note === midiNumber);  
+    console.log(`prop: ${pressed}, but function: ${statePressed}`)
+    return pressed || statePressed
+  }
+
   return (
     <div
       data-testid={`${noteName}:${midiNumber}`}
       key={midiNumber}
-      className={computeClassName(accidental, pressed, noteName)}
+      className={computeClassName(accidental, isPressed(), noteName)}
       style={accidental === true ? { left: xOffset + "em" } : {}}
       onMouseDown={() => {
         handlePress();

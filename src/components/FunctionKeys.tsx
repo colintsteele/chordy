@@ -5,21 +5,26 @@ import { useSelector } from 'react-redux';
 // component responsible for collecting and organizing irregular note clusters
 // e.g. A set of notes from Midi 41 to 53 (F to E) and all appropriately placed accidentals 
 const FunctionKeys = ({startMidi, endMidi}: FunctionKeysProps) => {
-  const pressedNotes = useSelector((state: any) => state.keyPresser.notesPressed);
+  // const pressedNotes = useSelector((state: any) => state.keyPresser.notesPressed);
 
   // returns Redux pressed state for note
   const isNotePressed = (note: number) => {
-    return pressedNotes.some((pNote: number) => pNote === note );
+    // console.dir(pressedNotes)
+    // // let isPressed = pressedNotes.some((pNote: number) => pNote === note );
+    // console.log(isPressed);
+    return false;
   };
 
   const pianoKeyProps = (midi: number, xOffset: number) => {
     let note = theory.midiToNote(midi);
     let accidental = note.noteName.match(/b|#$/) !== null;
+    let pressed = isNotePressed(midi);
 
+    console.log('rendering')
     return {
       key: midi,
       accidental: accidental,
-      pressed: isNotePressed(midi),
+      pressed: pressed,
       noteName: note.noteName,
       midiNumber: midi,
       xOffset: accidental === true ? xOffset : 0,
@@ -94,6 +99,7 @@ export const testCalculateOffset = (keys: number[]) => {
 type FunctionKeysProps = {
   startMidi: number;
   endMidi: number;
+  pressedNotes?: [];
 // we actually need to figure out how
 // to get the viewport size here to find out
 // how many keys to render

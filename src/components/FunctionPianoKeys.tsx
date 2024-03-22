@@ -8,6 +8,7 @@ import MidiNote from "../midi/MidiNote";
 // import "../PianoKey.css";
 import NewKeys from "./NewKeys";
 import FunctionKeys from "./FunctionKeys";
+import { useSelector } from "react-redux";
 
 
 type FunctionPianoKeysProps = {};
@@ -22,8 +23,9 @@ type FunctionPianoKeysProps = {};
 // to keep the growing Keyboard component more clean
 const FunctionPianoKeys = ({}: FunctionPianoKeysProps) => {
   const screenKeyRatio = 38;
-  const baseMidi = 41;
+  const baseMidi = 36;
   const [width, setWidth] = useState(window.innerWidth);
+  const pressedNotes = useSelector((state: any) => state.keyPresser.notesPressed);
 
   useEffect(() => {
     const handleResize = () => {

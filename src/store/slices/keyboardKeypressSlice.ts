@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import KeyMap from '../../KeyboardKeyMap';
+import ToneService from "../../services/ToneService";
 
 export interface KeyboardKeypressSliceType {
   keysPressed: string[];
@@ -14,9 +16,7 @@ export const keyboardKeypressSlice = createSlice({
 
   reducers: {
     pressKey: (state, action: PayloadAction<string>) => {
-      console.log('payload:' + action.payload);
       state.keysPressed.push(action.payload);
-      console.log('state:' + state.keysPressed);
     },
 
     liftKey: (state, action: PayloadAction<string>) => {
