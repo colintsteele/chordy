@@ -1,6 +1,5 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { keypressSlice } from "../store/slices/keypressSlice";
-// import "../PianoKey.css";
 import "../css/FunctionPianoKey.css";
 import KeyInfo from "./KeyInfo";
 
@@ -14,6 +13,9 @@ const PianoKey = ({
   noteName,
   xOffset,
 }: PianoKeyType) => {
+  const pressedKeys = useSelector(
+    (state: any) => state.keyboardKeypress.keysPressed
+  );
   const dispatch = useDispatch();
 
   const handlePress = () => {
@@ -26,18 +28,24 @@ const PianoKey = ({
 
   return (
     <div
-      style={accidental === true ? { left: xOffset + "em" } : {}}
+      data-testid={`${noteName}:${midiNumber}`}
       key={midiNumber}
       className={computeClassName(accidental, pressed, noteName)}
+      style={accidental === true ? { left: xOffset + "em" } : {}}
       onMouseDown={() => {
         handlePress();
       }}
       onMouseUp={() => {
         handleLift();
       }}
-      data-testid={`${noteName}:${midiNumber}`}
     >
-    <KeyInfo noteName={noteName} midi={midiNumber}/>
+      <KeyInfo
+        shiftMod={pressedKeys.some((key: string) => key === "Shift")}
+        ctrlMod={pressedKeys.some((key: string) => key === "Control")}
+        noteName={noteName}
+        midi={midiNumber}
+        altMod={false}
+      />
     </div>
   );
 };

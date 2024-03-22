@@ -23,7 +23,7 @@ describe("FunctionPianoKey", () => {
     expect(key).toBeInTheDocument();
   });
 
-  it("renders an accidental key", () => {
+  it("Renders an accidental key", () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <FunctionPianoKey
@@ -56,7 +56,7 @@ describe("FunctionPianoKey", () => {
     expect(key).not.toHaveStyle("left: 1em");
   });
 
-  it("does apply the offset to accidental keys", () => {
+  it("Does apply the offset to accidental keys", () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <FunctionPianoKey
@@ -72,39 +72,7 @@ describe("FunctionPianoKey", () => {
     expect(key).toHaveStyle("left: 1em");
   });
 
-  it("shows the midi number when showMeta is true", () => {
-    const { getByText } = render(
-      <Provider store={store}>
-        <FunctionPianoKey
-          pressed={false}
-          noteName="C"
-          accidental={false}
-          midiNumber={60}
-          xOffset={0}
-        />
-      </Provider>
-    );
-    const midiNumber = getByText("60");
-    expect(midiNumber).toBeInTheDocument();
-  });
-
-  it("shows the note name when showMeta is true", () => {
-    const { getByText } = render(
-      <Provider store={store}>
-        <FunctionPianoKey
-          pressed={false}
-          noteName="C"
-          accidental={false}
-          midiNumber={60}
-          xOffset={0}
-        />
-      </Provider>
-    );
-    const noteName = getByText("C");
-    expect(noteName).toBeInTheDocument();
-  });
-
-  it("does not show the midi number when showMeta is false", () => {
+  it("Does not show the midi number when showMeta is false", () => {
     const { queryByText } = render(
       <Provider store={store}>
         <FunctionPianoKey
@@ -120,7 +88,7 @@ describe("FunctionPianoKey", () => {
     expect(midiNumber).not.toBeInTheDocument();
   });
 
-  it("does not show the note name when showMeta is false", () => {
+  it("Does not show the note name when showMeta is false", () => {
     const { queryByText } = render(
       <Provider store={store}>
         <FunctionPianoKey

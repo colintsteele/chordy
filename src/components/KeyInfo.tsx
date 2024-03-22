@@ -1,22 +1,9 @@
-import { useSelector } from "react-redux";
-
-const KeyInfo = ({noteName, midi}: KeyInfoPropsType) => {
-  const pressedKeys = useSelector((state: any) => state.keyboardKeypress.keysPressed);
-
-  const shiftModOn = () => {
-    let on = pressedKeys.some((key: string) =>  key === 'Shift') 
-    return on
-  }
-
-  const ctrlModOn = () => {
-    let on = pressedKeys.some((key: string) =>  key === 'Control') 
-    return on
-  }
+const KeyInfo = ({shiftMod, ctrlMod, noteName, midi}: KeyInfoPropsType) => {
 
   return (
     <>
-      <span>{shiftModOn() ? noteName : ""}</span>
-      <span>{ctrlModOn() ? midi : ""}</span>
+      <span>{shiftMod ? noteName : ""}</span>
+      <span>{ctrlMod ? midi : ""}</span>
     </>
   );
 };
@@ -24,6 +11,9 @@ const KeyInfo = ({noteName, midi}: KeyInfoPropsType) => {
 type KeyInfoPropsType = {
   noteName: string,
   midi: number,
+  shiftMod: boolean,
+  ctrlMod: boolean,
+  altMod: boolean
 };
 
 export default KeyInfo;
