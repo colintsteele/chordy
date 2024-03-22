@@ -57,7 +57,7 @@ const computeClassName = (accidental, pressed, noteName) => {
   }`;
 };
 
-type PianoKeyType = {
+export type PianoKeyType = {
   accidental: boolean;
   pressed: boolean;
   midiNumber: number;
