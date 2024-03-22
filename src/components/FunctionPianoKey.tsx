@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { keypressSlice } from "../store/slices/keypressSlice";
 import "../css/FunctionPianoKey.css";
 import KeyInfo from "./KeyInfo";
@@ -8,17 +8,12 @@ const { pressNote, liftNote } = keypressSlice.actions;
 // Pressing it and releasing it alters application state via dispatch actions
 const PianoKey = ({
   accidental,
-  pressed,
   midiNumber,
   noteName,
   xOffset,
 }: PianoKeyType) => {
-  const pressedKeys = useSelector(
-    (state: any) => state.keyboardKeypress.keysPressed
-  );
-
-  const pressedNotes = useSelector(
-    (state: any) => state.keyPresser.notesPressed
+  const isPressed = useSelector(
+    (state: any) => state.keyPresser.notesPressed[midiNumber], shallowEqual
   );
 
   const dispatch = useDispatch();
@@ -31,17 +26,11 @@ const PianoKey = ({
     dispatch(liftNote(midiNumber));
   };
 
-  const isPressed = () => {
-    let statePressed = pressedNotes.some((note: number) => note === midiNumber);  
-    console.log(`prop: ${pressed}, but function: ${statePressed}`)
-    return pressed || statePressed
-  }
-
   return (
     <div
       data-testid={`${noteName}:${midiNumber}`}
       key={midiNumber}
-      className={computeClassName(accidental, isPressed(), noteName)}
+      className={computeClassName(accidental, isPressed, noteName)}
       style={accidental === true ? { left: xOffset + "em" } : {}}
       onMouseDown={() => {
         handlePress();
@@ -51,11 +40,8 @@ const PianoKey = ({
       }}
     >
       <KeyInfo
-        shiftMod={pressedKeys.some((key: string) => key === "Shift")}
-        ctrlMod={pressedKeys.some((key: string) => key === "Control")}
         noteName={noteName}
         midi={midiNumber}
-        altMod={false}
       />
     </div>
   );
@@ -70,7 +56,6 @@ const computeClassName = (accidental, pressed, noteName) => {
 
 export type PianoKeyType = {
   accidental: boolean;
-  pressed: boolean;
   midiNumber: number;
   noteName: string;
   xOffset: number;

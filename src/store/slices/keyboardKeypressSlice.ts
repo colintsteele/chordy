@@ -3,11 +3,11 @@ import KeyMap from '../../KeyboardKeyMap';
 import ToneService from "../../services/ToneService";
 
 export interface KeyboardKeypressSliceType {
-  keysPressed: string[];
+  keysPressed: {};
 }
 
 const initialState: KeyboardKeypressSliceType = {
-  keysPressed: [],
+  keysPressed: {},
 };
 
 export const keyboardKeypressSlice = createSlice({
@@ -16,13 +16,11 @@ export const keyboardKeypressSlice = createSlice({
 
   reducers: {
     pressKey: (state, action: PayloadAction<string>) => {
-      state.keysPressed.push(action.payload);
+      state.keysPressed[action.payload] = true;
     },
 
     liftKey: (state, action: PayloadAction<string>) => {
-      state.keysPressed = state.keysPressed.filter(
-        (key) => action.payload !== key
-      );
+      state.keysPressed[action.payload] = false;
     },
   },
 });

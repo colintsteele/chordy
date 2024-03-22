@@ -1,16 +1,28 @@
-import KeyMap from "../KeyboardKeyMap"
-// write a function that takes a midi number and returns the key with that number in the KeyMap
+import { shallowEqual, useSelector } from "react-redux";
+import KeyMap from "../KeyboardKeyMap";
 
-const KeyInfo = ({ shiftMod, ctrlMod, noteName, midi }: KeyInfoPropsType) => {
+// Component in charge of displaying relevant key information
+// conditionally displays midi number and NoteName
+// If not displaying either midi or note, display the key's mapped key (asdfghjkl or ;)
+const KeyInfo = ({ noteName, midi }: KeyInfoPropsType) => {
+  const { shiftMod, ctrlMod } = useSelector(
+    (state: any) => ({
+      shiftMod: state.keyboardKeypress.keysPressed["Shift"],
+      ctrlMod: state.keyboardKeypress.keysPressed["Control"],
+    }),
+    shallowEqual
+  );
+
   const getKey = (midi: number) => {
     return Object.keys(KeyMap).find((key) => KeyMap[key] === midi);
   };
 
   return (
     <>
-      <span className={'KeyboardKeyMappedKey'}>
+      <span className={"KeyboardKeyMappedKey"}>
         {!shiftMod && !ctrlMod && getKey(midi)}
       </span>
+
       <span>{shiftMod && noteName}</span>
       <span>{ctrlMod && midi}</span>
     </>
@@ -18,11 +30,8 @@ const KeyInfo = ({ shiftMod, ctrlMod, noteName, midi }: KeyInfoPropsType) => {
 };
 
 type KeyInfoPropsType = {
-  noteName: string,
-  midi: number,
-  shiftMod: boolean,
-  ctrlMod: boolean,
-  altMod: boolean
+  noteName: string;
+  midi: number;
 };
 
 export default KeyInfo;

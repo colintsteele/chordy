@@ -19,7 +19,6 @@ const FunctionPianoKeys = ({}: FunctionPianoKeysProps) => {
   const screenKeyRatio = 38;
   const baseMidi = 36;
   const [width, setWidth] = useState(window.innerWidth);
-  // const pressedNotes = useSelector((state: any) => state.keyPresser.notesPressed);
 
   useEffect(() => {
     const handleResize = () => {

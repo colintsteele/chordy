@@ -7,32 +7,31 @@ import { Provider } from "react-redux";
 import exp from "constants";
 
 describe("InfoKey", () => {
-  it("Renders no text when no modifiers are on", () => {
+  const mockStore = configureMockStore();
+
+  let noteName = "C";
+  let midiNumber = 48;
+
+  const renderKey = () => {
     const { queryByText } = render(
       <Provider store={store}>
-        <KeyInfo
-          shiftMod={false}
-          ctrlMod={false}
-          noteName="C"
-          midi={60}
-          altMod={false}
-        />
+        <KeyInfo noteName={noteName} midi={midiNumber} />
       </Provider>
     );
-    const note = queryByText("C");
-    expect(note).not.toBeInTheDocument();
+
+    return queryByText;
+  }
+
+  it("Renders only the mapped key when no modifiers are on", () => {
+    let query = renderKey();
+    const note = query("k")
+    expect(note).toBeInTheDocument();
   });
 
   it("Renders the note name with the shift modifier On", () => {
     const { getByText } = render(
       <Provider store={store}>
-        <KeyInfo
-          shiftMod={true}
-          ctrlMod={false}
-          noteName="C"
-          midi={60}
-          altMod={false}
-        />
+        <KeyInfo noteName="C" midi={60} />
       </Provider>
     );
     const note = getByText("C");
@@ -42,13 +41,7 @@ describe("InfoKey", () => {
   it("Does not render the note name with the shift modifier Off", () => {
     const { queryByText } = render(
       <Provider store={store}>
-        <KeyInfo
-          shiftMod={false}
-          ctrlMod={false}
-          noteName="C"
-          midi={60}
-          altMod={false}
-        />
+        <KeyInfo noteName="C" midi={60} />
       </Provider>
     );
     const note = queryByText("C");
@@ -58,13 +51,7 @@ describe("InfoKey", () => {
   it("Renders the midi value when the ctrlMod is On", () => {
     const { getByText } = render(
       <Provider store={store}>
-        <KeyInfo
-          shiftMod={false}
-          ctrlMod={true}
-          noteName="C"
-          midi={60}
-          altMod={false}
-        />
+        <KeyInfo noteName="C" midi={60} />
       </Provider>
     );
     const midi = getByText("60");
@@ -74,16 +61,14 @@ describe("InfoKey", () => {
   it("Does not render the midi number when the ctrlMod is Off", () => {
     const { queryByText } = render(
       <Provider store={store}>
-        <KeyInfo
-          shiftMod={false}
-          ctrlMod={false}
-          noteName="C"
-          midi={60}
-          altMod={false}
-        />
+        <KeyInfo noteName="C" midi={60} />
       </Provider>
     );
     const midi = queryByText("60");
     expect(midi).not.toBeInTheDocument();
   });
 });
+
+function configureMockStore() {
+  throw new Error("Function not implemented.");
+}

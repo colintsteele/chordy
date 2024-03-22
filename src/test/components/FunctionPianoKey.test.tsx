@@ -12,7 +12,6 @@ describe("FunctionPianoKey", () => {
     return render(
       <Provider store={store}>
         <FunctionPianoKey
-          pressed={props.pressed}
           noteName={props.noteName}
           accidental={props.accidental}
           midiNumber={props.midiNumber}
@@ -24,7 +23,6 @@ describe("FunctionPianoKey", () => {
 
   it("Renders the key", () => {
     const { getByTestId } = renderComponent({
-      pressed: false,
       noteName: "C",
       accidental: false,
       midiNumber: 60,
@@ -40,7 +38,6 @@ describe("FunctionPianoKey", () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <FunctionPianoKey
-          pressed={false}
           noteName={noteName}
           accidental={true}
           midiNumber={61}
@@ -55,7 +52,6 @@ describe("FunctionPianoKey", () => {
 
   it("Does not apply the offset to natural keys", () => {
     const { getByTestId } = renderComponent({
-      pressed: false,
       noteName: "C",
       accidental: false,
       midiNumber: 60,
@@ -68,7 +64,6 @@ describe("FunctionPianoKey", () => {
 
   it("Does apply the offset to accidental keys", () => {
     const { getByTestId } = renderComponent({
-      pressed: false,
       noteName: "C#",
       accidental: true,
       midiNumber: 61,
