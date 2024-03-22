@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import ToneService from "../../services/ToneService";
 
 export interface keypressSliceType {
   notesPressed: number[];
@@ -15,6 +16,7 @@ export const keypressSlice = createSlice({
   reducers: {
     pressNote: (state, action) => {
       state.notesPressed.push(action.payload);
+      ToneService.playNote(action.payload);
     },
 
     liftNote: (state, action) => {
