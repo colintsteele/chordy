@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface KeyboardKeypressSliceType {
-  keysPressed: string[];
+  keysPressed: {};
 }
 
 const initialState: KeyboardKeypressSliceType = {
-  keysPressed: [],
+  keysPressed: {},
 };
 
 export const keyboardKeypressSlice = createSlice({
@@ -14,15 +14,11 @@ export const keyboardKeypressSlice = createSlice({
 
   reducers: {
     pressKey: (state, action: PayloadAction<string>) => {
-      console.log('payload:' + action.payload);
-      state.keysPressed.push(action.payload);
-      console.log('state:' + state.keysPressed);
+      state.keysPressed[action.payload] = true;
     },
 
     liftKey: (state, action: PayloadAction<string>) => {
-      state.keysPressed = state.keysPressed.filter(
-        (key) => action.payload !== key
-      );
+      state.keysPressed[action.payload] = false;
     },
   },
 });

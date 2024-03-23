@@ -42,3 +42,8 @@
 .Accidental.Pressed {
   background-color: #202020;
 }
+
+.KeyboardKeyMappedKey {
+  display: inline-block;
+  width: 100%;
+}

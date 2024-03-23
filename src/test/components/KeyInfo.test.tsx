@@ -1,89 +1,89 @@
-import { render, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
-import store from "../../store";
-
-import KeyInfo from "../../components/KeyInfo";
 import { Provider } from "react-redux";
-import exp from "constants";
+import { render } from "@testing-library/react";
+import configureMockStore from "redux-mock-store";
+import "@testing-library/jest-dom/extend-expect";
+import KeyInfo from "../../components/KeyInfo";
+
+jest.mock("../../services/ToneService"); // Adjust the path as necessary
+
+const mockStore = configureMockStore();
+let store;
+let noteName: string;
+let midiNumber: number;
 
 describe("InfoKey", () => {
-  it("Renders no text when no modifiers are on", () => {
-    const { queryByText } = render(
-      <Provider store={store}>
-        <KeyInfo
-          shiftMod={false}
-          ctrlMod={false}
-          noteName="C"
-          midi={60}
-          altMod={false}
-        />
-      </Provider>
-    );
-    const note = queryByText("C");
-    expect(note).not.toBeInTheDocument();
+  beforeEach(() => {
+    noteName = "C";
+    midiNumber = 48;
+    store = mockStore({
+      keyboardKeypress: {
+        keysPressed: {},
+      },
+    });
   });
 
-  it("Renders the note name with the shift modifier On", () => {
-    const { getByText } = render(
+  const renderInfoKey = () => {
+    const { queryByText } = render(
       <Provider store={store}>
-        <KeyInfo
-          shiftMod={true}
-          ctrlMod={false}
-          noteName="C"
-          midi={60}
-          altMod={false}
-        />
+        <KeyInfo noteName={noteName} midi={midiNumber} />
       </Provider>
     );
-    const note = getByText("C");
+
+    return queryByText;
+  };
+
+  it("Renders only the mapped key when no modifiers are on", () => {
+    let query = renderInfoKey();
+    const note = query("k");
+    const noteName = query("C");
+    const midi = query(48);
+
     expect(note).toBeInTheDocument();
-  });
-
-  it("Does not render the note name with the shift modifier Off", () => {
-    const { queryByText } = render(
-      <Provider store={store}>
-        <KeyInfo
-          shiftMod={false}
-          ctrlMod={false}
-          noteName="C"
-          midi={60}
-          altMod={false}
-        />
-      </Provider>
-    );
-    const note = queryByText("C");
-    expect(note).not.toBeInTheDocument();
-  });
-
-  it("Renders the midi value when the ctrlMod is On", () => {
-    const { getByText } = render(
-      <Provider store={store}>
-        <KeyInfo
-          shiftMod={false}
-          ctrlMod={true}
-          noteName="C"
-          midi={60}
-          altMod={false}
-        />
-      </Provider>
-    );
-    const midi = getByText("60");
-    expect(midi).toBeInTheDocument();
-  });
-
-  it("Does not render the midi number when the ctrlMod is Off", () => {
-    const { queryByText } = render(
-      <Provider store={store}>
-        <KeyInfo
-          shiftMod={false}
-          ctrlMod={false}
-          noteName="C"
-          midi={60}
-          altMod={false}
-        />
-      </Provider>
-    );
-    const midi = queryByText("60");
+    expect(noteName).not.toBeInTheDocument();
     expect(midi).not.toBeInTheDocument();
+  });
+
+  describe("When shift mod is on", () => {
+    beforeEach(() => {
+      store = mockStore({
+        keyboardKeypress: {
+          keysPressed: { Shift: true },
+        },
+      });
+    });
+
+    it("Does not render the mapped key when the shift mod is on", () => { 
+      let query = renderInfoKey();
+      const note = query("k");
+      expect(note).not.toBeInTheDocument();
+    });
+
+    it("Renders the note name with the shift mod on", () => {
+      let query = renderInfoKey();
+      const note = query("C");
+      expect(note).toBeInTheDocument();
+    });
+  });
+
+  describe("When ctrl mod is on", () => { 
+    beforeEach(() => {
+      store = mockStore({
+        keyboardKeypress: {
+          keysPressed: { Control: true },
+        },
+      });
+    });
+
+    it("Does not render the mapped key when the ctrl mod is on", () => {
+      let query = renderInfoKey();
+      const note = query("k");
+      expect(note).not.toBeInTheDocument();
+    });
+
+    it("Renders the midi number when the ctrl mod is on", () => {
+      let query = renderInfoKey();
+      const midi = query(48);
+      expect(midi).toBeInTheDocument();
+    }); 
   });
 });

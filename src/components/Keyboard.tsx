@@ -52,7 +52,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   }
 
   componentDidMount() {
-    setInterval(this.soundMalloc.bind(this), 3000);
+    setInterval(this.soundMalloc.bind(this), 30000);
 
     new MidiController(
       this.midiMessageHandler.bind(this),

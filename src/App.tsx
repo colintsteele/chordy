@@ -7,16 +7,24 @@ import './index.css'
 import { useDispatch } from 'react-redux'
 import FunctionKeyboard from "./components/FunctionKeyboard";
 import { liftKey, pressKey } from "./store/slices/keyboardKeypressSlice";
+import KeyMap from "./KeyboardKeyMap"
+import { liftNote, pressNote } from "./store/slices/keypressSlice";
 
 function App() {
   const dispatch = useDispatch();
 
+  const mappedKey = (key) => {
+    return KeyMap[key] 
+  } 
+
   const handleKeyDown = (keyPress) => {
     dispatch(pressKey(keyPress.key))
+    dispatch(pressNote(mappedKey(keyPress.key)))
   };
 
   const handleKeyUp = (keyPress) => {
     dispatch(liftKey(keyPress.key))
+    dispatch(liftNote(mappedKey(keyPress.key)))
   };
 
   useEffect(() => {

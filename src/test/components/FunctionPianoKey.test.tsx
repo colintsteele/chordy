@@ -1,18 +1,34 @@
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import store from "../../store";
-
+import configureMockStore from "redux-mock-store";
 import FunctionPianoKey, {
   PianoKeyType,
 } from "../../components/FunctionPianoKey";
 import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import notePressReducer, { pressNote } from '../../store/slices/keypressSlice'
+
+jest.mock("../../services/ToneService"); // Adjust the path as necessary
+jest.mock('../../components/KeyInfo', () => {
+  return () => <div>Mocked KeyInfo</div>;
+});
+const mockStore = configureMockStore();
+let store;
+let container;
 
 describe("FunctionPianoKey", () => {
+  beforeEach(() => {
+    store = mockStore({
+      keyPresser: {
+        notesPressed: {},
+      },
+    });
+  });
+
   const renderComponent = (props: PianoKeyType) => {
-    return render(
+    const { container, rerender } = render(
       <Provider store={store}>
         <FunctionPianoKey
-          pressed={props.pressed}
           noteName={props.noteName}
           accidental={props.accidental}
           midiNumber={props.midiNumber}
@@ -20,61 +36,72 @@ describe("FunctionPianoKey", () => {
         />
       </Provider>
     );
+
+    return container;
   };
 
-  it("Renders the key", () => {
-    const { getByTestId } = renderComponent({
-      pressed: false,
-      noteName: "C",
-      accidental: false,
-      midiNumber: 60,
-      xOffset: 0,
-    });
-    const key = getByTestId("C:60");
-    expect(key).toBeInTheDocument();
-  });
+  // test mouseUp and mouseDown
+  // test pressed class from being pressed from the useSelector
 
-  it("Renders an accidental key", () => {
-    let noteName = "C#";
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <FunctionPianoKey
-          pressed={false}
-          noteName={noteName}
-          accidental={true}
-          midiNumber={61}
-          xOffset={0}
-        />
-      </Provider>
-    );
-
-    const key = getByTestId("C#:61");
-    expect(key).toBeInTheDocument();
-  });
-
-  it("Does not apply the offset to natural keys", () => {
-    const { getByTestId } = renderComponent({
-      pressed: false,
-      noteName: "C",
-      accidental: false,
-      midiNumber: 60,
-      xOffset: 1,
+  describe("Key is a natural", () => {  
+    beforeEach(() => {
+      container = renderComponent({
+        accidental: false,
+        midiNumber: 48,
+        noteName: "C",
+        xOffset: 1,
+      });
     });
 
-    const key = getByTestId("C:60");
-    expect(key).not.toHaveStyle("left: 1em");
+    it("should not have an offset", () => {
+      const key = container.querySelector(".FunctionKey");
+      expect(key).not.toHaveAttribute("left", expect.stringMatching(/left:/));
+    });
+
+    it("should have the correct class name", () => {
+      const key = container.querySelector(".FunctionKey");
+      expect(key).toHaveClass("FunctionKey Natural C Natural");
+    });
+
+    it("should dispatch pressNote when mouseDown", () => {
+      const key = container.querySelector(".FunctionKey");
+
+      key.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+      let actions = store.getActions()[0];
+
+      expect(actions.type).toBe("pressedNotes/pressNote");
+      expect(actions.payload).toBe(48);
+    });
+
+    it("should dispatch liftNote when mouseUp", () => {
+      const key = container.querySelector(".FunctionKey");
+
+      key.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
+      let actions = store.getActions()[0];
+
+      expect(actions.type).toBe("pressedNotes/liftNote");
+      expect(actions.payload).toBe(48);
+    })
   });
 
-  it("Does apply the offset to accidental keys", () => {
-    const { getByTestId } = renderComponent({
-      pressed: false,
-      noteName: "C#",
-      accidental: true,
-      midiNumber: 61,
-      xOffset: 1,
+  describe("Key is an accidental", () => {
+    beforeEach(() => {
+      container = renderComponent({
+        accidental: true,
+        midiNumber: 48,
+        noteName: "C#",
+        xOffset: 1,
+      });
     });
-    const key = getByTestId("C#:61");
-    expect(key).toHaveStyle("left: 1em");
+
+    it("should have an offset", () => {
+      const key = container.querySelector(".FunctionKey");
+      expect(key).toHaveStyle("left: 1em");
+    });
+
+    it("should have the correct class name", () => {
+      const key = container.querySelector(".FunctionKey");
+      expect(key).toHaveClass("FunctionKey Accidental C# Accidental");
+    });
   });
 });
