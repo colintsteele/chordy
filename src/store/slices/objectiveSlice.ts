@@ -12,6 +12,8 @@ import ChordObjective from '../../objectives/ChordObjective';
 
 export interface objectiveSliceType {
   objective: {
+    name: string,
+    progressed?: boolean,
     selectedScales: string[],
     selectedTypes: string[],
     description?: string,
@@ -22,6 +24,8 @@ export interface objectiveSliceType {
 
 const initialState: objectiveSliceType = {
   objective: {
+    name: 'first',
+    progressed: false,
     selectedScales: ['Major'],
     selectedTypes: ['Note'],
     description: 'Play a C4 note',
@@ -53,8 +57,10 @@ export const objectiveSlice = createSlice({
       
       if (noteInObjective(note, state.objective.notes)) {
         state.objective.progress.push(note);
+        state.objective.progressed = true;
       } else {
         state.objective.progress = []; 
+        state.objective.progressed = false;
         return;
       }
 
@@ -64,6 +70,7 @@ export const objectiveSlice = createSlice({
         let newObjective = generateObjective(state.objective.selectedScales, state.objective.selectedTypes);
         state.objective.notes = newObjective.objectives;
         state.objective.progress = [];
+        state.objective.progressed = false;
         state.objective.description = newObjective.description || `Play a ${newObjective.objectives[0].noteName}`;
       }
 
