@@ -58,7 +58,7 @@ export const testCalculateOffset = (keys: number[]) => {
   let offsets = [];
 
   keys.forEach((midi) => {
-    let note = theory.midiToNote(midi);
+    let note = theory.midiToNote(midi)
     let accidental = note.noteName.endsWith("b");
 
     if (accidental === true) {

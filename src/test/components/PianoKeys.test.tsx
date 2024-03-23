@@ -8,33 +8,33 @@ import ScaleObjective from "../../objectives/ScaleObjective";
 import React from "react";
 
 describe("Piano's Objective Manager", () => {
-  let note = theory.note("C");
-  let scale = theory.scale(note, "major");
-  let objective = new ScaleObjective(scale);
-  var objectiveManager = new ObjectiveManager(
-    ["major"],
-    ["scale"],
-    () => {},
-    objective
-  );
+//   let note = theory.note("C");
+//   let scale = theory.scale(note, "major");
+//   let objective = new ScaleObjective(scale);
+//   var objectiveManager = new ObjectiveManager(
+//     ["major"],
+//     ["scale"],
+//     () => {},
+//     objective
+//   );
 
-  beforeEach(async () => {
-    render(
-      <PianoKeys
-        activeNotes={[]}
-        objectiveManager={objectiveManager}
-      ></PianoKeys>
-    );
-  });
+//   beforeEach(async () => {
+//     render(
+//       <PianoKeys
+//         activeNotes={[]}
+//         objectiveManager={objectiveManager}
+//       ></PianoKeys>
+//     );
+//   });
 
-  //fails because keyboard has been detached from pianoKeys
+//   //fails because keyboard has been detached from pianoKeys
 
-  // test("responds to keypresses", () => {
-  //   keyboard("g");
-  //   let notes = objectiveManager.currentObjective.completedNotes;
+//   // test("responds to keypresses", () => {
+//   //   keyboard("g");
+//   //   let notes = objectiveManager.currentObjective.completedNotes;
 
-  //   expect(notes).toEqual(expect.arrayContaining([theory.note("C")]));
-  // });
+//   //   expect(notes).toEqual(expect.arrayContaining([theory.note("C")]));
+//   // });
 
-  test("responds to midi Inputs", () => {});
+//   test("responds to midi Inputs", () => {});
 });

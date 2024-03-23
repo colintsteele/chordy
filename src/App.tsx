@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import { useDispatch } from 'react-redux'
 import FunctionKeyboard from "./components/FunctionKeyboard";
+import Sheet from "./components/Sheet";
 import { liftKey, pressKey } from "./store/slices/keyboardKeypressSlice";
 import KeyMap from "./KeyboardKeyMap"
 import { pressNote } from "./store/actions/pressNote";
@@ -57,7 +58,7 @@ function App() {
           />
         </div> */}
 
-
+        <Sheet/>
         <div id="NewKeyboard">
         </div>
         <FunctionKeyboard/>
