@@ -25,11 +25,9 @@ type FunctionKeyboardState = {
 
 type FunctionKeyboardProps = {}
 
-const FunctionKeyboard = ({
-
-}: FunctionKeyboardProps) => (
+const FunctionKeyboard = ({}: FunctionKeyboardProps) => (
   <div>
-    <FunctionPianoKeys/>
+    <FunctionPianoKeys />
   </div>
 );
 

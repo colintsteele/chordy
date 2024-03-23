@@ -6,7 +6,8 @@ import FunctionPianoKey, {
 } from "../../components/FunctionPianoKey";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import notePressReducer, { pressNote } from '../../store/slices/keypressSlice'
+import { pressNote } from "../../store/actions/pressNote";
+import notePressReducer from '../../store/slices/notesPressedSlice'
 
 jest.mock("../../services/ToneService"); // Adjust the path as necessary
 jest.mock('../../components/KeyInfo', () => {
@@ -69,7 +70,7 @@ describe("FunctionPianoKey", () => {
       key.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
       let actions = store.getActions()[0];
 
-      expect(actions.type).toBe("pressedNotes/pressNote");
+      expect(actions.type).toBe("pressNote");
       expect(actions.payload).toBe(48);
     });
 
