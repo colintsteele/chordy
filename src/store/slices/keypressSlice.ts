@@ -21,14 +21,10 @@ export const keypressSlice = createSlice({
 
     liftNote: (state, action) => {
       state.notesPressed[action.payload] = false;
-      // state.notesPressed = state.notesPressed.filter(
-      //   (note) => action.payload !== note
-      // );
     },
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { pressNote, liftNote } = keypressSlice.actions;
 
 export default keypressSlice.reducer

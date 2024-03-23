@@ -2,21 +2,22 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { keypressSlice } from "../store/slices/keypressSlice";
 import "../css/FunctionPianoKey.css";
 import KeyInfo from "./KeyInfo";
-
 const { pressNote, liftNote } = keypressSlice.actions;
-// Component's responsibility is simply to be a piano key
+
+// Component's responsibility is to be a piano key
 // Pressing it and releasing it alters application state via dispatch actions
+// Also represents the visual state of notesSpressed
+// If note is pressed by a keyboard key press or midi keypress, note should show as pressed
 const PianoKey = ({
   accidental,
   midiNumber,
   noteName,
   xOffset,
 }: PianoKeyType) => {
+  const dispatch = useDispatch();
   const isPressed = useSelector(
     (state: any) => state.keyPresser.notesPressed[midiNumber], shallowEqual
   );
-
-  const dispatch = useDispatch();
 
   const handlePress = () => {
     dispatch(pressNote(midiNumber));

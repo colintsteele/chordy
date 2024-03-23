@@ -5,6 +5,7 @@ import "@testing-library/jest-dom/extend-expect";
 import KeyInfo from "../../components/KeyInfo";
 
 jest.mock("../../services/ToneService"); // Adjust the path as necessary
+
 const mockStore = configureMockStore();
 let store;
 let noteName: string;

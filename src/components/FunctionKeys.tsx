@@ -5,15 +5,6 @@ import { useSelector } from "react-redux";
 // component responsible for collecting and organizing irregular note clusters
 // e.g. A set of notes from Midi 41 to 53 (F to E) and all appropriately placed accidentals
 const FunctionKeys = ({ startMidi, endMidi }: FunctionKeysProps) => {
-  // const isNotePressed = (note: number) => {
-  //   let isPressed = pressedNotes.some((pNote: number) => pNote === note);
-  //   return isPressed;
-  // };
-
-  // const pressedNotes = useSelector(
-  //   (state: any) => state.keyPresser.notesPressed
-  // );
-
   const pianoKeyProps = (midi: number, xOffset: number) => {
     let note = theory.midiToNote(midi);
     let accidental = note.noteName.match(/b|#$/) !== null;
