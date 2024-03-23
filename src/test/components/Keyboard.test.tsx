@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import Keyboard from "../../components/Keyboard";
 import "@testing-library/jest-dom";
 import { waitFor } from "@testing-library/dom";
-import preview from "jest-preview";
 import { act } from "react-dom/test-utils";
 
 let mockObject = { onmidimessage: ({}) => {} };

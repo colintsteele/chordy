@@ -1,6 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import KeyMap from '../../KeyboardKeyMap';
-import ToneService from "../../services/ToneService";
 
 export interface KeyboardKeypressSliceType {
   keysPressed: {};
