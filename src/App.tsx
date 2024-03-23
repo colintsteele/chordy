@@ -8,7 +8,8 @@ import { useDispatch } from 'react-redux'
 import FunctionKeyboard from "./components/FunctionKeyboard";
 import { liftKey, pressKey } from "./store/slices/keyboardKeypressSlice";
 import KeyMap from "./KeyboardKeyMap"
-import { liftNote, pressNote } from "./store/slices/keypressSlice";
+import { pressNote } from "./store/actions/pressNote";
+import { liftNote } from "./store/actions/liftNote";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ function App() {
         justifyContent="center"
         style={{ minHeight: "100vh" }}
       >
-        <div id="Keyboard">
+        {/* <div id="Keyboard">
           <Keyboard
             progressed={undefined}
             completed={false}
@@ -54,7 +55,9 @@ function App() {
             midiMounted={false}
             soundOn={false}
           />
-        </div>
+        </div> */}
+
+
         <div id="NewKeyboard">
         </div>
         <FunctionKeyboard/>

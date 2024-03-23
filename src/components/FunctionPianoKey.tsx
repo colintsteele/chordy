@@ -1,8 +1,9 @@
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { keypressSlice } from "../store/slices/keypressSlice";
+import { notesPressedSlice } from "../store/slices/notesPressedSlice";
 import "../css/FunctionPianoKey.css";
 import KeyInfo from "./KeyInfo";
-const { pressNote, liftNote } = keypressSlice.actions;
+import { pressNote } from "../store/actions/pressNote";
+const { liftNote } = notesPressedSlice.actions;
 
 // Component's responsibility is to be a piano key
 // Pressing it and releasing it alters application state via dispatch actions

@@ -6,7 +6,8 @@ import FunctionPianoKey, {
 } from "../../components/FunctionPianoKey";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import notePressReducer, { pressNote } from '../../store/slices/keypressSlice'
+import { pressNote } from "../../store/actions/pressNote";
+import notePressReducer from '../../store/slices/notesPressedSlice'
 
 jest.mock("../../services/ToneService"); // Adjust the path as necessary
 jest.mock('../../components/KeyInfo', () => {
