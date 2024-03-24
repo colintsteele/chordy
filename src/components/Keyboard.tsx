@@ -83,7 +83,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
 
   toggleSound() {
     this.setState({soundOn: !this.state.soundOn})
-    console.log(this.state.soundOn);
     ToneService.cleanup();
   }
 
@@ -95,7 +94,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
     // this.toneService.playNote(midiNumber)
     this.toneService.pressNote(midiNumber)
 
-    console.log('I want to call my reducer here');
 
 
     this.setState({
@@ -119,7 +117,6 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
   }
 
   progressUpdater = (progression: KeyboardState) => {
-    console.log('I am updating');
 
     this.setState({
       progressed: progression.progressed,
