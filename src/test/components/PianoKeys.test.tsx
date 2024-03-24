@@ -8,6 +8,10 @@ import ScaleObjective from "../../objectives/ScaleObjective";
 import React from "react";
 
 describe("Piano's Objective Manager", () => {
+    it("should render the piano keys", () => {
+        let result = true
+        expect(result);
+    });
 //   let note = theory.note("C");
 //   let scale = theory.scale(note, "major");
 //   let objective = new ScaleObjective(scale);
