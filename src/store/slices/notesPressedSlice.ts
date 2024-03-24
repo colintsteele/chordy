@@ -22,7 +22,6 @@ export const notesPressedSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(pressNote, (state, action) => {
-      console.log('notesPressed: I"m listning to pressNote action');
       state.notesPressed[action.payload] = true;
       ToneService.playNote(action.payload);
     }); 

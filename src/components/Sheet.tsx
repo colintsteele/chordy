@@ -14,15 +14,8 @@ const Sheet = () => {
 
 
   return (
-    <div>
-      <Objective
-        name={objective.name}
-        progressed={objective.progressed}
-        completed={objective.completed}
-        objectives={objectiveNoteStrings(objective.notes)}
-        description={objective.description}
-        type={objective.type}
-      />
+    <div style={{border: '1px solid black'}}>
+      <span>sheet</span>
     </div>
   );
 };

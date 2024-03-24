@@ -9,7 +9,6 @@ const FunctionKeys = ({ startMidi, endMidi }: FunctionKeysProps) => {
     let note = theory.midiToNote(midi);
     let accidental = note.noteName.match(/b|#$/) !== null;
 
-    console.log("rendering");
     return {
       key: midi,
       accidental: accidental,
