@@ -1,4 +1,4 @@
-import "../App.css";
+import "../css/App.css";
 import "react-piano/dist/styles.css";
 import { Component, ReactNode } from "react";
 import PianoKeys from "./PianoKeys";

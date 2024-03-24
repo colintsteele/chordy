@@ -1,7 +1,7 @@
-import "./App.css";
+import "./css/App.css";
 import { Grid } from "@mui/material";
 import { useEffect } from "react";
-import "./index.css";
+import "./css/index.css";
 import { useDispatch } from "react-redux";
 import FunctionKeyboard from "./components/FunctionKeyboard";
 import Sheet from "./components/Sheet";
