@@ -28,7 +28,6 @@ export const notesPressedSlice = createSlice({
 
     builder.addCase(liftNote, (state, action) => {
       state.notesPressed[action.payload] = false;
-      console.log('notesPressed: I"m listning to liftNote action');
     }); 
   }
 });

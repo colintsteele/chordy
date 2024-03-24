@@ -1,39 +1,46 @@
 import { FormControlLabel, FormGroup, Switch } from "@mui/material";
 import "../css/CenterAlign.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { toggleObjectiveType, toggleScale } from "../store/slices/objectiveSettingsSlice";
 
 const Selectors = () => {
   const dispatch = useDispatch();
-  const { scales, types } = useSelector((state: any) => ({
-    scales: state.objectiveSettings.objectiveSettings.selectedScales,
-    types: state.objectiveSettings.objectiveSettings.selectedTypes,
-  }));
+  const store: any = useStore();
+  let state: any = store.getState();
+
+  let scales = state.objectiveSettings.objectiveSettings.selectedScales;
+  let types = state.objectiveSettings.objectiveSettings.selectedTypes;
 
   const handleScaleChange = (key: string) => {
     dispatch(toggleScale(key));
-  }
+    
+    scales = store.getState().objectiveSettings.objectiveSettings.selectedScales;
+
+    debugger;
+    // debugger;
+  };
 
   const handleTypeChange = (key: string) => {
     dispatch(toggleObjectiveType(key));
-  }
+    store.getState();
+    types = state.objectiveSettings.objectiveSettings.selectedTypes;
+  };
 
   return (
-  <>
-    <FormGroup className={"centerAlignItem"}>
-      <h4>Scales</h4>
-      {scaleSwitches(scales, handleScaleChange)}
-    </FormGroup>
-    <FormGroup className={"centerAlignItem"}>
-      <h4>Objectives</h4>
-      {objectiveTypeSwitches(types, handleTypeChange)}
-    </FormGroup>
-</>
+    <>
+      <FormGroup className={"centerAlignItem"}>
+        <h4>Scales</h4>
+        {scaleSwitches(scales, handleScaleChange)}
+      </FormGroup>
+      <FormGroup className={"centerAlignItem"}>
+        <h4>Objectives</h4>
+        {objectiveTypeSwitches(types, handleTypeChange)}
+      </FormGroup>
+    </>
   );
-}
+};
 
 const scaleSwitches = (scales: any, handleChange: Function) => {
-console.log(scales);
   return Object.keys(scales).map((key) => {
     return (
       <FormControlLabel
@@ -41,7 +48,7 @@ console.log(scales);
         key={`${key}ScaleSwitch`}
         control={
           <Switch
-            onChange={() => handleChange(key)}
+            onChange={() => handleChange(key, scales)}
             inputProps={{ "aria-label": "controlled" }}
           />
         }

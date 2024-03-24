@@ -1,17 +1,17 @@
-import { useSelector, useStore } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { Note } from "../Theory";
 import "../css/CenterAlign.css"
 
 const Sheet = () => {
   const store: any = useStore();
-  const objective = useSelector((state: any) => state.objective.objective);
   const state: any = store.getState();
+  const objective = useSelector((state: any) => state.objective.objective);
+  const dispatch = useDispatch();
 
   const fetchNewObjective = () => {
-    console.log('fetching new objective')
-    console.dir(state.objectiveSettings.objectiveSettings);
+    // {selectedScales, selectedtypes} = state.objectiveSettings.objectiveSettings;
     // dispatch(generateObjective(state.objectiveSettings.objectiveSettings)
-    // dispatch(setObjective({}));
+    dispatch({ type: "generateObjective", payload: {}})
   }
 
   const objectiveNoteStrings = (notes: Note[]) => {

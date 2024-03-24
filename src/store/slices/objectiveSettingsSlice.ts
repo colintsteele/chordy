@@ -19,7 +19,6 @@ export const objectiveSettingsSlice = createSlice({
   initialState,
   reducers: {
     toggleScale: (state, action) => {
-      console.log('toggling scale form ')
       if (!willEmptyScalesSelected(state, action.payload)) {
         state.objectiveSettings.selectedScales[action.payload] =
           !state.objectiveSettings.selectedScales[action.payload];
@@ -34,15 +33,6 @@ export const objectiveSettingsSlice = createSlice({
     },
   },
 });
-
-// const selectedScales = state => state.objectiveSettings.selectedScales;
-
-// export const enabledScales = createSelector(
-//   [selectedScales],
-//   (scale) => {
-//     return Object.keys(scale).filter((key) => scale[key]);
-//   }
-// );
 
 const willEmptyScalesSelected = (state: any, toggling: string) => {
   if(state.objectiveSettings.selectedScales[toggling] === false) 
