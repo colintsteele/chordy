@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import Objective from "./Objective";
 import { Note } from "../Theory";
+import "../css/CenterAlign.css"
 // import Objective from "../objectives/Objective";
 
 const Sheet = () => {
@@ -10,17 +11,15 @@ const Sheet = () => {
     return notes.map((note) => {
       return note.noteName + note.octave;
     });
-  }
-
+  };
 
   return (
-    <div style={{border: '1px solid black'}}>
-      <span>sheet</span>
+    <div className={"center-align"} style={{ border: "1px solid black" }}>
+      <span>{objective.description}</span>
     </div>
   );
 };
 
-type SheetPropsType = {
-};
+type SheetPropsType = {};
 
 export default Sheet;

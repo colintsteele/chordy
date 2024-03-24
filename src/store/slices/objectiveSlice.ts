@@ -83,7 +83,6 @@ export const objectiveSlice = createSlice({
         state.objective.progressed = false;
         state.objective.description = newObjective.description || `Play a ${newObjective.objectives[0].noteName}`;
       }
-
     }); 
 
     builder.addCase(liftNote, (state, action) => {
@@ -148,6 +147,7 @@ const generateObjective = (selectedScales: string[], selectedTypes: string[]) =>
   return objective;
 }
 
+// Selectors maybe new ObjectiveSettings slice
 const scalesEnabled = (state: any) => { 
   return Object.keys(state.objective.selectedScales).filter(
     (key) => state.objective.selectedScales[key]

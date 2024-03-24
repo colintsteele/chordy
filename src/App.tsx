@@ -1,8 +1,6 @@
-import Keyboard from "./components/Keyboard";
 import "./App.css";
 import { Grid } from "@mui/material";
-import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
+import { useEffect } from "react";
 import "./index.css";
 import { useDispatch } from "react-redux";
 import FunctionKeyboard from "./components/FunctionKeyboard";
@@ -12,6 +10,7 @@ import { liftKey, pressKey } from "./store/slices/keyboardKeypressSlice";
 import KeyMap from "./KeyboardKeyMap";
 import { pressNote } from "./store/actions/pressNote";
 import { liftNote } from "./store/actions/liftNote";
+import "../src/css/CenterAlign.css"
 
 function App() {
   const dispatch = useDispatch();
@@ -50,16 +49,18 @@ function App() {
         alignItems="center"
         style={{ minHeight: "100vh" }}
       >
-
         <Grid item xs={3}>
           <Selectors />
+          {/* Only listens to ObjectiveSettings slice */}
         </Grid>
         <Grid item xs={5}>
           <Sheet />
+          {/* Listens to Objective slice */}
+          {/* When objective is complete, fetches settings */}
         </Grid>
         <Grid item xs={3}>
           <div>
-            <span>something else</span>
+            <span style={{ color: "white" }}>sdjhglkjsdhgklsdjgh</span>
           </div>
         </Grid>
 
