@@ -2,10 +2,8 @@ import { pressNote }  from '../actions/pressNote';
 import { liftNote } from '../actions/liftNote';
 import { createSlice } from '@reduxjs/toolkit'
 import Objective from '../../objectives/Objective';
-import ObjectiveManager from '../../objectives/ObjectiveManager';
 import { Note, midiToNote, randomChord, randomNote, randomScale } from '../../Theory';
 import NoteObjective from '../../objectives/NoteObjective';
-import { isBarline } from 'vexflow';
 import { sample } from 'lodash';
 import ScaleObjective from '../../objectives/ScaleObjective';
 import ChordObjective from '../../objectives/ChordObjective';
@@ -14,8 +12,8 @@ export interface objectiveSliceType {
   objective: {
     name: string,
     progressed?: boolean,
-    selectedScales: string[],
-    selectedTypes: string[],
+    selectedScales: {},
+    selectedTypes: {},
     description?: string,
     progress: Note[],
     notes: Note[],
@@ -24,21 +22,33 @@ export interface objectiveSliceType {
 
 const initialState: objectiveSliceType = {
   objective: {
-    name: 'first',
+    name: "first",
     progressed: false,
-    selectedScales: ['Major'],
-    selectedTypes: ['Note'],
-    description: 'Play a C4 note',
+    selectedScales: { Major: true, Minor: false },
+    selectedTypes: { Note: true, Scale: false, Chord: false },
+    description: "Play a C4 note",
     progress: [],
-    notes: [{ noteName: 'C', octave: 4, index: 0}] 
-  }
-}
+    notes: [{ noteName: "C", octave: 4, index: 0 }],
+  },
+};
 
 export const objectiveSlice = createSlice({
   name: "objective",
   initialState: initialState,
 
   reducers: {
+    toggleScale: (state, action) => {
+      if(!willEmptyScalesSelected(state, action.payload)) {
+        state.objective.selectedScales[action.payload] = !state.objective.selectedScales[action.payload];
+      }
+    },
+
+    toggleObjectiveType: (state, action) => {
+      if(!willEmptyObjectiveTypesSelected(state, action.payload)) {
+        state.objective.selectedTypes[action.payload] = !state.objective.selectedTypes[action.payload];
+      }
+    },
+
     setObjective: (state, action) => {
       state.objective = action.payload;
     },
@@ -67,13 +77,12 @@ export const objectiveSlice = createSlice({
       let objectiveComplete = checkComplete(state.objective.progress, state.objective.notes);
 
       if(objectiveComplete) {
-        let newObjective = generateObjective(state.objective.selectedScales, state.objective.selectedTypes);
+        let newObjective = generateObjective(scalesEnabled(state), objectiveTypesEnabled(state));
         state.objective.notes = newObjective.objectives;
         state.objective.progress = [];
         state.objective.progressed = false;
         state.objective.description = newObjective.description || `Play a ${newObjective.objectives[0].noteName}`;
       }
-
     }); 
 
     builder.addCase(liftNote, (state, action) => {
@@ -135,10 +144,50 @@ const generateObjective = (selectedScales: string[], selectedTypes: string[]) =>
       objective = new ScaleObjective(defaultScale);
   }
 
-  console.log(objective)
   return objective;
 }
 
-export const { setObjective, checkObjective, progressObjective } = objectiveSlice.actions;
+// Selectors maybe new ObjectiveSettings slice
+const scalesEnabled = (state: any) => { 
+  return Object.keys(state.objective.selectedScales).filter(
+    (key) => state.objective.selectedScales[key]
+  );
+}
+
+const objectiveTypesEnabled = (state: any) => {
+  return Object.keys(state.objective.selectedTypes).filter(
+    (key) => state.objective.selectedTypes[key]
+  );
+}
+
+const willEmptyScalesSelected = (state: any, toggling: string) => {
+  if(state.objective.selectedScales[toggling] === false) 
+    return false
+
+  let anyTrue = false;
+  Object.keys(state.objective.selectedScales).forEach((key) => {
+    if(key !== toggling && state.objective.selectedScales[key]) {
+      anyTrue = true;
+    }
+  });
+
+  return !anyTrue;
+}
+
+const willEmptyObjectiveTypesSelected = (state: any, toggling: string) => {
+  if(state.objective.selectedTypes[toggling] === false) 
+    return false
+
+  let anyTrue = false;
+  Object.keys(state.objective.selectedTypes).forEach((key) => {
+    if(key !== toggling && state.objective.selectedTypes[key]) {
+      anyTrue = true;
+    }
+  });
+
+  return !anyTrue;
+}
+
+export const { toggleObjectiveType, toggleScale, setObjective, checkObjective, progressObjective } = objectiveSlice.actions;
 
 export default objectiveSlice.reducer

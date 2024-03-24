@@ -36,8 +36,6 @@ const FunctionPianoKeys = ({}: FunctionPianoKeysProps) => {
     return Math.floor(width) / screenKeyRatio;
   };
 
-  console.log(keyCount(Math.floor(width)));
-
   return (
     <>
       <FunctionKeys

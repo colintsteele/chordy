@@ -1,32 +1,32 @@
-import Keyboard from "./components/Keyboard";
 import "./App.css";
 import { Grid } from "@mui/material";
-import React, { useEffect } from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
-import { useDispatch } from 'react-redux'
+import { useEffect } from "react";
+import "./index.css";
+import { useDispatch } from "react-redux";
 import FunctionKeyboard from "./components/FunctionKeyboard";
 import Sheet from "./components/Sheet";
+import Selectors from "./components/Selectors";
 import { liftKey, pressKey } from "./store/slices/keyboardKeypressSlice";
-import KeyMap from "./KeyboardKeyMap"
+import KeyMap from "./KeyboardKeyMap";
 import { pressNote } from "./store/actions/pressNote";
 import { liftNote } from "./store/actions/liftNote";
+import "../src/css/CenterAlign.css"
 
 function App() {
   const dispatch = useDispatch();
 
   const mappedKey = (key) => {
-    return KeyMap[key] 
-  } 
+    return KeyMap[key];
+  };
 
   const handleKeyDown = (keyPress) => {
-    dispatch(pressKey(keyPress.key))
-    dispatch(pressNote(mappedKey(keyPress.key)))
+    dispatch(pressKey(keyPress.key));
+    dispatch(pressNote(mappedKey(keyPress.key)));
   };
 
   const handleKeyUp = (keyPress) => {
-    dispatch(liftKey(keyPress.key))
-    dispatch(liftNote(mappedKey(keyPress.key)))
+    dispatch(liftKey(keyPress.key));
+    dispatch(liftNote(mappedKey(keyPress.key)));
   };
 
   useEffect(() => {
@@ -40,29 +40,33 @@ function App() {
   }, [handleKeyDown]);
 
   return (
+    <div style={{ display: "inline-block" }}>
       <Grid
         container
-        spacing={0}
-        direction="column"
-        alignItems="center"
+        display="flex"
+        direction="row"
         justifyContent="center"
+        alignItems="center"
         style={{ minHeight: "100vh" }}
       >
-        {/* <div id="Keyboard">
-          <Keyboard
-            progressed={undefined}
-            completed={false}
-            activeNotes={[]}
-            midiMounted={false}
-            soundOn={false}
-          />
-        </div> */}
+        <Grid item xs={3}>
+          <Selectors />
+          {/* Only listens to ObjectiveSettings slice */}
+        </Grid>
+        <Grid item xs={5}>
+          <Sheet />
+          {/* Listens to Objective slice */}
+          {/* When objective is complete, fetches settings */}
+        </Grid>
+        <Grid item xs={3}>
+          <div>
+            <span style={{ color: "white" }}>sdjhglkjsdhgklsdjgh</span>
+          </div>
+        </Grid>
 
-        <Sheet/>
-        <div id="NewKeyboard">
-        </div>
-        <FunctionKeyboard/>
+        <FunctionKeyboard />
       </Grid>
+    </div>
   );
 }
 
