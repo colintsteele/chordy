@@ -1,29 +1,26 @@
 import { FormControlLabel, FormGroup, Switch } from "@mui/material";
+import {
+  selectSelectedScales,
+  selectSelectedTypes,
+} from "../store/slices/objectiveSettingsSlice";
 import "../css/CenterAlign.css";
-import { useDispatch, useSelector, useStore } from "react-redux";
-import { toggleObjectiveType, toggleScale } from "../store/slices/objectiveSettingsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  toggleObjectiveType,
+  toggleScale,
+} from "../store/slices/objectiveSettingsSlice";
 
 const Selectors = () => {
   const dispatch = useDispatch();
-  const store: any = useStore();
-  let state: any = store.getState();
-
-  let scales = state.objectiveSettings.objectiveSettings.selectedScales;
-  let types = state.objectiveSettings.objectiveSettings.selectedTypes;
+  const scales = useSelector(selectSelectedScales);
+  const types = useSelector(selectSelectedTypes);
 
   const handleScaleChange = (key: string) => {
     dispatch(toggleScale(key));
-    
-    scales = store.getState().objectiveSettings.objectiveSettings.selectedScales;
-
-    debugger;
-    // debugger;
   };
 
   const handleTypeChange = (key: string) => {
     dispatch(toggleObjectiveType(key));
-    store.getState();
-    types = state.objectiveSettings.objectiveSettings.selectedTypes;
   };
 
   return (
@@ -74,6 +71,6 @@ const objectiveTypeSwitches = (types: any, handleChange: Function) => {
       ></FormControlLabel>
     );
   });
-}
+};
 
 export default Selectors;

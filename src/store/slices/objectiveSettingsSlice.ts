@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { createSelector } from '@reduxjs/toolkit';
 
 export interface ObjectiveSettingsState {
   objectiveSettings: {
@@ -33,6 +34,16 @@ export const objectiveSettingsSlice = createSlice({
     },
   },
 });
+
+export const selectSelectedScales = createSelector(
+  (state) => state.objectiveSettings.objectiveSettings,
+  (objectiveSettings) => objectiveSettings.selectedScales
+);
+
+export const selectSelectedTypes = createSelector(
+  (state) => state.objectiveSettings.objectiveSettings,
+  (objectiveSettings) => objectiveSettings.selectedTypes
+);
 
 const willEmptyScalesSelected = (state: any, toggling: string) => {
   if(state.objectiveSettings.selectedScales[toggling] === false) 
