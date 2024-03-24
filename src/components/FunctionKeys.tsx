@@ -1,6 +1,5 @@
 import * as theory from "../Theory";
 import FunctionPianoKey from "./FunctionPianoKey";
-import { useSelector } from "react-redux";
 
 // component responsible for collecting and organizing irregular note clusters
 // e.g. A set of notes from Midi 41 to 53 (F to E) and all appropriately placed accidentals
@@ -27,6 +26,7 @@ const FunctionKeys = ({ startMidi, endMidi }: FunctionKeysProps) => {
     for (let i = start; i <= end; i++) {
       midis.push(i);
     }
+
     let offsets = testCalculateOffset(midis).reverse();
 
     for (let i = start; i <= end; i++) {

@@ -1,8 +1,6 @@
 import { useSelector, useStore } from "react-redux";
-import Objective from "./Objective";
 import { Note } from "../Theory";
 import "../css/CenterAlign.css"
-// import Objective from "../objectives/Objective";
 
 const Sheet = () => {
   const store: any = useStore();

@@ -1,14 +1,7 @@
 import "../App.css";
-import { KeyboardShortcuts, MidiNumbers } from "react-piano";
 import "react-piano/dist/styles.css";
-import * as theory from "../Theory";
-import { Component, ReactNode, useEffect, useState } from "react";
-import ObjectiveManager from "../objectives/ObjectiveManager";
-import MidiNote from "../midi/MidiNote";
-// import "../PianoKey.css";
-import NewKeys from "./NewKeys";
+import { useEffect, useState } from "react";
 import FunctionKeys from "./FunctionKeys";
-import { useSelector } from "react-redux";
 
 
 type FunctionPianoKeysProps = {};

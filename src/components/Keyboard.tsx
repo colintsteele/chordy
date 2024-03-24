@@ -11,7 +11,6 @@ import MidiNote from "../midi/MidiNote";
 import { Note } from "../Theory";
 import ObjectiveTypesToggle from "./ObjectiveTypesToggle";
 import ToneService from "../services/ToneService";
-import { useSelector, useDispatch } from 'react-redux'
 
 type KeyboardState = {
   progressed: boolean | undefined;
