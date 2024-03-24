@@ -11,6 +11,7 @@ module.exports = {
     "@components/(.*)$": "<rootDir>/src/components/$1",
     "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
     "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js",
+    "services/ToneService": "<rootDir>/src/services/__mocks__/ToneService.ts",
   },
   globals: {
     "ts-jest": {

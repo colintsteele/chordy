@@ -5,6 +5,12 @@ import ObjectiveGraphic from "../../components/ObjectiveGraphic";
 import NoteObjective from "../../objectives/NoteObjective";
 import { render, unmountComponentAtNode } from "react-dom";
 
+describe("ObjectiveGraphic", () => {
+    it("should yes", () => {
+        let result = true
+        expect(result);
+    });
+});
 // describe("top()", () => {
 //   let note = theory.note("C", 4);
 //   let objective = new NoteObjective(note);

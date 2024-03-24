@@ -12,6 +12,8 @@ const Sheet = () => {
   const fetchNewObjective = () => {
     console.log('fetching new objective')
     console.dir(state.objectiveSettings.objectiveSettings);
+    // dispatch(generateObjective(state.objectiveSettings.objectiveSettings)
+    // dispatch(setObjective({}));
   }
 
   const objectiveNoteStrings = (notes: Note[]) => {
