@@ -1,7 +1,7 @@
-import "./App.css";
+import "./css/App.css";
 import { Grid } from "@mui/material";
 import { useEffect } from "react";
-import "./index.css";
+import "./css/index.css";
 import { useDispatch } from "react-redux";
 import FunctionKeyboard from "./components/FunctionKeyboard";
 import Sheet from "./components/Sheet";
@@ -45,15 +45,15 @@ function App() {
         container
         display="flex"
         direction="row"
-        justifyContent="center"
         alignItems="center"
+        justifyContent="center"
         style={{ minHeight: "100vh" }}
       >
         <Grid item xs={3}>
           <Selectors />
           {/* Only listens to ObjectiveSettings slice */}
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} display='flex' justifyContent="center">
           <Sheet />
           {/* Listens to Objective slice */}
           {/* When objective is complete, fetches settings */}

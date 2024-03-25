@@ -1,17 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { createSelector } from '@reduxjs/toolkit';
+import { produce } from 'immer';
 
 export interface ObjectiveSettingsState {
-  objectiveSettings: {
-    selectedScales: {},
-    selectedTypes: {},
-  };
+  selectedScales: {};
+  selectedTypes: {};
 }
 
 const initialState: ObjectiveSettingsState = {
-  objectiveSettings: {
-    selectedScales: { Major: true, Minor: false },
-    selectedTypes: { Note: true, Scale: false, Chord: false },
-  }
+  selectedScales: { major: true, minor: false },
+  selectedTypes: { Note: true, Scale: false, Chord: false },
 };
 
 export const objectiveSettingsSlice = createSlice({
@@ -19,38 +17,53 @@ export const objectiveSettingsSlice = createSlice({
   initialState,
   reducers: {
     toggleScale: (state, action) => {
-      console.log('toggling scale form ')
-      if (!willEmptyScalesSelected(state, action.payload)) {
-        state.objectiveSettings.selectedScales[action.payload] =
-          !state.objectiveSettings.selectedScales[action.payload];
-      }
+      if (willEmptyScalesSelected(state, action.payload)) return state;
+
+      return produce(state, (draft) => {
+        draft.selectedScales[action.payload] =
+          !state.selectedScales[action.payload];
+      });
     },
 
     toggleObjectiveType: (state, action) => {
-      if (!willEmptyObjectiveTypesSelected(state, action.payload)) {
-        state.objectiveSettings.selectedTypes[action.payload] =
-          !state.objectiveSettings.selectedTypes[action.payload];
-      }
+      if (willEmptyObjectiveTypesSelected(state, action.payload)) return state;
+
+      return produce(state, (draft) => {
+        debugger;
+        draft.selectedTypes[action.payload] =
+          !state.selectedTypes[action.payload];
+      });
     },
   },
 });
 
-// const selectedScales = state => state.objectiveSettings.selectedScales;
+export const selectSelectedScales = createSelector(
+  (state) => state.objectiveSettings,
+  (objectiveSettings) => objectiveSettings.selectedScales
+);
 
-// export const enabledScales = createSelector(
-//   [selectedScales],
-//   (scale) => {
-//     return Object.keys(scale).filter((key) => scale[key]);
-//   }
-// );
+export const selectSelectedTypes = createSelector(
+  (state) => state.objectiveSettings,
+  (objectiveSettings) => objectiveSettings.selectedTypes
+);
+
+export const enabledScales = createSelector(
+  (state) => state.objectiveSettings,
+  (objectiveSettings) => Object.keys(objectiveSettings.selectedScales).filter((key) => objectiveSettings.selectedScales[key])
+);
+
+export const enabledTypes = createSelector(
+  (state) => state.objectiveSettings,
+  (objectiveSettings) => Object.keys(objectiveSettings.selectedTypes).filter((key) => objectiveSettings.selectedTypes[key])
+);
 
 const willEmptyScalesSelected = (state: any, toggling: string) => {
-  if(state.objectiveSettings.selectedScales[toggling] === false) 
+  if(state.selectedScales[toggling] === false) 
     return false
 
   let anyTrue = false;
-  Object.keys(state.objectiveSettings.selectedScales).forEach((key) => {
-    if(key !== toggling && state.objectiveSettings.selectedScales[key]) {
+  Object.keys(state.selectedScales).forEach((key) => {
+    if(key !== toggling && state.selectedScales[key]) {
       anyTrue = true;
     }
   });
@@ -59,12 +72,12 @@ const willEmptyScalesSelected = (state: any, toggling: string) => {
 }
 
 const willEmptyObjectiveTypesSelected = (state: any, toggling: string) => {
-  if(state.objectiveSettings.selectedTypes[toggling] === false) 
+  if(state.selectedTypes[toggling] === false) 
     return false
 
   let anyTrue = false;
-  Object.keys(state.objectiveSettings.selectedTypes).forEach((key) => {
-    if(key !== toggling && state.objectiveSettings.selectedTypes[key]) {
+  Object.keys(state.selectedTypes).forEach((key) => {
+    if(key !== toggling && state.selectedTypes[key]) {
       anyTrue = true;
     }
   });

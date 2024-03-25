@@ -1,4 +1,4 @@
-import "../App.css";
+import "../css/App.css";
 import { KeyboardShortcuts, MidiNumbers } from "react-piano";
 import "react-piano/dist/styles.css";
 import * as theory from "../Theory";

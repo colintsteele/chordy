@@ -1,33 +1,30 @@
+import { sample } from 'lodash';
+import { produce } from 'immer';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { pressNote }  from '../actions/pressNote';
 import { liftNote } from '../actions/liftNote';
-import { createSlice } from '@reduxjs/toolkit'
-import Objective from '../../objectives/Objective';
 import { Note, midiToNote, randomChord, randomNote, randomScale } from '../../Theory';
+import Objective from '../../objectives/Objective';
 import NoteObjective from '../../objectives/NoteObjective';
-import { sample } from 'lodash';
 import ScaleObjective from '../../objectives/ScaleObjective';
 import ChordObjective from '../../objectives/ChordObjective';
 
 export interface objectiveSliceType {
-  objective: {
-    name: string,
-    progressed?: boolean,
-    description?: string,
-    progress: Note[],
-    complete: boolean,
-    notes: Note[],
-  };
+  name: string;
+  progressed?: boolean;
+  description?: string;
+  progress: Note[];
+  complete: boolean;
+  notes: Note[];
 }
 
 const initialState: objectiveSliceType = {
-  objective: {
-    name: "first",
-    progressed: false,
-    description: "Play a C4 note",
-    progress: [],
-    complete: false,
-    notes: [{ noteName: "C", octave: 4, index: 0 }],
-  },
+  name: "first",
+  progressed: false,
+  description: "Play a C4 note",
+  progress: [],
+  complete: false,
+  notes: [{ noteName: "C", octave: 4, index: 0 }],
 };
 
 export const objectiveSlice = createSlice({
@@ -35,46 +32,52 @@ export const objectiveSlice = createSlice({
   initialState: initialState,
 
   reducers: {
-    setObjective: (state, action) => {
-      state.objective = action.payload;
-    },
+    setObjective: (state, action: PayloadAction<{scales: string[], types: string[]}>) => {
 
-    checkObjective: (state, action) => {
-      // console.log('I am checking the objective')
-    },
+      return produce(state, (draft) => {
 
-    progressObjective: (state, action) => {
-      // console.log('I am progressing the objective')
+        console.log("I am setting a new objective"); 
+        let objective = generateObjective(
+          action.payload.scales,
+          action.payload.types
+        );
+        draft.name = "something";
+        draft.progressed = false;
+        draft.complete = false;
+        draft.progress = [];
+        draft.notes = objective.objectives;
+        draft.description =
+          objective.description || `Play a ${objective.objectives[0].noteName}`;
+      });
     }
   },
+
   extraReducers: (builder) => { 
     builder.addCase(pressNote, (state, action) => {
       let note = midiToNote(action.payload);
       
-      if (noteInObjective(note, state.objective.notes)) {
-        state.objective.progress.push(note);
-        state.objective.progressed = true;
-      } else {
-        state.objective.progress = []; 
-        state.objective.progressed = false;
-        state.objective.complete = false;
-        return;
-      }
+      return produce(state, (draft) => {
+        if (noteInObjective(note, state.notes)) {
+          // apply progress
+          draft.progress.push(note);
+          draft.progressed = true;
+        } else {
+          //reset progress
+          draft.progress = [];
+          draft.progressed = false;
+          draft.complete = false;
+        }
 
-      let objectiveComplete = checkComplete(state.objective.progress, state.objective.notes);
-
-      if(objectiveComplete) {
-        // let newObjective = generateObjective(scalesEnabled(state), objectiveTypesEnabled(state));
-        // state.objective.notes = newObjective.objectives;
-        state.objective.progress = [];
-        state.objective.progressed = false;
-        state.objective.complete = true;
-        // state.objective.description = newObjective.description || `Play a ${newObjective.objectives[0].noteName}`;
-      }
+        if (checkComplete(state.progress, state.notes) || checkComplete(draft.progress, draft.notes)) {
+          console.log('marked complete')
+          draft.progress = [];
+          draft.progressed = false;
+          draft.complete = true;
+        }
+      });
     }); 
 
     builder.addCase(liftNote, (state, action) => {
-      // console.log('objective: I"m listning to liftNote action');
       // if the objective must be consecutively held, then we need to reset the progress
       // however if the objective is simply to press the notes in sequence, we can leave the progress as is
     }); 
@@ -91,9 +94,6 @@ const checkComplete = (progress: Note[], objectiveNotes: Note[]) => {
       }
     }
 
-    if(complete) {
-      console.log('Objective complete');
-    }
     return complete;
   }
 }
@@ -135,6 +135,6 @@ const generateObjective = (selectedScales: string[], selectedTypes: string[]) =>
   return objective;
 }
 
-export const { setObjective, checkObjective, progressObjective } = objectiveSlice.actions;
+export const { setObjective } = objectiveSlice.actions;
 
 export default objectiveSlice.reducer
