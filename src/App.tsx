@@ -45,15 +45,15 @@ function App() {
         container
         display="flex"
         direction="row"
-        justifyContent="center"
         alignItems="center"
+        justifyContent="center"
         style={{ minHeight: "100vh" }}
       >
         <Grid item xs={3}>
           <Selectors />
           {/* Only listens to ObjectiveSettings slice */}
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={5} display='flex' justifyContent="center">
           <Sheet />
           {/* Listens to Objective slice */}
           {/* When objective is complete, fetches settings */}

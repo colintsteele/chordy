@@ -8,7 +8,7 @@ export interface ObjectiveSettingsState {
 }
 
 const initialState: ObjectiveSettingsState = {
-  selectedScales: { Major: true, Minor: false },
+  selectedScales: { major: true, minor: false },
   selectedTypes: { Note: true, Scale: false, Chord: false },
 };
 
@@ -45,6 +45,16 @@ export const selectSelectedScales = createSelector(
 export const selectSelectedTypes = createSelector(
   (state) => state.objectiveSettings,
   (objectiveSettings) => objectiveSettings.selectedTypes
+);
+
+export const enabledScales = createSelector(
+  (state) => state.objectiveSettings,
+  (objectiveSettings) => Object.keys(objectiveSettings.selectedScales).filter((key) => objectiveSettings.selectedScales[key])
+);
+
+export const enabledTypes = createSelector(
+  (state) => state.objectiveSettings,
+  (objectiveSettings) => Object.keys(objectiveSettings.selectedTypes).filter((key) => objectiveSettings.selectedTypes[key])
 );
 
 const willEmptyScalesSelected = (state: any, toggling: string) => {

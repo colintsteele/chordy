@@ -1,32 +1,30 @@
 import { useDispatch, useSelector, useStore } from "react-redux";
 import { Note } from "../Theory";
 import "../css/CenterAlign.css"
+import { enabledScales, enabledTypes } from "../store/slices/objectiveSettingsSlice"; 
+import { useEffect } from "react";
+import { setObjective } from "../store/slices/objectiveSlice";
+import { shallowEqual } from "react-redux";
 
 const Sheet = () => {
   const store: any = useStore();
-  const state: any = store.getState();
-  const objective = useSelector((state: any) => state.objective.objective);
+  const scales = useSelector(enabledScales);
+  const types = useSelector(enabledTypes);
+  const complete: boolean = useSelector((state: any) => state.objective.complete);
+  const objective = useSelector((state: any) => state.objective, shallowEqual);
   const dispatch = useDispatch();
 
-  const fetchNewObjective = () => {
-    // {selectedScales, selectedtypes} = state.objectiveSettings.objectiveSettings;
-    // dispatch(generateObjective(state.objectiveSettings.objectiveSettings)
-    dispatch({ type: "generateObjective", payload: {}})
-  }
+  useEffect(() => {
+    console.log('use effect run');
+    if (complete) {
+      dispatch(setObjective({scales: scales, types: types}));
+    }
+  }, [complete]);
 
-  const objectiveNoteStrings = (notes: Note[]) => {
-    return notes.map((note) => {
-      return note.noteName + note.octave;
-    });
-  };
-
-
-  if(objective.complete) {
-    fetchNewObjective();
-  }
-
+  console.log('Sheet rendered')
+  console.dir(objective)
   return (
-    <div className={"center-align"} style={{ border: "1px solid black" }}>
+    <div className={"centerAlignItem"} style={{ border: "1px solid black" }}>
       <span>{objective.description}</span>
     </div>
   );
