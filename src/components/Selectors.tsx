@@ -10,6 +10,7 @@ import {
   toggleScale,
 } from "../store/slices/objectiveSettingsSlice";
 
+// Component in charge of displaying the selectors for scales and objective types
 const Selectors = () => {
   const dispatch = useDispatch();
   const scales = useSelector(selectSelectedScales);
