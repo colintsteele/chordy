@@ -15,11 +15,11 @@ const Sheet = () => {
   useEffect(() => {
     if (complete) {
       const state = store.getState();
-      const enabledScales = Object.keys(state.objectiveSettings.scales).filter(
-        (key: string) => state.objectiveSettings.scales[key]
+      const enabledScales = Object.keys(state.objectiveSettings.selectedScales).filter(
+        (key: string) => state.objectiveSettings.selectedScales[key]
       );
-      const enabledTypes = Object.keys(state.objectiveSettings.types).filter(
-        (key: string) => state.objectiveSettings.types[key]
+      const enabledTypes = Object.keys(state.objectiveSettings.selectedTypes).filter(
+        (key: string) => state.objectiveSettings.selectedTypes[key]
       );
 
       dispatch(setObjective({ scales: enabledScales, types: enabledTypes }));
