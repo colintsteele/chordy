@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { pressNote }  from '../actions/pressNote';
 import { liftNote } from '../actions/liftNote';
 import ToneService from "../../services/ToneService";
+import { produce } from 'immer';
 
 export interface keypressSliceType {
   notesPressed: {};
@@ -17,19 +18,28 @@ export const notesPressedSlice = createSlice({
 
   reducers: {
     liftNote: (state, action) => {
-      state.notesPressed[action.payload] = false;
+      produce(state, (draftState) => {
+        draftState.notesPressed[action.payload] = false;
+        return draftState;
+      });
     },
   },
   extraReducers: (builder) => {
     builder.addCase(pressNote, (state, action) => {
-      state.notesPressed[action.payload] = true;
-      ToneService.playNote(action.payload);
+      produce(state, (draftState) => {
+        draftState.notesPressed[action.payload] = true;
+        ToneService.playNote(action.payload);
+        return draftState; 
+      })
     }); 
 
     builder.addCase(liftNote, (state, action) => {
-      state.notesPressed[action.payload] = false;
+      produce(state, (draftState) => {
+        draftState.notesPressed[action.payload] = false;
+        return draftState;
+      });
     }); 
   }
 });
 
-export default notesPressedSlice.reducer
+export default notesPressedSlice.reducer;
