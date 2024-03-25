@@ -147,12 +147,12 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
           description={this.objectiveManager.currentObjective.description}
         />
 
-        <ObjectiveTypesToggle
+        {/* <ObjectiveTypesToggle
           objectiveTypesEnabled={this.objectiveManager.objectiveTypesEnabled}
           toggleType={this.objectiveManager.updateTypesEnabled.bind(
             this.objectiveManager
           )}
-        />
+        /> */}
 
         <PianoKeys
           activeNotes={this.state.activeNotes}
