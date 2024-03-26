@@ -2,16 +2,14 @@ import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
 import configureMockStore from "redux-mock-store";
 import "@testing-library/jest-dom/extend-expect";
-import KeyInfo from "../../components/KeyInfo";
-
-jest.mock("../../services/ToneService"); // Adjust the path as necessary
+import KeyLabels from "../../components/KeyLabels";
 
 const mockStore = configureMockStore();
 let store;
 let noteName: string;
 let midiNumber: number;
 
-describe("InfoKey", () => {
+describe("KeyLabels", () => {
   beforeEach(() => {
     noteName = "C";
     midiNumber = 48;
@@ -25,7 +23,7 @@ describe("InfoKey", () => {
   const renderInfoKey = () => {
     const { queryByText } = render(
       <Provider store={store}>
-        <KeyInfo noteName={noteName} midi={midiNumber} />
+        <KeyLabels noteName={noteName} midi={midiNumber} />
       </Provider>
     );
 
@@ -52,7 +50,7 @@ describe("InfoKey", () => {
       });
     });
 
-    it("Does not render the mapped key when the shift mod is on", () => { 
+    it("Does not render the mapped key when the shift mod is on", () => {
       let query = renderInfoKey();
       const note = query("k");
       expect(note).not.toBeInTheDocument();
@@ -65,7 +63,7 @@ describe("InfoKey", () => {
     });
   });
 
-  describe("When ctrl mod is on", () => { 
+  describe("When ctrl mod is on", () => {
     beforeEach(() => {
       store = mockStore({
         keyboardKeypress: {
@@ -84,6 +82,6 @@ describe("InfoKey", () => {
       let query = renderInfoKey();
       const midi = query(48);
       expect(midi).toBeInTheDocument();
-    }); 
+    });
   });
 });

@@ -1,7 +1,7 @@
 import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import FunctionPianoKey from "../../components/FunctionPianoKey";
-import { testCalculateOffset } from "../../components/FunctionKeys";
+import FunctionPianoKey from "../../components/PianoKey";
+import { testCalculateOffset } from "../../components/PianoKeyRow";
 
 describe("FunctionPianoKey", () => {
   describe("The dreaded Offset", () => {

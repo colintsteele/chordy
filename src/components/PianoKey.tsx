@@ -1,7 +1,7 @@
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { notesPressedSlice } from "../store/slices/notesPressedSlice";
 import "../css/FunctionPianoKey.css";
-import KeyInfo from "./KeyInfo";
+import KeyInfo from "./KeyLabels";
 import { pressNote } from "../store/actions/pressNote";
 const { liftNote } = notesPressedSlice.actions;
 

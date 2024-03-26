@@ -1,9 +1,9 @@
 import * as theory from "../Theory";
-import FunctionPianoKey from "./FunctionPianoKey";
+import PianoKey from "./PianoKey";
 
 // component responsible for collecting and organizing irregular note clusters
 // e.g. A set of notes from Midi 41 to 53 (F to E) and all appropriately placed accidentals
-const FunctionKeys = ({ startMidi, endMidi }: FunctionKeysProps) => {
+const PianoKeyRow = ({ startMidi, endMidi }: PianoKeyProps) => {
   const pianoKeyProps = (midi: number, xOffset: number) => {
     let note = theory.midiToNote(midi);
     let accidental = note.noteName.match(/b|#$/) !== null;
@@ -21,7 +21,6 @@ const FunctionKeys = ({ startMidi, endMidi }: FunctionKeysProps) => {
   const pianoKeysToRender = (start: number, end: number) => {
     let keys = [];
     let midis = [];
-    let keyCount = 0;
 
     for (let i = start; i <= end; i++) {
       midis.push(i);
@@ -31,9 +30,8 @@ const FunctionKeys = ({ startMidi, endMidi }: FunctionKeysProps) => {
 
     for (let i = start; i <= end; i++) {
       let keyProps = pianoKeyProps(i, offsets.pop());
-      keyCount++;
 
-      keys.push(<FunctionPianoKey {...keyProps} />);
+      keys.push(<PianoKey {...keyProps} />);
     }
 
     return keys;
@@ -84,9 +82,9 @@ export const testCalculateOffset = (keys: number[]) => {
   return offsets;
 };
 
-type FunctionKeysProps = {
+type PianoKeyProps = {
   startMidi: number;
   endMidi: number;
   pressedNotes?: [];
 };
-export default FunctionKeys;
+export default PianoKeyRow;
