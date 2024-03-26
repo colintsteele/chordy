@@ -15,17 +15,15 @@ export const keyboardKeypressSlice = createSlice({
 
   reducers: {
     pressKey: (state, action: PayloadAction<string>) => {
-      produce(state, (draftState) => {
+      return produce(state, (draftState) => {
         draftState.keysPressed[action.payload] = true;
-        return draftState;
       })
     },
 
     liftKey: (state, action: PayloadAction<string>) => {
       state.keysPressed[action.payload] = false;
-      produce(state, (draftState) => {
+      return produce(state, (draftState) => {
         draftState.keysPressed[action.payload] = false;
-        return draftState;
       });
     },
   },

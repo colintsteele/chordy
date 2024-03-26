@@ -29,7 +29,6 @@ export const objectiveSettingsSlice = createSlice({
       if (willEmptyEnabled(state.selectedTypes, action.payload)) return state;
 
       return produce(state, (draft) => {
-        debugger;
         draft.selectedTypes[action.payload] =
           !state.selectedTypes[action.payload];
       });

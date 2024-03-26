@@ -4,27 +4,19 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { pressNote }  from '../actions/pressNote';
 import { liftNote } from '../actions/liftNote';
 import { Note, midiToNote, randomChord, randomNote, randomScale } from '../../Theory';
-import Objective from '../../objectives/Objective';
+import Objective, { Completable } from '../../objectives/Objective';
 import NoteObjective from '../../objectives/NoteObjective';
 import ScaleObjective from '../../objectives/ScaleObjective';
 import ChordObjective from '../../objectives/ChordObjective';
 
-export interface objectiveSliceType {
-  name: string;
-  progressed?: boolean;
-  description?: string;
-  progress: Note[];
-  complete: boolean;
-  notes: Note[];
-}
-
-const initialState: objectiveSliceType = {
+const initialState: Completable = {
   name: "first",
   progressed: false,
   description: "Play a C4 note",
-  progress: [],
   complete: false,
-  notes: [{ noteName: "C", octave: 4, index: 0 }],
+  objectives: [{ noteName: "C", octave: 4, index: 0 }],
+  type: 'note',
+  completedNotes: [],
 };
 
 export const objectiveSlice = createSlice({
@@ -44,8 +36,7 @@ export const objectiveSlice = createSlice({
         draft.name = "something";
         draft.progressed = false;
         draft.complete = false;
-        draft.progress = [];
-        draft.notes = objective.objectives;
+        draft.objectives = objective.objectives;
         draft.description =
           objective.description || `Play a ${objective.objectives[0].noteName}`;
       });
@@ -57,20 +48,17 @@ export const objectiveSlice = createSlice({
       let note = midiToNote(action.payload);
       
       return produce(state, (draft) => {
-        if (noteInObjective(note, state.notes)) {
-          // apply progress
-          draft.progress.push(note);
+        if (noteInObjective(note, state.objectives)) {
+          draft.completedNotes.push(note);
           draft.progressed = true;
         } else {
-          //reset progress
-          draft.progress = [];
+          draft.completedNotes = [];
           draft.progressed = false;
           draft.complete = false;
         }
 
-        if (checkComplete(state.progress, state.notes) || checkComplete(draft.progress, draft.notes)) {
-          console.log('marked complete')
-          draft.progress = [];
+        if (checkComplete(draft.objectives, draft.completedNotes)) {
+          draft.completedNotes = [];
           draft.progressed = false;
           draft.complete = true;
         }
@@ -84,7 +72,7 @@ export const objectiveSlice = createSlice({
   }
 });
 
-const checkComplete = (progress: Note[], objectiveNotes: Note[]) => {
+const checkComplete = (objectiveNotes: Note[], progress: Note[]) => {
   if(progress.length === objectiveNotes.length) {
     let complete = true;
     for(let i = 0; i < progress.length; i++) {

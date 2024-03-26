@@ -2,9 +2,17 @@ import { isEqual, remove, uniqWith } from "lodash";
 import { Note } from "../Theory";
 
 export interface Completable {
-  isComplete(): boolean;
-  pressNotes(notes: Note[]): boolean;
+  name: string;
+  objectives: Note[];
+  completedNotes: Note[];
+  progressed: boolean;
+  complete: boolean;
+  description?: string;
+  type: string;
+  // isComplete(): boolean;
+  // pressNotes(notes: Note[]): boolean;
 }
+
 abstract class Objective implements Completable {
   name: string;
   objectives: Note[];
