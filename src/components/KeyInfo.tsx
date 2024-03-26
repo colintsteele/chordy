@@ -1,5 +1,6 @@
 import { shallowEqual, useSelector } from "react-redux";
 import KeyMap from "../KeyboardKeyMap";
+import React from "react";
 
 // Component in charge of displaying relevant key information
 // conditionally displays midi number and NoteName
@@ -34,4 +35,4 @@ type KeyInfoPropsType = {
   midi: number;
 };
 
-export default KeyInfo;
+export default React.memo(KeyInfo);

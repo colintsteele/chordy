@@ -1,15 +1,14 @@
 import "../css/App.css";
 import "react-piano/dist/styles.css";
 import { Component, ReactNode } from "react";
-import PianoKeys from "./PianoKeys";
+import PianoKeys from "./OldPianoKeys";
 import ObjectiveManager from "../objectives/ObjectiveManager";
-import Objective from "../components/Objective";
+import Objective from "./Objective";
 import MidiController from "../midi/MidiController";
 import { uniq, remove } from "lodash";
 import { Switch } from "@mui/material";
 import MidiNote from "../midi/MidiNote";
 import { Note } from "../Theory";
-import ObjectiveTypesToggle from "./ObjectiveTypesToggle";
 import ToneService from "../services/ToneService";
 
 type KeyboardState = {

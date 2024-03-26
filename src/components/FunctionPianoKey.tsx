@@ -33,7 +33,7 @@ const PianoKey = ({
       data-testid={`${noteName}:${midiNumber}`}
       key={midiNumber}
       className={computeClassName(accidental, isPressed, noteName)}
-      style={accidental === true ? { left: xOffset + "em" } : {}}
+      style={accidental ? { left: xOffset + "em" } : {}}
       onMouseDown={() => {
         handlePress();
       }}
