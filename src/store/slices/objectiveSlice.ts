@@ -17,6 +17,7 @@ const initialState: Completable = {
   objectives: [{ noteName: "C", octave: 4, index: 0 }],
   type: 'note',
   completedNotes: [],
+  holdConsecutive: false
 };
 
 export const objectiveSlice = createSlice({
@@ -33,10 +34,11 @@ export const objectiveSlice = createSlice({
           action.payload.scales,
           action.payload.types
         );
-        draft.name = "something";
+        draft.name = objective.name;
         draft.progressed = false;
         draft.complete = false;
         draft.objectives = objective.objectives;
+        draft.holdConsecutive = objective.holdConsecutive;
         draft.description =
           objective.description || `Play a ${objective.objectives[0].noteName}`;
       });
@@ -46,10 +48,11 @@ export const objectiveSlice = createSlice({
   extraReducers: (builder) => { 
     builder.addCase(pressNote, (state, action) => {
       let note = midiToNote(action.payload);
-      
+
       return produce(state, (draft) => {
         if (noteInObjective(note, state.objectives)) {
-          draft.completedNotes.push(note);
+          console.log('note is in objective')
+          draft.completedNotes.push(note); //TODO too many pushes here
           draft.progressed = true;
         } else {
           draft.completedNotes = [];
@@ -65,25 +68,22 @@ export const objectiveSlice = createSlice({
       });
     }); 
 
-    builder.addCase(liftNote, (state, action) => {
-      // if the objective must be consecutively held, then we need to reset the progress
-      // however if the objective is simply to press the notes in sequence, we can leave the progress as is
+    builder.addCase(liftNote, (state, _action) => {
+      if (state.holdConsecutive) {
+        return produce(state, (draft) => {
+          draft.completedNotes = [];
+          draft.progressed = false;
+          draft.complete = false;
+        });
+      }
     }); 
   }
 });
 
 const checkComplete = (objectiveNotes: Note[], progress: Note[]) => {
-  if(progress.length === objectiveNotes.length) {
-    let complete = true;
-    for(let i = 0; i < progress.length; i++) {
-      if(progress[i].noteName !== objectiveNotes[i].noteName) {
-        complete = false;
-        break;
-      }
-    }
-
-    return complete;
-  }
+  return objectiveNotes.every((note) => {
+    return progress.some((pNote) => pNote.noteName === note.noteName);
+  });
 }
 
 const noteInObjective = (note: Note, objectiveNotes: Note[]) => {

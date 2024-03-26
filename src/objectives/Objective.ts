@@ -9,8 +9,7 @@ export interface Completable {
   complete: boolean;
   description?: string;
   type: string;
-  // isComplete(): boolean;
-  // pressNotes(notes: Note[]): boolean;
+  holdConsecutive: boolean;
 }
 
 abstract class Objective implements Completable {
@@ -21,12 +20,14 @@ abstract class Objective implements Completable {
   complete: boolean;
   description?: string;
   type: string;
+  holdConsecutive: boolean;
 
   constructor(objective: { notes: Note[]; name: string }) {
     this.objectives = objective.notes;
     this.completedNotes = [];
     this.progressed = false;
     this.complete = false;
+    this.holdConsecutive = false;
   }
 
   pressNotes(notesPressed: Note[]): boolean {
