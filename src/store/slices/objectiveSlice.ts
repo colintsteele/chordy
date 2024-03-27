@@ -4,27 +4,20 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { pressNote }  from '../actions/pressNote';
 import { liftNote } from '../actions/liftNote';
 import { Note, midiToNote, randomChord, randomNote, randomScale } from '../../Theory';
-import Objective from '../../objectives/Objective';
+import Objective, { Completable } from '../../objectives/Objective';
 import NoteObjective from '../../objectives/NoteObjective';
 import ScaleObjective from '../../objectives/ScaleObjective';
 import ChordObjective from '../../objectives/ChordObjective';
 
-export interface objectiveSliceType {
-  name: string;
-  progressed?: boolean;
-  description?: string;
-  progress: Note[];
-  complete: boolean;
-  notes: Note[];
-}
-
-const initialState: objectiveSliceType = {
+const initialState: Completable = {
   name: "first",
   progressed: false,
   description: "Play a C4 note",
-  progress: [],
   complete: false,
-  notes: [{ noteName: "C", octave: 4, index: 0 }],
+  objectives: [{ noteName: "C", octave: 4, index: 0 }],
+  type: 'note',
+  completedNotes: [],
+  holdConsecutive: false
 };
 
 export const objectiveSlice = createSlice({
@@ -41,11 +34,11 @@ export const objectiveSlice = createSlice({
           action.payload.scales,
           action.payload.types
         );
-        draft.name = "something";
+        draft.name = objective.name;
         draft.progressed = false;
         draft.complete = false;
-        draft.progress = [];
-        draft.notes = objective.objectives;
+        draft.objectives = objective.objectives;
+        draft.holdConsecutive = objective.holdConsecutive;
         draft.description =
           objective.description || `Play a ${objective.objectives[0].noteName}`;
       });
@@ -55,47 +48,42 @@ export const objectiveSlice = createSlice({
   extraReducers: (builder) => { 
     builder.addCase(pressNote, (state, action) => {
       let note = midiToNote(action.payload);
-      
+
       return produce(state, (draft) => {
-        if (noteInObjective(note, state.notes)) {
-          // apply progress
-          draft.progress.push(note);
+        if (noteInObjective(note, state.objectives)) {
+          console.log('note is in objective')
+          draft.completedNotes.push(note); //TODO too many pushes here
           draft.progressed = true;
         } else {
-          //reset progress
-          draft.progress = [];
+          draft.completedNotes = [];
           draft.progressed = false;
           draft.complete = false;
         }
 
-        if (checkComplete(state.progress, state.notes) || checkComplete(draft.progress, draft.notes)) {
-          console.log('marked complete')
-          draft.progress = [];
+        if (checkComplete(draft.objectives, draft.completedNotes)) {
+          draft.completedNotes = [];
           draft.progressed = false;
           draft.complete = true;
         }
       });
     }); 
 
-    builder.addCase(liftNote, (state, action) => {
-      // if the objective must be consecutively held, then we need to reset the progress
-      // however if the objective is simply to press the notes in sequence, we can leave the progress as is
+    builder.addCase(liftNote, (state, _action) => {
+      if (state.holdConsecutive) {
+        return produce(state, (draft) => {
+          draft.completedNotes = [];
+          draft.progressed = false;
+          draft.complete = false;
+        });
+      }
     }); 
   }
 });
 
-const checkComplete = (progress: Note[], objectiveNotes: Note[]) => {
-  if(progress.length === objectiveNotes.length) {
-    let complete = true;
-    for(let i = 0; i < progress.length; i++) {
-      if(progress[i].noteName !== objectiveNotes[i].noteName) {
-        complete = false;
-        break;
-      }
-    }
-
-    return complete;
-  }
+const checkComplete = (objectiveNotes: Note[], progress: Note[]) => {
+  return objectiveNotes.every((note) => {
+    return progress.some((pNote) => pNote.noteName === note.noteName);
+  });
 }
 
 const noteInObjective = (note: Note, objectiveNotes: Note[]) => {

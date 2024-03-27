@@ -18,25 +18,22 @@ export const notesPressedSlice = createSlice({
 
   reducers: {
     liftNote: (state, action) => {
-      produce(state, (draftState) => {
+      return produce(state, (draftState) => {
         draftState.notesPressed[action.payload] = false;
-        return draftState;
       });
     },
   },
   extraReducers: (builder) => {
     builder.addCase(pressNote, (state, action) => {
-      produce(state, (draftState) => {
+      return produce(state, (draftState) => {
         draftState.notesPressed[action.payload] = true;
         ToneService.playNote(action.payload);
-        return draftState; 
       })
     }); 
 
     builder.addCase(liftNote, (state, action) => {
-      produce(state, (draftState) => {
+      return produce(state, (draftState) => {
         draftState.notesPressed[action.payload] = false;
-        return draftState;
       });
     }); 
   }

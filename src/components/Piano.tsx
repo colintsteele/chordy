@@ -1,14 +1,14 @@
 import "../css/App.css";
 import "react-piano/dist/styles.css";
 import { useEffect, useState } from "react";
-import FunctionKeys from "./FunctionKeys";
+import PianoKeyRow from "./PianoKeyRow";
 
 
-type FunctionPianoKeysProps = {};
+type PianoProps = {};
 
 // component responsible for housing all playable piano keys rendered
 // Determines how many keys to show based on the viewport's current size
-const FunctionPianoKeys = ({}: FunctionPianoKeysProps) => {
+const Piano = ({}: PianoProps) => {
   const screenKeyRatio = 38;
   const baseMidi = 36;
   const [width, setWidth] = useState(window.innerWidth);
@@ -31,7 +31,7 @@ const FunctionPianoKeys = ({}: FunctionPianoKeysProps) => {
 
   return (
     <>
-      <FunctionKeys
+      <PianoKeyRow
         startMidi={baseMidi}
         endMidi={baseMidi + keyCount(width)}
       />
@@ -39,4 +39,4 @@ const FunctionPianoKeys = ({}: FunctionPianoKeysProps) => {
   );
 };
 
-export default FunctionPianoKeys;
+export default Piano;

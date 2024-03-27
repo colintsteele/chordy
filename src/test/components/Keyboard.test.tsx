@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Keyboard from "../../components/Keyboard";
+import Keyboard from "../../components/OldKeyboard";
 import "@testing-library/jest-dom";
 import { waitFor } from "@testing-library/dom";
 import { act } from "react-dom/test-utils";

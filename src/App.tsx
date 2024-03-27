@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import "./css/index.css";
 import { useDispatch } from "react-redux";
-import FunctionKeyboard from "./components/FunctionKeyboard";
+import Piano from "./components/Piano";
 import Sheet from "./components/Sheet";
 import Selectors from "./components/Selectors";
 import { liftKey, pressKey } from "./store/slices/keyboardKeypressSlice";
@@ -64,7 +64,7 @@ function App() {
           </div>
         </Grid>
 
-        <FunctionKeyboard />
+        <Piano />
       </Grid>
     </div>
   );

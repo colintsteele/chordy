@@ -42,10 +42,12 @@ const scaleSwitches = (scales: any, handleChange: Function) => {
   return Object.keys(scales).map((key) => {
     return (
       <FormControlLabel
+        data-testid={`ScaleSwitchLabel-${key}-scale`}
         checked={scales[key]}
         key={`${key}ScaleSwitch`}
         control={
           <Switch
+            data-testid={`ScaleSwitch-${key}-scale`}
             onChange={() => handleChange(key, scales)}
             inputProps={{ "aria-label": "controlled" }}
           />
@@ -60,10 +62,13 @@ const objectiveTypeSwitches = (types: any, handleChange: Function) => {
   return Object.keys(types).map((key) => {
     return (
       <FormControlLabel
+        data-testid={`TypeSwitchLabel-${key}`}
+        className={`TypeSwitch-${key}`}
         key={`${key}ObjectiveTypeSwitch`}
         checked={types[key]}
         control={
           <Switch
+            data-testid={`TypeSwitch-${key}`}
             onChange={() => handleChange(key)}
             inputProps={{ "aria-label": "controlled" }}
           />

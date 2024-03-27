@@ -8,6 +8,7 @@ class ChordObjective extends Objective {
     this.name = `${chord.name} chord`;
     this.description = this.name;
     this.type = TYPE;
+    this.holdConsecutive = true;
   }
 }
 

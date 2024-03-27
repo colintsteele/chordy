@@ -1,16 +1,10 @@
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import configureMockStore from "redux-mock-store";
-import FunctionPianoKey, {
-  PianoKeyType,
-} from "../../components/FunctionPianoKey";
+import PianoKey, { PianoKeyType, } from "../../components/PianoKey";
 import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
-import { pressNote } from "../../store/actions/pressNote";
-import notePressReducer from '../../store/slices/notesPressedSlice'
 
-jest.mock("../../services/ToneService"); // Adjust the path as necessary
-jest.mock('../../components/KeyInfo', () => {
+jest.mock('../../components/KeyLabels', () => {
   return () => <div>Mocked KeyInfo</div>;
 });
 const mockStore = configureMockStore();
@@ -29,7 +23,7 @@ describe("FunctionPianoKey", () => {
   const renderComponent = (props: PianoKeyType) => {
     const { container, rerender } = render(
       <Provider store={store}>
-        <FunctionPianoKey
+        <PianoKey
           noteName={props.noteName}
           accidental={props.accidental}
           midiNumber={props.midiNumber}
@@ -44,7 +38,7 @@ describe("FunctionPianoKey", () => {
   // test mouseUp and mouseDown
   // test pressed class from being pressed from the useSelector
 
-  describe("Key is a natural", () => {  
+  describe("Key is a natural", () => {
     beforeEach(() => {
       container = renderComponent({
         accidental: false,

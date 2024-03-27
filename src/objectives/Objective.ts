@@ -2,9 +2,16 @@ import { isEqual, remove, uniqWith } from "lodash";
 import { Note } from "../Theory";
 
 export interface Completable {
-  isComplete(): boolean;
-  pressNotes(notes: Note[]): boolean;
+  name: string;
+  objectives: Note[];
+  completedNotes: Note[];
+  progressed: boolean;
+  complete: boolean;
+  description?: string;
+  type: string;
+  holdConsecutive: boolean;
 }
+
 abstract class Objective implements Completable {
   name: string;
   objectives: Note[];
@@ -13,12 +20,14 @@ abstract class Objective implements Completable {
   complete: boolean;
   description?: string;
   type: string;
+  holdConsecutive: boolean;
 
   constructor(objective: { notes: Note[]; name: string }) {
     this.objectives = objective.notes;
     this.completedNotes = [];
     this.progressed = false;
     this.complete = false;
+    this.holdConsecutive = false;
   }
 
   pressNotes(notesPressed: Note[]): boolean {
