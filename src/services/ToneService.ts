@@ -10,10 +10,6 @@ instrument.toDestination();
 
 class ToneService {
   static playSound() {
-    //create a synth and connect it to the main output (your speakers)
-    // const synth = new Tone.Synth().toDestination();
-
-    // instrument.toMaster();
     instrument.triggerAttackRelease("C3", "4n");
     instrument.triggerAttackRelease("C4", "4n");
   }
@@ -23,12 +19,12 @@ class ToneService {
     let noteArg = `${note.noteName}${note.octave}`;
 
     try {
-      instrument.triggerAttackRelease(noteArg, "4n");
+      instrument.triggerAttackRelease(noteArg, "2n");
     } catch (error: any) {
       // play notes on the old buffer if the new one is not available
       if (error?.message === BufferUnsetError) {
         try {
-          oldInstrument.triggerAttackRelease(noteArg, "4n");
+          oldInstrument.triggerAttackRelease(noteArg, "2n");
         } catch (_e: any) {
         } // if it still doesn't work, just no-op
       }
