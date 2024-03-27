@@ -5,11 +5,13 @@ import ToneService from "../../services/ToneService";
 import { produce } from 'immer';
 
 export interface keypressSliceType {
-  notesPressed: {};
+  notesPressed: {},
+  notePressTime: {}
 }
 
 const initialState: keypressSliceType = {
-  notesPressed: {}
+  notesPressed: {},
+  notePressTime: {}
 }
 
 export const notesPressedSlice = createSlice({
@@ -23,11 +25,26 @@ export const notesPressedSlice = createSlice({
       });
     },
   },
+
   extraReducers: (builder) => {
     builder.addCase(pressNote, (state, action) => {
       return produce(state, (draftState) => {
         draftState.notesPressed[action.payload] = true;
-        ToneService.playNote(action.payload);
+        
+        // if the note has not been played yet, play it
+        if(!draftState.notePressTime[action.payload]) {
+          ToneService.playNote(action.payload);
+          draftState.notePressTime[action.payload] = Date.now();
+        } else if(Date.now() - draftState.notePressTime[action.payload] > 450) {
+          Object.keys(draftState.notesPressed).forEach((note) => {
+            if(draftState.notesPressed[note]) {
+              ToneService.playNote(Number(note));
+              draftState.notePressTime[note] = Date.now();
+            }
+          });
+          ToneService.playNote(action.payload);
+          draftState.notePressTime[action.payload] = Date.now();
+        }
       })
     }); 
 

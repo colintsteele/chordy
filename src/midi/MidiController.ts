@@ -33,6 +33,4 @@ const mountMidiMessageHandler = (midiMessageHandler: Function) => {
     } 
 }
 
-export { mountMidiMessageHandler };
-
 export default mountMidiMessageHandler;
