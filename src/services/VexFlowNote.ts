@@ -2,11 +2,11 @@ import { Vex } from "vexflow";
 const { StaveNote, Accidental } = Vex.Flow;
 
 class VexFlowNotes {
-  notes: string[];
+  notes: any;
   objectiveType: string;
   accidentals: any[];
 
-  constructor(notes: string[], objectiveType: string) {
+  constructor(notes: any, objectiveType: string) {
     this.notes = notes;
     this.objectiveType = objectiveType;
     this.accidentals = [];
@@ -18,7 +18,7 @@ class VexFlowNotes {
 
   chordVisual = () => {
     let staveNotes = this.notes.map((note) => {
-      const match = note.match(/(?<n>[a-zA-Z])(?<acci>b)?(?<octave>.$)?/)!;
+      const match = note.noteName.match(/(?<n>[a-zA-Z])(?<acci>b)?(?<octave>.$)?/)!;
       let g = match.groups;
 
       if (g?.acci) {

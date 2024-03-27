@@ -3,6 +3,7 @@ import "../css/CenterAlign.css"
 import { useEffect } from "react";
 import { setObjective } from "../store/slices/objectiveSlice";
 import { shallowEqual } from "react-redux";
+import Objective from "./Objective";
 
 // Component in charge of displaying the current objective
 // Updates the objective if it has been completed
@@ -27,8 +28,16 @@ const Sheet = () => {
   }, [complete]);
 
   return (
-    <div className={"centerAlignItem"} style={{ border: "1px solid black" }}>
-      <span>{objective.description}</span>
+    <div className={"centerAlignItem"}>
+      <Objective
+        name={objective.name}
+        progressed={objective.progressed}
+        completed={objective.complete}
+        octave={objective.octave}
+        description={objective.description}
+        type={objective.type}
+        objectives={objective.objectives}
+      />
     </div>
   );
 };
