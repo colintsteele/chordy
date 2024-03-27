@@ -1,11 +1,12 @@
 // const requestMIDIAccess = navigator["requestMIDIAccess"];
 /* istanbul ignore file */
 
-class MidiController {
-  constructor(midiMessageHandler: Function, mountMidi: Function) {
-    if (navigator["requestMIDIAccess"]) {
+const mountMidiMessageHandler = (midiMessageHandler: Function) => {
+    if (navigator.requestMIDIAccess) {
+      console.log('requesting access');
       navigator.requestMIDIAccess().then(
         (midiAccess) => {
+          console.log('gained access');
           var inputs = midiAccess.inputs;
 
           inputs.forEach((input) => {
@@ -22,16 +23,16 @@ class MidiController {
               }
             };
           });
-          mountMidi(true);
         },
         () => {
-          mountMidi(false);
+          console.log('midi Mounted')
         }
       );
     } else {
       console.info("navigator[requestMIDIAccess'] is not available");
-    }
-  }
+    } 
 }
 
-export default MidiController;
+export { mountMidiMessageHandler };
+
+export default mountMidiMessageHandler;

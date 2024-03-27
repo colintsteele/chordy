@@ -54,7 +54,7 @@ class Keyboard extends Component<KeyboardState, KeyboardProps> {
 
     new MidiController(
       this.midiMessageHandler.bind(this),
-      this.mountMidi.bind(this)
+      // this.mountMidi.bind(this)
     );
   }
 
